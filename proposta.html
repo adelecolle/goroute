@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Digital · Go Route</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg: #F2F2F0;
+  --bg-dark: #E8E8E5;
+  --bg-mid: #E2E2DF;
+  --border: #D8D8D4;
+  --text: #1A1A18;
+  --mid: #4A4A46;
+  --light: #6A6A66;
+  --faint: rgba(0,0,0,0.05);
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
+  background: var(--bg);
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.7;
+  cursor: none;
+}
+#cursor {
+  width: 8px; height: 8px;
+  background: var(--text);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none; z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.12s ease;
+}
+#cursor-ring {
+  width: 32px; height: 32px;
+  border: 1px solid rgba(26,26,24,0.2);
+  border-radius: 50%;
+  position: fixed; top:0; left:0;
+  pointer-events: none; z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.4s ease, width 0.3s, height 0.3s, border-color 0.3s;
+}
+
+/* ── COVER ── */
+.cover {
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 60px 80px;
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #F2F2F0 0%, #EAEAE7 50%, #F2F2F0 100%);
+}
+.cover-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.04) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.cover-number {
+  position: absolute; top: 60px; right: 60px;
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.2em; color: var(--light);
+}
+.cover-tag {
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 32px;
+  position: relative; z-index:1;
+}
+.cover h1 {
+  font-weight: 100;
+  font-size: clamp(48px, 8vw, 110px);
+  line-height: 0.95; letter-spacing: -0.03em;
+  position: relative; z-index:1; color: var(--text);
+}
+.cover h1 em { font-style: normal; font-weight: 300; color: var(--light); }
+.cover-meta {
+  margin-top: 48px; display: flex; gap: 60px;
+  position: relative; z-index:1; flex-wrap: wrap;
+}
+.cover-meta-label {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 6px;
+}
+.cover-meta-value { font-size: 14px; font-weight: 300; color: var(--mid); }
+.cover-scroll {
+  position: absolute; bottom: 40px; right: 60px;
+  font-size: 10px; font-weight: 400;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--light); display: flex; align-items: center; gap: 12px; z-index:1;
+}
+.cover-scroll::before { content:''; display:block; width:40px; height:1px; background: var(--light); }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(242,242,240,0.96);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 60px;
+  display: flex; align-items: center; gap: 2px;
+  overflow-x: auto;
+}
+nav::-webkit-scrollbar { display: none; }
+.tab {
+  padding: 20px 24px;
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--light); cursor: none;
+  border-bottom: 1px solid transparent;
+  white-space: nowrap;
+  transition: color .2s, border-color .2s;
+  user-select: none;
+}
+.tab:hover { color: var(--mid); }
+.tab.active { color: var(--text); border-bottom-color: var(--text); }
+
+/* ── INTRO ── */
+.intro {
+  padding: 80px 60px;
+  border-bottom: 1px solid var(--border);
+  max-width: 860px;
+}
+.intro p {
+  font-size: 18px; font-weight: 300;
+  line-height: 1.85; color: var(--mid);
+}
+.intro p strong { font-weight: 500; color: var(--text); }
+
+/* ── SECTION ── */
+.section { display: none; }
+.section.active { display: block; }
+
+.section-head {
+  padding: 80px 60px 60px;
+  border-bottom: 1px solid var(--border);
+}
+.section-index {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 16px;
+}
+.section-head h2 {
+  font-weight: 100;
+  font-size: clamp(32px, 5vw, 64px);
+  line-height: 1.05; letter-spacing: -0.02em; color: var(--text);
+}
+.section-head h2 span { color: var(--light); }
+.section-head p {
+  margin-top: 20px; font-size: 15px; font-weight: 300;
+  color: var(--light); max-width: 600px; line-height: 1.8;
+}
+
+/* ── OVERVIEW TABLE ── */
+.overview-wrap { padding: 0 60px 80px; }
+.overview-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+}
+.overview-table th {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--light); padding: 18px 24px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-dark);
+}
+.overview-table td {
+  padding: 20px 24px;
+  font-size: 13px; font-weight: 300;
+  color: var(--mid);
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+  line-height: 1.6;
+}
+.overview-table tr:last-child td { border-bottom: none; }
+.overview-table tr:hover td { background: var(--bg-dark); }
+.overview-table td:first-child { font-weight: 500; color: var(--text); white-space: nowrap; }
+.phase-badge {
+  display: inline-block;
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  color: var(--light);
+}
+.value-strong { font-weight: 500; color: var(--text); }
+
+/* ── PHASE CARDS ── */
+.phases-wrap { padding: 0 60px 80px; }
+.phase-block {
+  border: 1px solid var(--border);
+  margin-top: -1px;
+}
+.phase-head {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  padding: 32px 40px;
+  border-bottom: 1px solid var(--border);
+  cursor: none;
+  transition: background .2s;
+}
+.phase-head:hover { background: var(--bg-dark); }
+.phase-num {
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--light);
+}
+.phase-title {
+  font-size: 20px; font-weight: 300; color: var(--text);
+}
+.phase-title small {
+  display: block; font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; color: var(--light); margin-top: 4px;
+}
+.phase-meta {
+  text-align: right;
+}
+.phase-duration {
+  font-size: 11px; font-weight: 400;
+  letter-spacing: 0.1em; color: var(--light);
+  margin-bottom: 4px;
+}
+.phase-price {
+  font-size: 16px; font-weight: 300; color: var(--text);
+}
+.phase-body {
+  display: none;
+  padding: 40px;
+  background: var(--bg);
+}
+.phase-body.open { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; }
+.phase-col h4 {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 20px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.deliverable-list { list-style: none; }
+.deliverable-list li {
+  font-size: 13px; font-weight: 300; color: var(--mid);
+  padding: 8px 0; border-bottom: 1px solid var(--faint);
+  display: flex; gap: 12px; line-height: 1.5;
+}
+.deliverable-list li::before { content: '—'; color: var(--border); flex-shrink:0; }
+.infra-row {
+  display: flex; justify-content: space-between; align-items: baseline;
+  padding: 8px 0; border-bottom: 1px solid var(--faint);
+  font-size: 13px; font-weight: 300;
+}
+.infra-row span:first-child { color: var(--mid); }
+.infra-row span:last-child { color: var(--text); font-weight: 400; white-space: nowrap; margin-left: 12px; }
+.infra-total {
+  margin-top: 20px; padding: 16px;
+  background: var(--bg-dark);
+  display: flex; justify-content: space-between;
+  font-size: 13px;
+}
+.infra-total span:first-child { font-weight: 400; color: var(--mid); letter-spacing: 0.05em; }
+.infra-total span:last-child { font-weight: 500; color: var(--text); }
+.payment-note {
+  margin-top: 32px; grid-column: 1 / -1;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  font-size: 12px; font-weight: 300; color: var(--light);
+  line-height: 1.7;
+}
+.payment-note strong { font-weight: 500; color: var(--mid); }
+.toggle-icon { font-size: 18px; color: var(--light); transition: transform .3s; }
+.phase-block.open .toggle-icon { transform: rotate(45deg); }
+
+/* ── CRONOGRAMA ── */
+.chrono-wrap { padding: 0 60px 80px; }
+.chrono-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  border: 1px solid var(--border);
+  margin-top: -1px;
+  min-height: 64px;
+}
+.chrono-month {
+  border-right: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--light); background: var(--bg-dark);
+}
+.chrono-body {
+  padding: 16px 32px;
+  display: flex; align-items: center; gap: 24px;
+}
+.chrono-phase {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--light); flex-shrink: 0; width: 80px;
+}
+.chrono-bar-wrap { flex:1; }
+.chrono-bar {
+  height: 4px; background: var(--border);
+  position: relative; overflow: visible;
+}
+.chrono-fill {
+  height: 100%; background: var(--text);
+  position: absolute; top:0; left:0;
+  transition: width 1s ease;
+}
+.chrono-milestone {
+  font-size: 12px; font-weight: 300; color: var(--mid);
+  margin-top: 8px; line-height: 1.5;
+}
+
+/* ── CUSTOS RESUMO ── */
+.costs-wrap { padding: 0 60px 80px; }
+.costs-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  border-left: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+}
+.cost-card {
+  padding: 40px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  transition: background .2s;
+}
+.cost-card:hover { background: var(--bg-dark); }
+.cost-phase {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 12px;
+}
+.cost-name {
+  font-size: 20px; font-weight: 300; color: var(--text);
+  margin-bottom: 8px;
+}
+.cost-duration {
+  font-size: 12px; font-weight: 300; color: var(--light);
+  margin-bottom: 20px;
+}
+.cost-honorario-label {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 6px;
+}
+.cost-honorario-value {
+  font-size: 28px; font-weight: 100; color: var(--text);
+  letter-spacing: -0.02em; margin-bottom: 20px;
+}
+.cost-divider { height:1px; background: var(--border); margin: 20px 0; }
+.cost-infra-label {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 6px;
+}
+.cost-infra-value {
+  font-size: 16px; font-weight: 300; color: var(--mid);
+}
+.cost-payment {
+  font-size: 11px; font-weight: 300; color: var(--light);
+  margin-top: 8px; line-height: 1.6;
+}
+
+/* grand total */
+.grand-total {
+  border: 1px solid var(--text);
+  margin-top: 32px;
+  padding: 48px 40px;
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  gap: 40px;
+}
+.gt-item { }
+.gt-label {
+  font-size: 10px; font-weight: 500;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--light); margin-bottom: 12px;
+}
+.gt-value {
+  font-size: clamp(24px, 3vw, 40px);
+  font-weight: 100; color: var(--text);
+  letter-spacing: -0.02em; line-height: 1.1;
+}
+.gt-sub {
+  font-size: 12px; font-weight: 300; color: var(--light); margin-top: 8px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 60px;
+  display: flex; align-items: flex-end; justify-content: space-between;
+}
+.footer-left p { font-size: 11px; font-weight: 300; letter-spacing: 0.1em; color: var(--light); margin-top: 6px; }
+.footer-right { font-size: 11px; font-weight: 300; letter-spacing: 0.1em; color: var(--light); text-align: right; }
+.footer-right a { color: var(--mid); text-decoration: none; border-bottom: 1px solid var(--border); transition: color .2s; }
+.footer-right a:hover { color: var(--text); }
+
+@media (max-width: 768px) {
+  .cover, nav, .intro, .section-head, .overview-wrap, .phases-wrap, .chrono-wrap, .costs-wrap, footer { padding-left: 24px; padding-right: 24px; }
+  .cover h1 { font-size: 48px; }
+  .phase-body.open { grid-template-columns: 1fr; }
+  .grand-total { grid-template-columns: 1fr; gap: 32px; }
+  .costs-grid { grid-template-columns: 1fr; }
+  .chrono-row { grid-template-columns: 80px 1fr; }
+  .phase-head { grid-template-columns: 60px 1fr; }
+  .phase-meta { display: none; }
+}
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.section.active > * { animation: fadeUp 0.35s ease forwards; }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- ══ COVER ══ -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-number">Proposta Comercial · 2025</div>
+  <div class="cover-tag">Implantação Digital Progressiva</div>
+  <h1>Go<em>Route</em><br>Proposta<br><em>Digital</em></h1>
+  <div class="cover-meta">
+    <div>
+      <div class="cover-meta-label">Empresa</div>
+      <div class="cover-meta-value">Go Route</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">Diretores</div>
+      <div class="cover-meta-value">Diow & Leandro</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">Consultoria</div>
+      <div class="cover-meta-value">Arnaud Delecolle</div>
+    </div>
+    <div>
+      <div class="cover-meta-label">Fases</div>
+      <div class="cover-meta-value">6 fases · ~7 meses</div>
+    </div>
+  </div>
+  <div class="cover-scroll">Scroll</div>
+</div>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="tab active" onclick="show('overview',this)">01 · Visão Geral</div>
+  <div class="tab" onclick="show('phases',this)">02 · Fases</div>
+  <div class="tab" onclick="show('chrono',this)">03 · Cronograma</div>
+  <div class="tab" onclick="show('costs',this)">04 · Custos</div>
+</nav>
+
+<!-- ══ INTRO ══ -->
+<div class="intro">
+  <p>Esta proposta define a <strong>implantação digital progressiva</strong> da plataforma Go Route — do site institucional ao sistema completo de reservas, portal de motoristas e rastreamento em tempo real. A estratégia é <strong>MVP First</strong>: lançar rápido com o essencial, validar com clientes reais e expandir conforme o negócio cresce. Cada fase tem entregáveis concretos, investimento definido e critério claro para avançar.</p>
+</div>
+
+<!-- ══════════════════════════════════
+     01 · VISÃO GERAL
+══════════════════════════════════ -->
+<div id="overview" class="section active">
+  <div class="section-head">
+    <div class="section-index">Seção 01 · 04</div>
+    <h2>Visão geral<br><span>das 6 fases</span></h2>
+    <p>Resumo completo de todas as fases — duração, foco, honorários de desenvolvimento e custo mensal de infraestrutura para a Go Route.</p>
+  </div>
+  <div class="overview-wrap">
+    <table class="overview-table">
+      <thead>
+        <tr>
+          <th>Fase</th>
+          <th>Foco</th>
+          <th>Duração</th>
+          <th>Honorário Dev</th>
+          <th>Infra / Mês</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="phase-badge">Fase 1</span><br><span style="font-size:13px;font-weight:400">Presença Digital</span></td>
+          <td>Site institucional + reservas via WhatsApp. A Go Route passa a existir na internet com presença profissional e canal de vendas imediato.</td>
+          <td>3–4 semanas</td>
+          <td class="value-strong">R$ 2.800 – 4.000</td>
+          <td class="value-strong">R$ 80–140</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge">Fase 2</span><br><span style="font-size:13px;font-weight:400">Reservas Online</span></td>
+          <td>Sistema de agendamento com calendário, integração de voos, pagamento via Pix e cartão, confirmações automáticas por WhatsApp e e-mail.</td>
+          <td>4–6 semanas</td>
+          <td class="value-strong">R$ 4.500 – 7.000</td>
+          <td class="value-strong">R$ 180–280</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge">Fase 3</span><br><span style="font-size:13px;font-weight:400">Motoristas & Admin</span></td>
+          <td>Portal do motorista parceiro com aceite de corridas, GPS e histórico de ganhos. Painel administrativo completo com relatórios financeiros.</td>
+          <td>5–7 semanas</td>
+          <td class="value-strong">R$ 6.000 – 9.000</td>
+          <td class="value-strong">R$ 250–380</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge">Fase 4</span><br><span style="font-size:13px;font-weight:400">Experiência</span></td>
+          <td>Rastreamento GPS ao vivo com link público, previsão do tempo integrada, agenda de eventos da Serra Gaúcha e chatbot no site.</td>
+          <td>4–5 semanas</td>
+          <td class="value-strong">R$ 5.000 – 7.500</td>
+          <td class="value-strong">R$ 320–480</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge">Fase 5</span><br><span style="font-size:13px;font-weight:400">Marketing & SEO</span></td>
+          <td>Blog editorial com conteúdo SEO, automações de marketing, integração completa com Instagram, Google Business Profile e WhatsApp Business.</td>
+          <td>Contínuo<br>a partir do mês 6</td>
+          <td class="value-strong">R$ 1.200–2.500 / mês</td>
+          <td class="value-strong">+R$ 100–150</td>
+        </tr>
+        <tr>
+          <td><span class="phase-badge">Fase 6</span><br><span style="font-size:13px;font-weight:400">Escala & BI</span></td>
+          <td>Dashboard de Business Intelligence, CRM para clientes corporativos, programa de fidelidade, chatbot com IA e emissão automática de NFS-e.</td>
+          <td>A partir do mês 12</td>
+          <td class="value-strong">R$ 4.000 – 8.000</td>
+          <td class="value-strong">+R$ 150–200</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     02 · FASES
+══════════════════════════════════ -->
+<div id="phases" class="section">
+  <div class="section-head">
+    <div class="section-index">Seção 02 · 04</div>
+    <h2>Detalhamento<br><span>de cada fase</span></h2>
+    <p>Clique em cada fase para ver os entregáveis, os serviços de infraestrutura necessários e as condições de pagamento.</p>
+  </div>
+  <div class="phases-wrap">
+
+    <!-- FASE 1 -->
+    <div class="phase-block" id="pb1">
+      <div class="phase-head" onclick="togglePhase('pb1')">
+        <div class="phase-num">Fase 01</div>
+        <div class="phase-title">Presença Digital<small>Site institucional + WhatsApp como canal de reservas</small></div>
+        <div class="phase-meta">
+          <div class="phase-duration">3–4 semanas</div>
+          <div class="phase-price">R$ 2.800 – 4.000</div>
+        </div>
+        <div class="toggle-icon">+</div>
+      </div>
+      <div class="phase-body" id="pb1-body">
+        <div class="phase-col">
+          <h4>Entregáveis</h4>
+          <ul class="deliverable-list">
+            <li>Home com proposta de valor, fotos dos veículos e botão WhatsApp em destaque</li>
+            <li>Página de serviços com tabela de categorias, capacidade e o que está incluído</li>
+            <li>Página de rota e destinos — POA → Gramado / Canela / Bento Gonçalves</li>
+            <li>Galeria de fotos profissionais dos veículos</li>
+            <li>Formulário de cotação que monta mensagem pré-formatada no WhatsApp</li>
+            <li>Botão flutuante de WhatsApp em todas as páginas</li>
+            <li>SEO on-page: title, meta description, H1/H2, sitemap XML</li>
+            <li>Google Analytics 4 + Meta Pixel + Search Console instalados</li>
+            <li>Feed automático do Instagram no rodapé</li>
+            <li>Configuração de e-mail profissional @goroutetransfer.com.br</li>
+            <li>Treinamento de Diow & Leandro para editar conteúdo no CMS</li>
+          </ul>
+        </div>
+        <div class="phase-col">
+          <h4>Infraestrutura mensal (Go Route)</h4>
+          <div class="infra-row"><span>Domínio .com.br (prorrateado)</span><span>~R$ 5/mês</span></div>
+          <div class="infra-row"><span>Hospedagem — Vercel Free</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>CDN + DNS — Cloudflare Free</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>E-mail profissional — Google Workspace</span><span>R$ 34/usuário</span></div>
+          <div class="infra-row"><span>CMS — Sanity.io Free</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>Analytics + Search Console</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>WhatsApp Business App</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>Widget feed Instagram</span><span>R$ 19–29</span></div>
+          <div class="infra-total"><span>Total mensal Fase 1</span><span>R$ 58–100 / mês</span></div>
+          <div class="payment-note" style="margin-top:20px">
+            <strong>Pagamento dos honorários:</strong> 50% na assinatura do contrato + 50% na entrega do site ao ar.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div class="phase-block" id="pb2">
+      <div class="phase-head" onclick="togglePhase('pb2')">
+        <div class="phase-num">Fase 02</div>
+        <div class="phase-title">Reservas Online<small>Agendamento + pagamento + confirmações automáticas</small></div>
+        <div class="phase-meta">
+          <div class="phase-duration">4–6 semanas</div>
+          <div class="phase-price">R$ 4.500 – 7.000</div>
+        </div>
+        <div class="toggle-icon">+</div>
+      </div>
+      <div class="phase-body" id="pb2-body">
+        <div class="phase-col">
+          <h4>Entregáveis</h4>
+          <ul class="deliverable-list">
+            <li>Calendário interativo de disponibilidade por rota e veículo</li>
+            <li>Integração com número de voo — busca horário real via API (AviationStack)</li>
+            <li>Seletor de veículo com fotos, capacidade e preço calculado em tempo real</li>
+            <li>Checkout completo com resumo da reserva</li>
+            <li>Pagamento via Pix (0% taxa) e cartão de crédito/débito (3,49%)</li>
+            <li>Confirmação automática por WhatsApp + e-mail HTML ao cliente</li>
+            <li>Lembrete automático 24h antes da viagem</li>
+            <li>Notificação automática ao motorista parceiro alocado</li>
+            <li>Painel admin básico: lista de reservas, status, dados do cliente</li>
+            <li>Banco de dados PostgreSQL com toda a estrutura de dados</li>
+          </ul>
+        </div>
+        <div class="phase-col">
+          <h4>Infraestrutura mensal adicional (Go Route)</h4>
+          <div class="infra-row"><span>Supabase Free (banco de dados)</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>Mercado Pago — gateway Pix</span><span>R$ 0 (0% por Pix)</span></div>
+          <div class="infra-row"><span>Mercado Pago — gateway cartão</span><span>3,49% por transação</span></div>
+          <div class="infra-row"><span>Z-API WhatsApp (automações)</span><span>R$ 99–149</span></div>
+          <div class="infra-row"><span>Resend.com — e-mail transacional</span><span>R$ 0 até 3.000/mês</span></div>
+          <div class="infra-row"><span>AviationStack API — voos</span><span>R$ 0 (free tier)</span></div>
+          <div class="infra-total"><span>Total mensal acumulado Fases 1+2</span><span>R$ 180–280 / mês</span></div>
+          <div class="payment-note" style="margin-top:20px">
+            <strong>Pré-requisito:</strong> CNPJ ativo e conta bancária PJ para ativar o Mercado Pago. Mínimo de 15 reservas via WhatsApp validadas na Fase 1.<br><br>
+            <strong>Pagamento dos honorários:</strong> 50% início + 25% na integração de pagamentos + 25% na entrega final.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div class="phase-block" id="pb3">
+      <div class="phase-head" onclick="togglePhase('pb3')">
+        <div class="phase-num">Fase 03</div>
+        <div class="phase-title">Motoristas & Admin<small>Portal do parceiro + backend operacional completo</small></div>
+        <div class="phase-meta">
+          <div class="phase-duration">5–7 semanas</div>
+          <div class="phase-price">R$ 6.000 – 9.000</div>
+        </div>
+        <div class="toggle-icon">+</div>
+      </div>
+      <div class="phase-body" id="pb3-body">
+        <div class="phase-col">
+          <h4>Entregáveis — Portal do Motorista</h4>
+          <ul class="deliverable-list">
+            <li>Login seguro — cada motorista tem sua própria conta</li>
+            <li>Dashboard com corridas do dia, semana e histórico completo</li>
+            <li>Aceite ou recusa de corrida com prazo configurável</li>
+            <li>Detalhes completos da corrida: cliente, origem, destino, observações</li>
+            <li>Botões "Iniciar viagem" e "Concluir viagem" com atualização em tempo real</li>
+            <li>Histórico de ganhos: valor bruto, desconto da plataforma, líquido</li>
+            <li>Calendário de disponibilidade semanal</li>
+            <li>Upload de documentos: CNH, seguro, CRLV com controle de vencimento</li>
+          </ul>
+          <br>
+          <h4>Entregáveis — Painel Admin (Diow & Leandro)</h4>
+          <ul class="deliverable-list">
+            <li>Dashboard em tempo real: reservas ativas, motoristas em rota, faturamento</li>
+            <li>Gestão de reservas: criar, editar, cancelar, realocar motorista</li>
+            <li>Gestão de motoristas: cadastro, homologação, ranking, bloqueio</li>
+            <li>Cálculo automático de repasses por categoria de veículo (% configurável)</li>
+            <li>Relatório financeiro exportável em CSV/Excel para contabilidade</li>
+            <li>Histórico de avaliações e ocorrências por motorista</li>
+          </ul>
+        </div>
+        <div class="phase-col">
+          <h4>Infraestrutura mensal adicional (Go Route)</h4>
+          <div class="infra-row"><span>Supabase Pro (migração necessária)</span><span>~R$ 100/mês</span></div>
+          <div class="infra-row"><span>Storage para documentos dos motoristas</span><span>Incluso no Supabase Pro</span></div>
+          <div class="infra-row"><span>WhatsApp API (já contratada)</span><span>Sem custo adicional</span></div>
+          <div class="infra-total"><span>Total mensal acumulado Fases 1+2+3</span><span>R$ 250–380 / mês</span></div>
+
+          <br>
+          <h4>Lógica de repasse configurável</h4>
+          <div class="infra-row"><span>Executive Sedan</span><span>78% motorista · 22% plataforma</span></div>
+          <div class="infra-row"><span>Premium SUV</span><span>77% motorista · 23% plataforma</span></div>
+          <div class="infra-row"><span>VIP Luxo</span><span>75% motorista · 25% plataforma</span></div>
+          <div class="infra-row"><span>Van Executiva</span><span>80% motorista · 20% plataforma</span></div>
+
+          <div class="payment-note" style="margin-top:20px">
+            <strong>Pagamento dos honorários:</strong> 40% início + 30% entrega do portal do motorista + 30% entrega do painel admin.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 4 -->
+    <div class="phase-block" id="pb4">
+      <div class="phase-head" onclick="togglePhase('pb4')">
+        <div class="phase-num">Fase 04</div>
+        <div class="phase-title">Experiência do Cliente<small>GPS ao vivo · clima · eventos · chatbot</small></div>
+        <div class="phase-meta">
+          <div class="phase-duration">4–5 semanas</div>
+          <div class="phase-price">R$ 5.000 – 7.500</div>
+        </div>
+        <div class="toggle-icon">+</div>
+      </div>
+      <div class="phase-body" id="pb4-body">
+        <div class="phase-col">
+          <h4>Entregáveis</h4>
+          <ul class="deliverable-list">
+            <li>Mapa GPS ao vivo com posição do veículo atualizada a cada 15–30 segundos</li>
+            <li>ETA dinâmico atualizado em tempo real</li>
+            <li>Link público de rastreamento enviado por WhatsApp quando a viagem inicia</li>
+            <li>Notificações de status: A caminho → Embarcando → Em rota → Chegando → Concluído</li>
+            <li>PWA instalável no celular do motorista para envio de GPS</li>
+            <li>Previsão do tempo para o destino no dia da viagem — exibida na confirmação</li>
+            <li>Widget de clima nas páginas de Gramado, Canela e Bento Gonçalves</li>
+            <li>Calendário editorial de eventos da Serra Gaúcha com filtros por cidade e tipo</li>
+            <li>Integração do calendário com a data da viagem do cliente</li>
+            <li>Chatbot no site com fluxo de qualificação e redirecionamento ao WhatsApp</li>
+          </ul>
+        </div>
+        <div class="phase-col">
+          <h4>Infraestrutura mensal adicional (Go Route)</h4>
+          <div class="infra-row"><span>Google Maps API (GPS + mapa)</span><span>R$ 0–50</span></div>
+          <div class="infra-row"><span>OpenWeatherMap — clima</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>Tidio ou Crisp — chatbot</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>Supabase Realtime (já incluso no Pro)</span><span>R$ 0 adicional</span></div>
+          <div class="infra-total"><span>Total mensal acumulado Fases 1–4</span><span>R$ 320–480 / mês</span></div>
+          <div class="payment-note" style="margin-top:20px">
+            Este é o <strong>patamar estável de infraestrutura</strong> da plataforma Go Route completa. A partir daqui, os custos mensais se mantêm nessa faixa.<br><br>
+            <strong>Pagamento dos honorários:</strong> 50% início + 50% entrega.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 5 -->
+    <div class="phase-block" id="pb5">
+      <div class="phase-head" onclick="togglePhase('pb5')">
+        <div class="phase-num">Fase 05</div>
+        <div class="phase-title">Marketing & SEO<small>Crescimento orgânico contínuo — retainer mensal</small></div>
+        <div class="phase-meta">
+          <div class="phase-duration">Contínuo · mês 6+</div>
+          <div class="phase-price">R$ 1.200–2.500 / mês</div>
+        </div>
+        <div class="toggle-icon">+</div>
+      </div>
+      <div class="phase-body" id="pb5-body">
+        <div class="phase-col">
+          <h4>Entregáveis mensais</h4>
+          <ul class="deliverable-list">
+            <li>2–4 artigos por mês otimizados para SEO no blog da Go Route</li>
+            <li>Pesquisa de keywords e calendário editorial trimestral</li>
+            <li>Otimização contínua baseada nos dados do Google Search Console</li>
+            <li>Schema Markup avançado: FAQ, HowTo, Review, LocalBusiness</li>
+            <li>Gestão e resposta de avaliações no Google Business Profile</li>
+            <li>Posts semanais no Google Business com eventos da Serra</li>
+            <li>Automação de e-mail pós-viagem solicitando avaliação no Google Maps</li>
+            <li>Sequência de reativação para clientes inativos há mais de 3 meses</li>
+            <li>Notificações sazonais: Natal Luz, Festival de Cinema, Festa da Uva</li>
+            <li>Relatório mensal de performance com GA4 + Search Console</li>
+          </ul>
+        </div>
+        <div class="phase-col">
+          <h4>Planos disponíveis</h4>
+          <div class="infra-row"><span>Plano Básico — 2 artigos + GSC + reviews</span><span>R$ 1.200–1.500</span></div>
+          <div class="infra-row"><span>Plano Completo — 4 artigos + automações + relatório</span><span>R$ 1.800–2.500</span></div>
+          <div class="infra-row"><span>Projeto pontual — setup + 8 artigos (3 meses)</span><span>R$ 3.500–5.000</span></div>
+
+          <div class="infra-total" style="margin-top:20px"><span>Infraestrutura adicional</span><span>+R$ 100–150 / mês</span></div>
+          <div class="payment-note" style="margin-top:20px">
+            <strong>Pagamento:</strong> Retainer mensal adiantado. Contrato mínimo recomendado de 6 meses para resultados SEO significativos.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FASE 6 -->
+    <div class="phase-block" id="pb6">
+      <div class="phase-head" onclick="togglePhase('pb6')">
+        <div class="phase-num">Fase 06</div>
+        <div class="phase-title">Escala & Inteligência<small>BI · CRM · chatbot IA · NFS-e automático</small></div>
+        <div class="phase-meta">
+          <div class="phase-duration">A partir do mês 12</div>
+          <div class="phase-price">R$ 4.000 – 8.000</div>
+        </div>
+        <div class="toggle-icon">+</div>
+      </div>
+      <div class="phase-body" id="pb6-body">
+        <div class="phase-col">
+          <h4>Entregáveis</h4>
+          <ul class="deliverable-list">
+            <li>Dashboard de BI com Google Looker Studio — métricas avançadas por período</li>
+            <li>CRM integrado para gestão de clientes corporativos (HubSpot Free ou Pipedrive)</li>
+            <li>Programa de fidelidade com pontos e descontos progressivos</li>
+            <li>Chatbot com IA (Claude ou GPT-4o) para atendimento autônomo e início de reservas</li>
+            <li>Integração NFS-e — emissão automática de notas fiscais</li>
+            <li>Painel de parceiros hoteleiros com link rastreável e relatório de comissões</li>
+            <li>Análise de rotas e precificação dinâmica por temporada</li>
+          </ul>
+          <br>
+          <h4>Critério para iniciar</h4>
+          <ul class="deliverable-list">
+            <li>Mais de 100 reservas por mês de forma consistente</li>
+            <li>15 ou mais motoristas parceiros ativos</li>
+            <li>GMV mensal superior a R$ 50.000</li>
+          </ul>
+        </div>
+        <div class="phase-col">
+          <h4>Infraestrutura adicional estimada</h4>
+          <div class="infra-row"><span>Google Looker Studio</span><span>R$ 0</span></div>
+          <div class="infra-row"><span>HubSpot Free / Pipedrive</span><span>R$ 0–200</span></div>
+          <div class="infra-row"><span>API IA (Claude / GPT-4o)</span><span>R$ 50–200/mês</span></div>
+          <div class="infra-row"><span>Integração NFS-e</span><span>Conforme prefeitura</span></div>
+          <div class="infra-total"><span>Total mensal acumulado Fases 1–6</span><span>R$ 470–680 / mês</span></div>
+          <div class="payment-note" style="margin-top:20px">
+            Escopo e honorários definidos no início da fase conforme as necessidades reais da Go Route naquele momento.<br><br>
+            <strong>Estimativa:</strong> R$ 4.000–8.000 dependendo das integrações escolhidas.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /phases-wrap -->
+</div>
+
+<!-- ══════════════════════════════════
+     03 · CRONOGRAMA
+══════════════════════════════════ -->
+<div id="chrono" class="section">
+  <div class="section-head">
+    <div class="section-index">Seção 03 · 04</div>
+    <h2>Cronograma<br><span>de implantação</span></h2>
+    <p>Visão semana a semana dos primeiros 7 meses. Cada fase começa após a validação da anterior.</p>
+  </div>
+  <div class="chrono-wrap">
+
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 1<br>S1–S2</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 1</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Contrato assinado · Domínio registrado · Google Business Profile iniciado (leva 5–14 dias) · Identidade visual definida</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 1<br>S3–S4</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 1</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Site ao ar · WhatsApp configurado · GA4 + Search Console + Meta Pixel ativos · Feed Instagram integrado</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 2<br>S1–S2</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Validação</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:60%"></div></div>
+          <div class="chrono-milestone">Primeiras reservas via WhatsApp · Coleta de feedback · Decisão de go para Fase 2 · Contratação Z-API e Mercado Pago PJ</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 2<br>S3–S4</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 2</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Banco de dados modelado · API de reservas em desenvolvimento · Integração AviationStack</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 3<br>S1–S2</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 2</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Gateway Mercado Pago integrado · Confirmações automáticas WhatsApp e e-mail funcionando</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 3<br>S3–S4</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 2</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Sistema de reservas ao ar · Beta com clientes reais · Migração para Supabase Pro</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 4<br>S1–S2</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 3</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Portal do motorista em desenvolvimento · Sistema de permissões por perfil</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 4<br>S3–S4</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 3</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Painel admin completo · Lógica de repasse automático · Relatórios financeiros</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 5<br>S1–S2</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 3</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Portal ao ar · Onboarding dos primeiros motoristas parceiros</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 5<br>S3–S4</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 4</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Rastreamento GPS ao vivo · Notificações de status da viagem · PWA do motorista</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 6<br>S1–S2</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 4+5</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:100%"></div></div>
+          <div class="chrono-milestone">Clima + agenda de eventos + chatbot · Primeiros artigos SEO publicados</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 6+</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 5</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:70%"></div></div>
+          <div class="chrono-milestone">Retainer SEO/marketing contínuo · Crescimento orgânico · Preparação para Fase 6</div>
+        </div>
+      </div>
+    </div>
+    <div class="chrono-row">
+      <div class="chrono-month">Mês 12+</div>
+      <div class="chrono-body">
+        <div class="chrono-phase">Fase 6</div>
+        <div class="chrono-bar-wrap">
+          <div class="chrono-bar"><div class="chrono-fill" style="width:40%"></div></div>
+          <div class="chrono-milestone">BI · CRM · Chatbot IA · NFS-e — quando as métricas de escala forem atingidas</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════
+     04 · CUSTOS
+══════════════════════════════════ -->
+<div id="costs" class="section">
+  <div class="section-head">
+    <div class="section-index">Seção 04 · 04</div>
+    <h2>Resumo<br><span>de custos</span></h2>
+    <p>Honorários de desenvolvimento por fase e custo mensal de infraestrutura da plataforma Go Route — valores separados de forma clara.</p>
+  </div>
+  <div class="costs-wrap">
+
+    <div class="costs-grid">
+      <div class="cost-card">
+        <div class="cost-phase">Fase 01</div>
+        <div class="cost-name">Presença Digital</div>
+        <div class="cost-duration">3–4 semanas</div>
+        <div class="cost-honorario-label">Honorário de desenvolvimento</div>
+        <div class="cost-honorario-value">R$ 2.800 – 4.000</div>
+        <div class="cost-divider"></div>
+        <div class="cost-infra-label">Infraestrutura mensal (Go Route)</div>
+        <div class="cost-infra-value">R$ 58–100 / mês</div>
+        <div class="cost-payment">Pagamento: 50% + 50%</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-phase">Fase 02</div>
+        <div class="cost-name">Reservas Online</div>
+        <div class="cost-duration">4–6 semanas</div>
+        <div class="cost-honorario-label">Honorário de desenvolvimento</div>
+        <div class="cost-honorario-value">R$ 4.500 – 7.000</div>
+        <div class="cost-divider"></div>
+        <div class="cost-infra-label">Infraestrutura mensal acumulada</div>
+        <div class="cost-infra-value">R$ 180–280 / mês</div>
+        <div class="cost-payment">Pagamento: 50% + 25% + 25%<br>Taxa cartão: 3,49% por transação</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-phase">Fase 03</div>
+        <div class="cost-name">Motoristas & Admin</div>
+        <div class="cost-duration">5–7 semanas</div>
+        <div class="cost-honorario-label">Honorário de desenvolvimento</div>
+        <div class="cost-honorario-value">R$ 6.000 – 9.000</div>
+        <div class="cost-divider"></div>
+        <div class="cost-infra-label">Infraestrutura mensal acumulada</div>
+        <div class="cost-infra-value">R$ 250–380 / mês</div>
+        <div class="cost-payment">Pagamento: 40% + 30% + 30%</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-phase">Fase 04</div>
+        <div class="cost-name">Experiência</div>
+        <div class="cost-duration">4–5 semanas</div>
+        <div class="cost-honorario-label">Honorário de desenvolvimento</div>
+        <div class="cost-honorario-value">R$ 5.000 – 7.500</div>
+        <div class="cost-divider"></div>
+        <div class="cost-infra-label">Infraestrutura mensal acumulada</div>
+        <div class="cost-infra-value">R$ 320–480 / mês</div>
+        <div class="cost-payment">Pagamento: 50% + 50%<br>Plataforma completa a partir daqui</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-phase">Fase 05</div>
+        <div class="cost-name">Marketing & SEO</div>
+        <div class="cost-duration">Contínuo · mês 6+</div>
+        <div class="cost-honorario-label">Honorário mensal (retainer)</div>
+        <div class="cost-honorario-value">R$ 1.200 – 2.500<small style="font-size:14px;font-weight:300"> /mês</small></div>
+        <div class="cost-divider"></div>
+        <div class="cost-infra-label">Infraestrutura adicional</div>
+        <div class="cost-infra-value">+R$ 100–150 / mês</div>
+        <div class="cost-payment">Pagamento: mensal adiantado</div>
+      </div>
+      <div class="cost-card">
+        <div class="cost-phase">Fase 06</div>
+        <div class="cost-name">Escala & BI</div>
+        <div class="cost-duration">A partir do mês 12</div>
+        <div class="cost-honorario-label">Honorário de desenvolvimento</div>
+        <div class="cost-honorario-value">R$ 4.000 – 8.000</div>
+        <div class="cost-divider"></div>
+        <div class="cost-infra-label">Infraestrutura adicional</div>
+        <div class="cost-infra-value">+R$ 150–200 / mês</div>
+        <div class="cost-payment">Escopo definido no início da fase</div>
+      </div>
+    </div>
+
+    <!-- GRAND TOTAL -->
+    <div class="grand-total">
+      <div class="gt-item">
+        <div class="gt-label">Investimento total Fases 1–4</div>
+        <div class="gt-value">R$ 18.300<br>– 27.500</div>
+        <div class="gt-sub">Desenvolvimento completo<br>ao longo de ~6 meses</div>
+      </div>
+      <div class="gt-item">
+        <div class="gt-label">Infraestrutura mensal — plataforma completa</div>
+        <div class="gt-value">R$ 320<br>– 480</div>
+        <div class="gt-sub">Custo operacional fixo da Go Route<br>após as 4 fases concluídas</div>
+      </div>
+      <div class="gt-item">
+        <div class="gt-label">Custo variável sobre vendas</div>
+        <div class="gt-value">0%<br>Pix</div>
+        <div class="gt-sub">Cartão: 3,49% por transação<br>Sem mensalidade do gateway</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="footer-left">
+    <div style="font-size:18px;font-weight:300;letter-spacing:0.05em;color:var(--text)">Go Route</div>
+    <p>Transfer Premium · Serra Gaúcha</p>
+    <p style="margin-top:4px">Diow & Leandro · 2025</p>
+  </div>
+  <div class="footer-right">
+    <div>Consultoria digital</div>
+    <div style="margin-top:4px"><a href="https://www.arnauddelecolle.com" target="_blank">arnauddelecolle.com</a></div>
+  </div>
+</footer>
+
+<script>
+  // Cursor
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  document.addEventListener('mousemove', e => {
+    cur.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+    ring.style.transform = `translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+  });
+  document.querySelectorAll('a,button,.tab,.phase-head,.cost-card,.chrono-row').forEach(el => {
+    el.addEventListener('mouseenter', () => { ring.style.width='48px'; ring.style.height='48px'; ring.style.borderColor='rgba(26,26,24,0.4)'; });
+    el.addEventListener('mouseleave', () => { ring.style.width='32px'; ring.style.height='32px'; ring.style.borderColor='rgba(26,26,24,0.2)'; });
+  });
+
+  // Tabs
+  function show(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    if(el) el.classList.add('active');
+    window.scrollTo({ top: document.querySelector('nav').offsetTop - 10, behavior:'smooth' });
+  }
+
+  // Phase accordion
+  function togglePhase(id) {
+    const block = document.getElementById(id);
+    const body = document.getElementById(id + '-body');
+    const isOpen = block.classList.contains('open');
+    // close all
+    document.querySelectorAll('.phase-block').forEach(b => {
+      b.classList.remove('open');
+      b.querySelector('.phase-body').classList.remove('open');
+    });
+    if (!isOpen) {
+      block.classList.add('open');
+      body.classList.add('open');
+    }
+  }
+</script>
+</body>
+</html>

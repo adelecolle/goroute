@@ -7,509 +7,164 @@
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-
 :root {
-  --black: #F2F2F0;
-  --dark: #E8E8E5;
-  --mid: #D0D0CC;
-  --gray: #6A6A66;
-  --light: #4A4A46;
-  --border: #D8D8D4;
-  --white: #1A1A18;
-  --accent: #1A1A18;
+  --bg:#F2F2F0; --bg-dark:#E8E8E5; --bg-mid:#E2E2DF;
+  --border:#D8D8D4; --text:#1A1A18; --mid:#4A4A46;
+  --light:#6A6A66; --faint:rgba(0,0,0,0.05);
 }
+html{scroll-behavior:smooth;}
+body{font-family:'Roboto',sans-serif;font-weight:300;background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;cursor:none;}
+#cursor{width:8px;height:8px;background:var(--text);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.12s ease;}
+#cursor-ring{width:32px;height:32px;border:1px solid rgba(26,26,24,0.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.4s ease,width 0.3s,height 0.3s,border-color 0.3s;}
 
-html { scroll-behavior: smooth; }
+/* COVER */
+.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:60px 60px 80px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:linear-gradient(135deg,#F2F2F0 0%,#EAEAE7 50%,#F2F2F0 100%);}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:80px 80px;}
+.cover-number{position:absolute;top:60px;right:60px;font-size:11px;font-weight:400;letter-spacing:0.2em;color:var(--light);}
+.cover h1{font-weight:100;font-size:clamp(48px,8vw,110px);line-height:0.95;letter-spacing:-0.03em;position:relative;z-index:1;color:var(--text);margin-top:auto;padding-top:48px;}
+.cover h1 em{font-style:normal;font-weight:300;color:var(--light);}
+.cover-tag{font-size:11px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--light);margin-top:24px;position:relative;z-index:1;}
+.cover-meta{display:flex;gap:60px;position:relative;z-index:1;flex-wrap:wrap;}
+.cover-meta-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:6px;}
+.cover-meta-value{font-size:14px;font-weight:300;color:var(--mid);}
 
-body {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 300;
-  background: var(--black);
-  color: var(--white);
-  font-size: 15px;
-  line-height: 1.7;
-  cursor: none;
-}
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(242,242,240,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 60px;display:flex;align-items:center;}
+.nav-arrow{padding:20px 20px;font-size:22px;color:var(--mid);cursor:none;user-select:none;transition:color .2s,transform .15s;flex-shrink:0;font-weight:100;line-height:1;}
+.nav-arrow:hover{color:var(--text);transform:scale(1.2);}
+.nav-tabs{display:flex;flex:1;overflow-x:auto;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.tab{padding:20px 24px;font-size:11px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);cursor:none;border-bottom:1px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;user-select:none;}
+.tab:hover{color:var(--mid);}
+.tab.active{color:var(--text);border-bottom-color:var(--text);}
 
-/* ── CURSOR ── */
-#cursor {
-  width: 8px; height: 8px;
-  background: var(--white);
-  border-radius: 50%;
-  position: fixed; top:0; left:0;
-  pointer-events: none;
-  z-index: 9999;
-  transition: transform 0.15s ease;
-  transform: translate(-50%,-50%);
-}
-#cursor-ring {
-  width: 32px; height: 32px;
-  border: 1px solid rgba(245,245,245,0.3);
-  border-radius: 50%;
-  position: fixed; top:0; left:0;
-  pointer-events: none;
-  z-index: 9998;
-  transition: transform 0.4s ease, width 0.3s, height 0.3s, border-color 0.3s;
-  transform: translate(-50%,-50%);
-}
+/* INTRO */
+.intro{padding:80px 60px;border-bottom:1px solid var(--border);max-width:860px;}
+.intro p{font-size:18px;font-weight:300;line-height:1.85;color:var(--mid);}
+.intro p strong{font-weight:500;color:var(--text);}
 
-/* ── COVER / HERO ── */
-.cover {
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-  justify-content: flex-end;
-  padding: 0 60px 80px;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-  overflow: hidden;
-}
-.cover-bg {
-  position: absolute; inset: 0;
-  background: linear-gradient(135deg, #F2F2F0 0%, #EAEAE7 50%, #F2F2F0 100%);
-}
-.cover-grid {
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(0,0,0,0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(0,0,0,0.05) 1px, transparent 1px);
-  background-size: 80px 80px;
-}
-.cover-number {
-  position: absolute; top: 60px; right: 60px;
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.2em;
-  color: var(--gray);
-  font-family: 'Roboto', monospace;
-}
-.cover-tag {
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 32px;
-  position: relative; z-index:1;
-}
-.cover h1 {
-  font-weight: 100;
-  font-size: clamp(48px, 8vw, 110px);
-  line-height: 0.95;
-  letter-spacing: -0.03em;
-  position: relative; z-index:1;
-  color: var(--white);
-}
-.cover h1 em {
-  font-style: normal;
-  font-weight: 300;
-  color: var(--gray);
-}
-.cover-meta {
-  margin-top: 48px;
-  display: flex; gap: 60px;
-  position: relative; z-index:1;
-}
-.cover-meta-item { }
-.cover-meta-label {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--gray);
-  margin-bottom: 6px;
-}
-.cover-meta-value {
-  font-size: 14px; font-weight: 300;
-  color: var(--light);
-}
-.cover-scroll {
-  position: absolute; bottom: 40px; right: 60px;
-  font-size: 10px; font-weight: 400;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--gray);
-  display: flex; align-items: center; gap: 12px;
-  z-index:1;
-}
-.cover-scroll::before {
-  content:'';
-  display:block; width:40px; height:1px;
-  background: var(--gray);
-}
+/* SECTIONS */
+.section{display:none;}
+.section.active{display:block;}
+.section-head{padding:80px 60px 60px;border-bottom:1px solid var(--border);}
+.section-index{font-size:10px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--light);margin-bottom:16px;}
+.section-head h2{font-weight:100;font-size:clamp(32px,5vw,64px);line-height:1.05;letter-spacing:-0.02em;color:var(--text);}
+.section-head h2 span{color:var(--light);}
+.section-head p{margin-top:20px;font-size:15px;font-weight:300;color:var(--light);max-width:600px;line-height:1.8;}
 
-/* ── NAV ── */
-nav {
-  position: sticky; top: 0; z-index: 100;
-  background: rgba(242,242,240,0.96);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 60px;
-  display: flex; align-items: center; gap: 2px;
-  overflow-x: auto;
-}
-nav::-webkit-scrollbar { display: none; }
-.tab {
-  padding: 20px 24px;
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--gray);
-  cursor: none;
-  border-bottom: 1px solid transparent;
-  white-space: nowrap;
-  transition: color .2s, border-color .2s;
-  user-select: none;
-}
-.tab:hover { color: var(--light); }
-.tab.active { color: var(--white); border-bottom-color: var(--white); }
+/* ACTORS */
+.actors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);}
+.actor-card{padding:48px 40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .25s;}
+.actor-card:hover{background:var(--bg-dark);}
+.actor-icon{font-size:24px;margin-bottom:20px;opacity:0.7;}
+.actor-name{font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);margin-bottom:16px;}
+.actor-actions{list-style:none;}
+.actor-actions li{font-size:13px;font-weight:300;color:var(--light);padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
+.actor-actions li::before{content:'—';color:rgba(0,0,0,0.2);flex-shrink:0;}
 
-/* ── INTRO BLOCK ── */
-.intro {
-  padding: 80px 60px;
-  border-bottom: 1px solid var(--border);
-  max-width: 800px;
-}
-.intro p {
-  font-size: 18px; font-weight: 300;
-  line-height: 1.8; color: var(--light);
-}
-.intro p strong { font-weight: 500; color: var(--white); }
+/* LAYERS */
+.layers-wrap{padding:0 60px 80px;}
+.layer-row{border:1px solid var(--border);margin-top:-1px;display:flex;align-items:stretch;transition:background .2s;}
+.layer-row:hover{background:var(--bg-dark);}
+.layer-index{width:60px;flex-shrink:0;border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:300;color:var(--light);letter-spacing:0.1em;}
+.layer-body{padding:32px 40px;flex:1;}
+.layer-title{font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
+.layer-desc{font-size:13px;font-weight:300;color:var(--light);margin-bottom:20px;line-height:1.7;}
+.layer-tools-label{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:10px;opacity:0.6;}
+.layer-tools{display:flex;flex-wrap:wrap;gap:8px;}
+.ltag{font-size:11px;font-weight:400;letter-spacing:0.06em;padding:4px 12px;border:1px solid var(--border);color:var(--mid);transition:border-color .2s;}
+.layer-row:hover .ltag{border-color:rgba(0,0,0,0.2);}
 
-/* ── SECTIONS ── */
-.section { display: none; }
-.section.active { display: block; }
+/* CONNECTOR */
+.connector-row{border:1px solid var(--border);margin-top:-1px;display:flex;align-items:center;padding:10px 40px 10px 100px;gap:16px;background:var(--bg-mid);}
+.connector-line{flex:1;height:1px;background:var(--border);}
+.connector-label{font-size:10px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);white-space:nowrap;}
+.connector-desc{font-size:12px;font-weight:300;color:var(--light);white-space:nowrap;}
 
-/* ── SECTION HEADER ── */
-.section-head {
-  padding: 80px 60px 60px;
-  border-bottom: 1px solid var(--border);
-}
-.section-index {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.25em; text-transform: uppercase;
-  color: var(--gray); margin-bottom: 16px;
-}
-.section-head h2 {
-  font-weight: 100;
-  font-size: clamp(32px, 5vw, 64px);
-  line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: var(--white);
-}
-.section-head h2 span { color: var(--gray); }
-.section-head p {
-  margin-top: 20px;
-  font-size: 15px; font-weight: 300;
-  color: var(--gray); max-width: 600px;
-  line-height: 1.8;
-}
+/* FLOW */
+.flow-wrap{padding:0 60px 80px;max-width:900px;}
+.flow-item{display:grid;grid-template-columns:80px 1fr;min-height:120px;}
+.flow-spine{display:flex;flex-direction:column;align-items:center;padding-top:2px;}
+.flow-dot{width:36px;height:36px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:400;flex-shrink:0;transition:border-color .2s,background .2s;background:var(--bg);}
+.flow-item:hover .flow-dot{border-color:var(--text);background:var(--bg-dark);}
+.flow-spine-line{flex:1;width:1px;background:var(--border);margin:4px 0;}
+.flow-content{padding:0 0 48px 32px;}
+.flow-title{font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
+.flow-desc{font-size:13.5px;font-weight:300;color:var(--light);line-height:1.75;margin-bottom:14px;}
+.flow-tools-label{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:8px;opacity:0.6;}
+.flow-tools{display:flex;flex-wrap:wrap;gap:6px;}
+.ftag{font-size:11px;font-weight:400;letter-spacing:0.06em;padding:3px 10px;border:1px solid var(--border);color:var(--mid);}
 
-/* ── GRID SECTIONS ── */
-.grid-section {
-  padding: 0 60px 80px;
-}
+/* TECH STACK */
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);}
+.tc{padding:40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.tc:hover{background:var(--bg-dark);}
+.tc-cat{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:10px;}
+.tc-name{font-size:20px;font-weight:300;color:var(--text);margin-bottom:10px;}
+.tc-role{font-size:13px;font-weight:500;color:var(--mid);margin-bottom:8px;line-height:1.5;}
+.tc-desc{font-size:13px;font-weight:300;color:var(--light);line-height:1.75;}
+.tc-cost{margin-top:18px;font-size:11px;font-weight:400;letter-spacing:0.08em;color:var(--mid);border-top:1px solid var(--border);padding-top:12px;}
+.tc-cost.free{color:var(--light);}
 
-/* ── ACTOR CARDS ── */
-.actors-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  border-left: 1px solid var(--border);
-  border-top: 1px solid var(--border);
-  margin-top: 0;
-}
-.actor-card {
-  padding: 48px 40px;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  transition: background .25s;
-}
-.actor-card:hover { background: var(--dark); }
-.actor-icon { font-size: 24px; margin-bottom: 20px; opacity: 0.7; }
-.actor-name {
-  font-size: 13px; font-weight: 500;
-  letter-spacing: 0.1em; text-transform: uppercase;
-  color: var(--white); margin-bottom: 16px;
-}
-.actor-actions { list-style: none; }
-.actor-actions li {
-  font-size: 13px; font-weight: 300;
-  color: var(--gray); padding: 6px 0;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-  display: flex; gap: 10px; align-items: flex-start;
-  line-height: 1.5;
-}
-.actor-actions li::before {
-  content: '—'; color: rgba(0,0,0,0.25);
-  flex-shrink:0; font-weight:300;
-}
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:flex-end;justify-content:space-between;}
+.footer-left p{font-size:11px;font-weight:300;letter-spacing:0.1em;color:var(--light);margin-top:6px;}
+.footer-right{font-size:11px;font-weight:300;letter-spacing:0.1em;color:var(--light);text-align:right;}
+.footer-right a{color:var(--mid);text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s;}
+.footer-right a:hover{color:var(--text);}
 
-/* ── LAYER STACK ── */
-.layers-wrap {
-  padding: 0 60px 80px;
+@media(max-width:768px){
+  .cover,nav,.intro,.section-head,.layers-wrap,.flow-wrap,footer{padding-left:24px;padding-right:24px;}
+  .cover h1{font-size:48px;}.cover-meta{gap:32px;}
+  .tech-grid,.actors-grid{grid-template-columns:1fr;}
+  .cover-number{display:none;}
 }
-.layer-row {
-  border: 1px solid var(--border);
-  margin-top: -1px;
-  display: flex; align-items: stretch;
-  transition: background .2s;
-}
-.layer-row:hover { background: var(--dark); }
-.layer-index {
-  width: 60px; flex-shrink:0;
-  border-right: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 300;
-  color: var(--gray);
-  letter-spacing: 0.1em;
-}
-.layer-body {
-  padding: 32px 40px; flex:1;
-}
-.layer-title {
-  font-size: 13px; font-weight: 500;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  color: var(--white); margin-bottom: 8px;
-}
-.layer-desc {
-  font-size: 13px; font-weight: 300;
-  color: var(--gray); margin-bottom: 16px;
-  line-height: 1.7;
-}
-.layer-tools { display: flex; flex-wrap: wrap; gap: 8px; }
-.ltag {
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.08em;
-  padding: 4px 12px;
-  border: 1px solid var(--border);
-  color: var(--light);
-  transition: border-color .2s, color .2s;
-}
-.layer-row:hover .ltag { border-color: rgba(0,0,0,0.25); }
-.layer-arrow {
-  width: 60px; flex-shrink:0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px; font-weight: 300; color: var(--gray);
-}
-
-/* ── FLOW ── */
-.flow-wrap {
-  padding: 0 60px 80px;
-  max-width: 860px;
-}
-.flow-item {
-  display: grid; grid-template-columns: 80px 1fr;
-  min-height: 120px;
-}
-.flow-spine {
-  display: flex; flex-direction: column; align-items: center;
-  padding-top: 2px;
-}
-.flow-dot {
-  width: 36px; height: 36px;
-  border: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 14px; flex-shrink:0;
-  transition: border-color .2s, background .2s;
-  background: var(--black);
-}
-.flow-item:hover .flow-dot { border-color: var(--white); background: var(--dark); }
-.flow-spine-line {
-  flex:1; width:1px;
-  background: var(--border);
-  margin: 4px 0;
-}
-.flow-content {
-  padding: 0 0 48px 32px;
-}
-.flow-content h4 {
-  font-size: 13px; font-weight: 500;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  color: var(--white); margin-bottom: 10px;
-}
-.flow-content p {
-  font-size: 13.5px; font-weight: 300;
-  color: var(--gray); line-height: 1.75;
-}
-.flow-badge {
-  display: inline-block;
-  margin-top: 12px;
-  font-size: 10px; font-weight: 400;
-  letter-spacing: 0.12em; text-transform: uppercase;
-  padding: 4px 12px;
-  border: 1px solid var(--border);
-  color: var(--gray);
-}
-
-/* ── TECH CARDS ── */
-.tech-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  border-left: 1px solid var(--border);
-  border-top: 1px solid var(--border);
-}
-.tc {
-  padding: 40px;
-  border-right: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  transition: background .2s;
-}
-.tc:hover { background: var(--dark); }
-.tc-cat {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.2em; text-transform: uppercase;
-  color: var(--gray); margin-bottom: 12px;
-}
-.tc-name {
-  font-size: 20px; font-weight: 300;
-  color: var(--white); margin-bottom: 12px;
-}
-.tc-desc {
-  font-size: 13px; font-weight: 300;
-  color: var(--gray); line-height: 1.75;
-}
-.tc-cost {
-  margin-top: 20px;
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.1em;
-  color: var(--light);
-  border-top: 1px solid var(--border);
-  padding-top: 14px;
-}
-.tc-cost.free { color: rgba(26,26,24,0.5); }
-
-/* ── MERMAID ── */
-.mermaid-wrap { padding: 0 60px 80px; }
-.mermaid-block {
-  border: 1px solid var(--border);
-  margin-bottom: -1px;
-}
-.mermaid-head {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 32px;
-  border-bottom: 1px solid var(--border);
-}
-.mermaid-title {
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--gray);
-}
-.copy-btn {
-  font-size: 10px; font-weight: 500;
-  letter-spacing: 0.15em; text-transform: uppercase;
-  padding: 6px 16px;
-  border: 1px solid var(--border);
-  color: var(--gray); background: none;
-  cursor: none; transition: all .2s;
-  font-family: 'Roboto', sans-serif;
-}
-.copy-btn:hover { border-color: var(--white); color: var(--white); }
-.copy-btn.copied { color: rgba(26,26,24,0.35); }
-.mermaid-code {
-  padding: 32px;
-  overflow-x: auto;
-}
-.mermaid-code pre {
-  font-family: 'Roboto Mono', 'Roboto', monospace;
-  font-size: 12px; font-weight: 300;
-  color: var(--gray); line-height: 1.8;
-  white-space: pre;
-}
-
-/* ── FOOTER ── */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 60px;
-  display: flex; align-items: flex-end; justify-content: space-between;
-}
-.footer-left p {
-  font-size: 11px; font-weight: 300;
-  letter-spacing: 0.1em; color: var(--gray);
-  margin-top: 6px;
-}
-.footer-right {
-  font-size: 11px; font-weight: 300;
-  letter-spacing: 0.1em; color: var(--gray);
-  text-align: right;
-}
-.footer-right a {
-  color: var(--light); text-decoration: none;
-  border-bottom: 1px solid var(--border);
-  transition: color .2s, border-color .2s;
-}
-.footer-right a:hover { color: var(--white); border-color: var(--white); }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .cover, nav, .intro, .section-head, .grid-section, .layers-wrap, .flow-wrap, .mermaid-wrap, footer { padding-left: 24px; padding-right: 24px; }
-  .cover h1 { font-size: 48px; }
-  .cover-meta { flex-wrap: wrap; gap: 32px; }
-  .tech-grid, .actors-grid { grid-template-columns: 1fr; }
-  .cover-number, .cover-scroll { display: none; }
-}
-
-/* ── FADE IN ── */
-@keyframes fadeUp {
-  from { opacity:0; transform: translateY(20px); }
-  to { opacity:1; transform: translateY(0); }
-}
-.section.active > * {
-  animation: fadeUp 0.4s ease forwards;
-}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.section.active>*{animation:fadeUp 0.35s ease forwards;}
 </style>
 </head>
 <body>
-
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
-<!-- ══ COVER ══ -->
+<!-- COVER -->
 <div class="cover">
-  <div class="cover-bg"></div>
   <div class="cover-grid"></div>
-  <div class="cover-number">Documento técnico · 2025</div>
-
-  <div class="cover-tag">Proposta de Arquitetura Digital</div>
-  <h1>Go<em>Route</em><br>Plataforma<br><em>Digital</em></h1>
-
+  <div class="cover-number">Documento técnico · 2026</div>
   <div class="cover-meta">
-    <div class="cover-meta-item">
-      <div class="cover-meta-label">Empresa</div>
-      <div class="cover-meta-value">Go Route</div>
-    </div>
-    <div class="cover-meta-item">
-      <div class="cover-meta-label">Diretores</div>
-      <div class="cover-meta-value">Diow & Leandro</div>
-    </div>
-    <div class="cover-meta-item">
-      <div class="cover-meta-label">Consultoria</div>
-      <div class="cover-meta-value">Arnaud Delecolle</div>
-    </div>
-    <div class="cover-meta-item">
-      <div class="cover-meta-label">Serviço</div>
-      <div class="cover-meta-value">Transfer Premium · Serra Gaúcha</div>
-    </div>
+    <div><div class="cover-meta-label">Empresa</div><div class="cover-meta-value">Go Route</div></div>
+    <div><div class="cover-meta-label">Diretores</div><div class="cover-meta-value">Diow & Leandro</div></div>
+    <div><div class="cover-meta-label">Consultoria</div><div class="cover-meta-value">Arnaud Delecolle</div></div>
+    <div><div class="cover-meta-label">Serviço</div><div class="cover-meta-value">Transfer Premium · Serra Gaúcha</div></div>
   </div>
-
-  <div class="cover-scroll">Scroll</div>
+  <h1>Go<em>Route</em><br>Plataforma<br><em>Digital</em></h1>
+  <div class="cover-tag">Arquitetura técnica completa da plataforma</div>
 </div>
 
-<!-- ══ NAV ══ -->
+<!-- NAV -->
 <nav>
-  <div class="tab active" onclick="show('actors', this)">01 · Atores</div>
-  <div class="tab" onclick="show('layers', this)">02 · Camadas</div>
-  <div class="tab" onclick="show('booking', this)">03 · Reserva</div>
-  <div class="tab" onclick="show('journey', this)">04 · Viagem</div>
-  <div class="tab" onclick="show('techstack', this)">05 · Tech Stack</div>
-  <div class="tab" onclick="show('mermaid', this)">06 · Mermaid</div>
+  <div class="nav-arrow" onclick="navStep(-1)">&#8249;</div>
+  <div class="nav-tabs">
+    <div class="tab active" onclick="show(0)">01 · Atores</div>
+    <div class="tab" onclick="show(1)">02 · Camadas</div>
+    <div class="tab" onclick="show(2)">03 · Reserva</div>
+    <div class="tab" onclick="show(3)">04 · Viagem</div>
+    <div class="tab" onclick="show(4)">05 · Tech Stack</div>
+  </div>
+  <div class="nav-arrow" onclick="navStep(1)">&#8250;</div>
 </nav>
 
-<!-- ══ INTRO ══ -->
+<!-- INTRO -->
 <div class="intro">
-  <p>Este documento apresenta a <strong>arquitetura técnica completa</strong> da plataforma digital Go Route — do site institucional ao portal de motoristas, sistema de reservas, rastreamento em tempo real e estratégia de marketing. A implantação é <strong>progressiva em 6 fases</strong>, começando pelo essencial e expandindo conforme o negócio cresce.</p>
+  <p>Este documento apresenta a <strong>arquitetura técnica completa</strong> da plataforma digital Go Route — do site institucional ao portal de motoristas, sistema de reservas e rastreamento em tempo real. A implantação é <strong>progressiva em 6 fases</strong>, começando pelo essencial e expandindo conforme o negócio cresce.</p>
 </div>
 
-<!-- ══════════════════════════════════════
-     01 · ATORES
-══════════════════════════════════════ -->
-<div id="actors" class="section active">
+<!-- ══ 01 · ATORES ══ -->
+<div id="s0" class="section active">
   <div class="section-head">
-    <div class="section-index">Diagrama 01 · 06</div>
+    <div class="section-index">Diagrama 01 · 05</div>
     <h2>Quem interage<br><span>com a plataforma</span></h2>
-    <p>Antes de qualquer linha de código: quem são as pessoas que usam o sistema, e o que cada uma precisa fazer.</p>
+    <p>As seis partes que interagem com o sistema — o que cada uma faz e o que espera da plataforma.</p>
   </div>
   <div class="actors-grid">
     <div class="actor-card">
@@ -518,9 +173,11 @@ footer {
       <ul class="actor-actions">
         <li>Pesquisa o serviço no Google</li>
         <li>Acessa o site pelo celular</li>
-        <li>Solicita cotação ou reserva online</li>
+        <li>Solicita cotação ou faz reserva online</li>
         <li>Paga via Pix ou cartão</li>
-        <li>Acompanha o motorista no mapa</li>
+        <li>Acompanha o motorista no mapa em tempo real</li>
+        <li>Consulta clima e eventos da Serra Gaúcha</li>
+        <li>Acessa o chatbot ou entra em contato</li>
         <li>Avalia a viagem no Google</li>
       </ul>
     </div>
@@ -530,21 +187,21 @@ footer {
       <ul class="actor-actions">
         <li>Recebe notificação de nova corrida</li>
         <li>Aceita ou recusa pelo portal</li>
-        <li>Ativa GPS ao iniciar a viagem</li>
-        <li>Marca a viagem como concluída</li>
+        <li>Ativa o GPS ao iniciar a viagem via PWA (Progressive Web App — aplicativo instalável direto pelo navegador, sem App Store)</li>
+        <li>Atualiza o status da viagem em tempo real</li>
         <li>Consulta ganhos e repasses</li>
-        <li>Mantém documentos atualizados</li>
+        <li>Mantém documentos atualizados no portal</li>
       </ul>
     </div>
     <div class="actor-card">
       <div class="actor-icon">🏢</div>
       <div class="actor-name">Diow & Leandro · Operação</div>
       <ul class="actor-actions">
-        <li>Monitoram reservas em tempo real</li>
-        <li>Alocam motoristas manualmente</li>
-        <li>Gerenciam cadastro de parceiros</li>
-        <li>Acessam relatórios financeiros</li>
-        <li>Publicam eventos e conteúdo</li>
+        <li>Monitoram reservas e operações em tempo real</li>
+        <li>Alocam motoristas manualmente quando necessário</li>
+        <li>Gerenciam cadastro de motoristas parceiros</li>
+        <li>Acessam relatórios financeiros e repasses</li>
+        <li>Publicam eventos e conteúdo pelo CMS</li>
         <li>Respondem avaliações no Google</li>
       </ul>
     </div>
@@ -553,42 +210,41 @@ footer {
       <div class="actor-name">Hotel Parceiro</div>
       <ul class="actor-actions">
         <li>Indica clientes via link rastreável</li>
-        <li>Recebe comissão por conversão</li>
-        <li>Acessa relatório de indicações</li>
+        <li>Recebe comissão automática por conversão</li>
+        <li>Acessa relatório de indicações e resultados</li>
       </ul>
     </div>
     <div class="actor-card">
       <div class="actor-icon">⚙️</div>
       <div class="actor-name">Sistema Automático</div>
       <ul class="actor-actions">
-        <li>Confirma reservas por WhatsApp</li>
-        <li>Envia lembretes 24h antes</li>
-        <li>Monitora status de voos em tempo real</li>
-        <li>Dispara pedido de avaliação pós-viagem</li>
-        <li>Calcula e registra repasses</li>
+        <li>Confirma reservas por WhatsApp e e-mail</li>
+        <li>Envia lembretes 24h antes da viagem</li>
+        <li>Monitora horários de voos em tempo real</li>
+        <li>Distribui corridas para motoristas disponíveis</li>
+        <li>Dispara pedido de avaliação após a viagem</li>
+        <li>Calcula e registra repasses automaticamente</li>
       </ul>
     </div>
     <div class="actor-card">
       <div class="actor-icon">🌐</div>
       <div class="actor-name">Google · Meta · Instagram</div>
       <ul class="actor-actions">
-        <li>Indexa o site no Search</li>
-        <li>Exibe Google Business Profile</li>
-        <li>Coleta dados do Pixel para remarketing</li>
-        <li>Analytics de comportamento</li>
+        <li>Indexa o site no Google Search</li>
+        <li>Exibe o Google Business Profile no Maps</li>
+        <li>Coleta dados do Pixel para campanhas futuras</li>
+        <li>Mede comportamento dos visitantes via Analytics</li>
       </ul>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     02 · CAMADAS
-══════════════════════════════════════ -->
-<div id="layers" class="section">
+<!-- ══ 02 · CAMADAS ══ -->
+<div id="s1" class="section">
   <div class="section-head">
-    <div class="section-index">Diagrama 02 · 06</div>
+    <div class="section-index">Diagrama 02 · 05</div>
     <h2>As camadas<br><span>da plataforma</span></h2>
-    <p>O sistema funciona em camadas — cada uma com uma responsabilidade clara. Os dados fluem de cima para baixo e as respostas sobem de volta.</p>
+    <p>A plataforma funciona em cinco camadas empilhadas — cada uma com uma responsabilidade distinta. Os dados e pedidos fluem de cima para baixo; as respostas sobem de volta.</p>
   </div>
   <div class="layers-wrap">
 
@@ -596,103 +252,105 @@ footer {
       <div class="layer-index">01</div>
       <div class="layer-body">
         <div class="layer-title">Usuário — Navegador & Celular</div>
-        <div class="layer-desc">Clientes, motoristas e Diow & Leandro acessam tudo pelo navegador. Sem instalar app. O PWA permite "adicionar à tela inicial" como se fosse um app nativo.</div>
+        <div class="layer-desc">Clientes, motoristas e Diow & Leandro acessam tudo pelo navegador do celular ou computador — sem instalar nenhum aplicativo. O PWA permite adicionar o portal à tela inicial como se fosse um app nativo.</div>
+        <div class="layer-tools-label">Canais de acesso</div>
         <div class="layer-tools">
           <span class="ltag">Chrome · Safari</span>
           <span class="ltag">PWA instalável</span>
           <span class="ltag">WhatsApp</span>
           <span class="ltag">E-mail</span>
+          <span class="ltag">Instagram — link na bio</span>
         </div>
       </div>
     </div>
 
-    <div class="layer-row" style="background:rgba(0,0,0,0.02)">
-      <div class="layer-index">↓</div>
-      <div class="layer-body" style="padding:12px 40px;display:flex;align-items:center">
-        <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray)">Requisições HTTP · WebSocket</span>
-      </div>
+    <div class="connector-row">
+      <div class="connector-line"></div>
+      <div class="connector-label">O usuário envia um pedido</div>
+      <div class="connector-line"></div>
     </div>
 
     <div class="layer-row">
       <div class="layer-index">02</div>
       <div class="layer-body">
         <div class="layer-title">Frontend — Interface Visual</div>
-        <div class="layer-desc">O que o usuário vê e clica. Desenvolvido em Next.js (código real — não Wix ou Squarespace). Hospedado na Vercel com deploy automático a cada atualização. Cloudflare protege e acelera.</div>
+        <div class="layer-desc">Tudo que o usuário vê e clica. Desenvolvido em Next.js — código real, não uma plataforma como Wix ou Squarespace. Publicado na Vercel com atualização automática a cada nova versão. A Cloudflare protege contra ataques e acelera o carregamento em qualquer lugar do Brasil.</div>
+        <div class="layer-tools-label">Ferramentas</div>
         <div class="layer-tools">
-          <span class="ltag">Next.js</span>
-          <span class="ltag">React</span>
-          <span class="ltag">Vercel</span>
-          <span class="ltag">Cloudflare CDN</span>
-          <span class="ltag">Sanity CMS</span>
-          <span class="ltag">Google Maps embed</span>
-          <span class="ltag">Tidio Chatbot</span>
+          <span class="ltag">Next.js — estrutura do site</span>
+          <span class="ltag">React — componentes visuais</span>
+          <span class="ltag">Vercel — publicação automática</span>
+          <span class="ltag">Cloudflare — proteção e velocidade</span>
+          <span class="ltag">Sanity CMS — edição de conteúdo</span>
+          <span class="ltag">Google Maps — mapa de rastreamento</span>
+          <span class="ltag">Tidio — chatbot</span>
         </div>
       </div>
     </div>
 
-    <div class="layer-row" style="background:rgba(0,0,0,0.02)">
-      <div class="layer-index">↓</div>
-      <div class="layer-body" style="padding:12px 40px;display:flex;align-items:center">
-        <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray)">API REST · Realtime WebSocket</span>
-      </div>
+    <div class="connector-row">
+      <div class="connector-line"></div>
+      <div class="connector-label">O frontend consulta e salva dados no backend</div>
+      <div class="connector-line"></div>
     </div>
 
     <div class="layer-row">
       <div class="layer-index">03</div>
       <div class="layer-body">
         <div class="layer-title">Backend — Cérebro da Operação</div>
-        <div class="layer-desc">Onde os dados vivem e as regras de negócio acontecem. Reservas, usuários, motoristas, pagamentos e GPS — tudo armazenado e processado no Supabase (PostgreSQL gerenciado).</div>
+        <div class="layer-desc">Onde todos os dados vivem e as regras de negócio acontecem. O Supabase concentra o banco de dados, os logins, o armazenamento de documentos e a transmissão do GPS em tempo real — tudo em um único serviço confiável e seguro.</div>
+        <div class="layer-tools-label">Ferramentas</div>
         <div class="layer-tools">
-          <span class="ltag">Supabase PostgreSQL</span>
-          <span class="ltag">Supabase Auth</span>
-          <span class="ltag">Supabase Realtime (GPS)</span>
-          <span class="ltag">Supabase Storage</span>
-          <span class="ltag">Edge Functions</span>
+          <span class="ltag">Supabase — banco de dados central</span>
+          <span class="ltag">Autenticação — login seguro por perfil</span>
+          <span class="ltag">Realtime — transmissão GPS ao vivo</span>
+          <span class="ltag">Storage — documentos dos motoristas</span>
+          <span class="ltag">Edge Functions — lógica automatizada</span>
         </div>
       </div>
     </div>
 
-    <div class="layer-row" style="background:rgba(0,0,0,0.02)">
-      <div class="layer-index">↓</div>
-      <div class="layer-body" style="padding:12px 40px;display:flex;align-items:center">
-        <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray)">Webhooks · Chamadas de API externas</span>
-      </div>
+    <div class="connector-row">
+      <div class="connector-line"></div>
+      <div class="connector-label">O backend aciona serviços externos conforme necessário</div>
+      <div class="connector-line"></div>
     </div>
 
     <div class="layer-row">
       <div class="layer-index">04</div>
       <div class="layer-body">
-        <div class="layer-title">Serviços Externos — Pagamentos · Comunicações · APIs</div>
-        <div class="layer-desc">Serviços especializados que o backend chama conforme necessário. Cada um faz uma coisa muito bem.</div>
+        <div class="layer-title">Serviços Externos — Pagamentos · Comunicações · Dados</div>
+        <div class="layer-desc">Serviços especializados acionados pelo backend conforme necessário. Cada serviço efetua sua função muito bem — pagamentos, mensagens automáticas, consulta de voos, clima e mapas são responsabilidades de fornecedores dedicados a cada uma dessas áreas.</div>
+        <div class="layer-tools-label">Ferramentas</div>
         <div class="layer-tools">
-          <span class="ltag">Mercado Pago · Pix · Cartão</span>
-          <span class="ltag">Z-API WhatsApp</span>
-          <span class="ltag">Resend E-mail</span>
-          <span class="ltag">AviationStack · Voos</span>
-          <span class="ltag">OpenWeatherMap</span>
-          <span class="ltag">Google Maps API</span>
+          <span class="ltag">Mercado Pago — Pix e cartão</span>
+          <span class="ltag">Z-API — WhatsApp automático</span>
+          <span class="ltag">Resend — e-mails automáticos</span>
+          <span class="ltag">AviationStack — horários de voos</span>
+          <span class="ltag">OpenWeatherMap — previsão do tempo</span>
+          <span class="ltag">Google Maps API — GPS e rotas</span>
         </div>
       </div>
     </div>
 
-    <div class="layer-row" style="background:rgba(0,0,0,0.02)">
-      <div class="layer-index">↓</div>
-      <div class="layer-body" style="padding:12px 40px;display:flex;align-items:center">
-        <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray)">Rastreamento · Analytics · Indexação</span>
-      </div>
+    <div class="connector-row">
+      <div class="connector-line"></div>
+      <div class="connector-label">Ferramentas de marketing rastreiam e atraem visitantes</div>
+      <div class="connector-line"></div>
     </div>
 
     <div class="layer-row">
       <div class="layer-index">05</div>
       <div class="layer-body">
         <div class="layer-title">Marketing & Visibilidade</div>
-        <div class="layer-desc">Ferramentas invisíveis para o usuário, mas essenciais para o crescimento orgânico da Go Route. Trazem tráfego, medem conversões e aumentam a presença no Google e Instagram.</div>
+        <div class="layer-desc">Ferramentas invisíveis para o usuário, essenciais para o crescimento da Go Route. Rastreiam o comportamento dos visitantes, atraem tráfego orgânico pelo Google e preparam a base para campanhas pagas no Instagram e Facebook.</div>
+        <div class="layer-tools-label">Ferramentas</div>
         <div class="layer-tools">
-          <span class="ltag">Google Analytics 4</span>
-          <span class="ltag">Search Console</span>
-          <span class="ltag">Google Business Profile</span>
-          <span class="ltag">Meta Pixel</span>
-          <span class="ltag">Instagram Feed</span>
+          <span class="ltag">Google Analytics 4 — comportamento dos visitantes</span>
+          <span class="ltag">Search Console — desempenho no Google</span>
+          <span class="ltag">Google Business Profile — presença no Maps</span>
+          <span class="ltag">Meta Pixel — base para anúncios futuros</span>
+          <span class="ltag">Instagram Feed — conteúdo integrado ao site</span>
         </div>
       </div>
     </div>
@@ -700,446 +358,328 @@ footer {
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     03 · RESERVA
-══════════════════════════════════════ -->
-<div id="booking" class="section">
+<!-- ══ 03 · RESERVA ══ -->
+<div id="s2" class="section">
   <div class="section-head">
-    <div class="section-index">Diagrama 03 · 06</div>
+    <div class="section-index">Diagrama 03 · 05</div>
     <h2>Do clique<br><span>à confirmação</span></h2>
-    <p>O fluxo completo de uma reserva — do momento em que o cliente encontra a Go Route no Google até a confirmação chegar no WhatsApp.</p>
+    <p>O que acontece nos bastidores desde o momento em que o cliente encontra a Go Route no Google até a confirmação chegar no WhatsApp — tudo automático, sem intervenção manual.</p>
   </div>
   <div class="flow-wrap">
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">01</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Cliente encontra a Go Route</h4>
-        <p>Pesquisa "transfer gramado aeroporto" no Google → site aparece nos resultados orgânicos + Google Business Profile → acessa pelo celular.</p>
-        <span class="flow-badge">Google Search · SEO Next.js · Google Business</span>
+        <div class="flow-title">Cliente encontra a Go Route</div>
+        <div class="flow-desc">Pesquisa "transfer gramado aeroporto" no Google → site aparece nos resultados orgânicos e no Google Business Profile → acessa pelo celular.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Google Search</span><span class="ftag">SEO — Next.js</span><span class="ftag">Google Business Profile</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">02</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Preenche o formulário de reserva</h4>
-        <p>Seleciona rota, data e veículo. Informa o número do voo → o sistema consulta a AviationStack API e preenche automaticamente o horário real. Se o voo atrasar depois, o sistema já sabe.</p>
-        <span class="flow-badge">Next.js · AviationStack API</span>
+        <div class="flow-title">Preenche o formulário de reserva</div>
+        <div class="flow-desc">Seleciona rota, data e veículo. Informa o número do voo → o sistema consulta automaticamente o horário real da companhia aérea. Se o voo atrasar depois, a plataforma já sabe e o motorista é notificado.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Site Next.js</span><span class="ftag">AviationStack — horário real do voo</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">03</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Pagamento via Pix ou Cartão</h4>
-        <p>Checkout com resumo da reserva. Pix: confirmação em segundos. Cartão: processado pelo Mercado Pago (3,49%). O valor entra direto na conta PJ da Go Route.</p>
-        <span class="flow-badge">Mercado Pago · Pix 0% · Cartão 3,49%</span>
+        <div class="flow-title">Pagamento via Pix ou Cartão</div>
+        <div class="flow-desc">Checkout com resumo completo da reserva. Pix: confirmação em segundos, sem taxa. Cartão: processado com segurança pelo Mercado Pago (3,49% por transação). O valor entra diretamente na conta PJ da Go Route.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Mercado Pago</span><span class="ftag">Pix — 0% de taxa</span><span class="ftag">Cartão — 3,49%</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">04</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Mercado Pago notifica o sistema</h4>
-        <p>Após confirmação do pagamento, o Mercado Pago envia um webhook automático para o Supabase — "reserva paga". O sistema registra e dispara as próximas ações sem intervenção humana.</p>
-        <span class="flow-badge">Webhook Mercado Pago → Supabase PostgreSQL</span>
+        <div class="flow-title">Sistema registra a reserva automaticamente</div>
+        <div class="flow-desc">O Mercado Pago notifica o sistema instantaneamente ao confirmar o pagamento. O Supabase registra a reserva e dispara todas as próximas ações em cascata — sem que Diow ou Leandro precisem fazer nada.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Mercado Pago — notificação de pagamento</span><span class="ftag">Supabase — banco de dados</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">05</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Confirmação automática para o cliente</h4>
-        <p>Simultaneamente: WhatsApp com detalhes completos + e-mail HTML com resumo da viagem, endereço de embarque e previsão do tempo para o dia em Gramado.</p>
-        <span class="flow-badge">Z-API WhatsApp · Resend E-mail · OpenWeatherMap</span>
+        <div class="flow-title">Confirmação automática para o cliente</div>
+        <div class="flow-desc">Simultaneamente: WhatsApp com todos os detalhes da viagem + e-mail com resumo, endereço de embarque e previsão do tempo para o dia em Gramado. O cliente recebe tudo em segundos.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Z-API — WhatsApp automático</span><span class="ftag">Resend — e-mail automático</span><span class="ftag">OpenWeatherMap — clima</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">06</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Motorista recebe a corrida</h4>
-        <p>Sistema notifica o motorista disponível por WhatsApp e pelo portal. Ele tem 30 minutos para aceitar. Se recusar, vai automaticamente para o próximo da lista.</p>
-        <span class="flow-badge">Portal motorista · Z-API · Supabase</span>
+        <div class="flow-title">Motorista recebe e aceita a corrida</div>
+        <div class="flow-desc">O sistema notifica o motorista disponível por WhatsApp e pelo portal. Ele tem 30 minutos para aceitar. Se recusar, o próximo motorista da lista é notificado automaticamente.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Portal do motorista</span><span class="ftag">Z-API — WhatsApp</span><span class="ftag">Supabase — gestão de disponibilidade</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">07</div></div>
       <div class="flow-content">
-        <h4>Lembrete automático 24h antes</h4>
-        <p>No dia anterior, o sistema dispara um lembrete por WhatsApp com todos os detalhes e contato do motorista. Sem que Diow ou Leandro precisem fazer nada.</p>
-        <span class="flow-badge">Cron Job Supabase · Z-API</span>
+        <div class="flow-title">Lembrete automático 24h antes</div>
+        <div class="flow-desc">No dia anterior à viagem, o sistema envia automaticamente um WhatsApp ao cliente com todos os detalhes e o contato do motorista. Nenhuma ação necessária de Diow ou Leandro.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Supabase — agendamento automático</span><span class="ftag">Z-API — WhatsApp</span></div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     04 · VIAGEM
-══════════════════════════════════════ -->
-<div id="journey" class="section">
+<!-- ══ 04 · VIAGEM ══ -->
+<div id="s3" class="section">
   <div class="section-head">
-    <div class="section-index">Diagrama 04 · 06</div>
+    <div class="section-index">Diagrama 04 · 05</div>
     <h2>O dia<br><span>da viagem</span></h2>
-    <p>Do motorista partir para buscar o cliente até o pedido de avaliação 2 horas após a chegada em Gramado.</p>
+    <p>Do motorista partir para buscar o cliente até a avaliação ser solicitada 2 horas após a chegada em Gramado.</p>
   </div>
   <div class="flow-wrap">
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">01</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Motorista abre o portal e parte</h4>
-        <p>Acessa o PWA pelo celular (sem instalar app — abre no navegador). Vê detalhes da corrida: nome do cliente, terminal, placa de identificação. Aperta "Iniciar viagem".</p>
-        <span class="flow-badge">PWA Next.js · Supabase Auth</span>
+        <div class="flow-title">Motorista inicia a viagem pelo portal</div>
+        <div class="flow-desc">Acessa o PWA (Progressive Web App — instalável pelo navegador, sem App Store) pelo celular. Confere os detalhes: nome do cliente, terminal de chegada, placa de identificação. Aperta "Iniciar viagem".</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">PWA — portal do motorista</span><span class="ftag">Supabase — autenticação e dados</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">02</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>GPS começa a transmitir</h4>
-        <p>O celular do motorista passa a enviar a posição GPS a cada 15–30 segundos para o Supabase Realtime — um canal de transmissão ao vivo. Qualquer navegador conectado recebe a posição instantaneamente.</p>
-        <span class="flow-badge">Geolocation API · Supabase Realtime WebSocket</span>
+        <div class="flow-title">GPS começa a transmitir em tempo real</div>
+        <div class="flow-desc">O celular do motorista passa a enviar a posição GPS a cada 15–30 segundos para o sistema. Funciona como um canal de transmissão ao vivo — qualquer navegador conectado ao link recebe a posição instantaneamente, sem atraso.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">GPS do celular — posição em tempo real</span><span class="ftag">Supabase Realtime — transmissão ao vivo</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">03</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Cliente recebe link de rastreamento</h4>
-        <p>O sistema envia automaticamente por WhatsApp um link público — como goroutetransfer.com.br/track/ABC123. Qualquer pessoa com o link vê o mapa. Sem criar conta, sem instalar nada.</p>
-        <span class="flow-badge">Z-API · Link público sem autenticação</span>
+        <div class="flow-title">Cliente recebe link de rastreamento</div>
+        <div class="flow-desc">O sistema envia automaticamente por WhatsApp um link público — por exemplo, goroutetransfer.com.br/track/ABC123. Qualquer pessoa com o link consegue ver o mapa ao vivo: cliente, família, quem estiver esperando. Sem criar conta, sem instalar nada.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Z-API — WhatsApp automático</span><span class="ftag">Link público sem login</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">04</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Mapa ao vivo no celular do cliente</h4>
-        <p>O carro se move no mapa em tempo real. ETA atualizado continuamente. A posição vai do Supabase diretamente ao Google Maps via WebSocket — sem precisar atualizar a página. A família pode acompanhar também.</p>
-        <span class="flow-badge">Google Maps JS API · Supabase Realtime</span>
+        <div class="flow-title">Mapa ao vivo no celular do cliente</div>
+        <div class="flow-desc">O ícone do carro se move no mapa em tempo real. O tempo estimado de chegada é atualizado continuamente. A página não precisa ser recarregada — a posição chega sozinha pelo canal de transmissão ao vivo.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Google Maps — mapa interativo</span><span class="ftag">Supabase Realtime — posição ao vivo</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">05</div><div class="flow-spine-line"></div></div>
       <div class="flow-content">
-        <h4>Motorista conclui a viagem</h4>
-        <p>Aperta "Concluir viagem" no portal. O sistema registra horário de chegada e calcula o repasse automaticamente conforme a categoria do veículo (ex: 78% para o motorista na categoria Executive).</p>
-        <span class="flow-badge">Portal motorista · Lógica de repasse · Supabase</span>
+        <div class="flow-title">Motorista conclui a viagem</div>
+        <div class="flow-desc">Aperta "Concluir viagem" no portal. O sistema registra o horário de chegada e calcula automaticamente o repasse conforme a categoria do veículo — sem planilha, sem cálculo manual.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Portal do motorista</span><span class="ftag">Supabase — cálculo e registro de repasse</span></div>
       </div>
     </div>
 
     <div class="flow-item">
       <div class="flow-spine"><div class="flow-dot">06</div></div>
       <div class="flow-content">
-        <h4>Pedido de avaliação automático</h4>
-        <p>2 horas após a conclusão, o sistema envia WhatsApp pedindo avaliação no Google Maps. Crítico para o crescimento orgânico: avaliações no Google são o principal fator de rankeamento local e são citadas diretamente por IAs como ChatGPT e Gemini.</p>
-        <span class="flow-badge">Z-API · Google Business Profile</span>
+        <div class="flow-title">Pedido de avaliação automático</div>
+        <div class="flow-desc">2 horas após a conclusão, o sistema envia um WhatsApp ao cliente pedindo avaliação no Google Maps. Avaliações no Google são o principal fator de visibilidade local e são citadas diretamente por IAs como ChatGPT e Gemini quando alguém pesquisa transfer em Gramado.</div>
+        <div class="flow-tools-label">Ferramentas envolvidas</div>
+        <div class="flow-tools"><span class="ftag">Z-API — WhatsApp automático</span><span class="ftag">Google Business Profile</span></div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     05 · TECH STACK
-══════════════════════════════════════ -->
-<div id="techstack" class="section">
+<!-- ══ 05 · TECH STACK ══ -->
+<div id="s4" class="section">
   <div class="section-head">
-    <div class="section-index">Diagrama 05 · 06</div>
+    <div class="section-index">Diagrama 05 · 05</div>
     <h2>Tech stack<br><span>completo</span></h2>
-    <p>Cada ferramenta, o que faz exatamente, por que foi escolhida para a Go Route e quanto custa por mês.</p>
+    <p>Cada ferramenta da plataforma — o papel que desempenha para a Go Route, como funciona e quanto custa por mês.</p>
   </div>
   <div class="tech-grid">
+
     <div class="tc">
       <div class="tc-cat">Frontend</div>
       <div class="tc-name">Next.js + React</div>
-      <div class="tc-desc">O framework que constrói o site. Gera as páginas, cuida de roteamento, performance e SEO automaticamente. Não é Wix — é código que a Go Route controla 100%, sem plataforma intermediária.</div>
-      <div class="tc-cost free">Gratuito — open source</div>
+      <div class="tc-role">Constrói e serve todas as páginas do site</div>
+      <div class="tc-desc">Framework de código aberto que gera as páginas, cuida de velocidade e SEO automaticamente. Não é Wix — é código que a Go Route controla 100%, sem depender de plataforma intermediária.</div>
+      <div class="tc-cost free">Gratuito — código aberto</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">Hospedagem Frontend</div>
+      <div class="tc-cat">Hospedagem</div>
       <div class="tc-name">Vercel</div>
-      <div class="tc-desc">Hospeda o site Next.js com deploy automático a cada atualização (push no GitHub → site atualizado em 30 segundos). CDN global, HTTPS automático. Feito pela mesma empresa do Next.js.</div>
+      <div class="tc-role">Publica o site na internet automaticamente</div>
+      <div class="tc-desc">Cada atualização de código vai ao ar automaticamente em segundos. CDN global garante carregamento rápido de qualquer lugar do Brasil. Feito pela mesma equipe do Next.js.</div>
       <div class="tc-cost free">Gratuito no início</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">CDN · DNS · Segurança</div>
+      <div class="tc-cat">Proteção & Velocidade</div>
       <div class="tc-name">Cloudflare</div>
-      <div class="tc-desc">Fica na frente de tudo. Protege contra ataques DDoS, acelera o carregamento globalmente e gerencia o DNS — direciona goroutetransfer.com.br para a Vercel.</div>
+      <div class="tc-role">Protege o site e acelera o carregamento</div>
+      <div class="tc-desc">Fica na frente de tudo. Bloqueia ataques automaticamente, acelera o site globalmente e gerencia o endereço goroutetransfer.com.br apontando para o lugar certo.</div>
       <div class="tc-cost free">Gratuito</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">CMS · Edição de Conteúdo</div>
-      <div class="tc-name">Sanity.io</div>
-      <div class="tc-desc">Painel onde Diow e Leandro editam textos, fotos, eventos da Serra Gaúcha e artigos do blog — sem tocar em código. O site busca esse conteúdo via API quando carrega.</div>
+      <div class="tc-cat">Edição de Conteúdo</div>
+      <div class="tc-name">Sanity CMS</div>
+      <div class="tc-role">Permite editar o site sem tocar em código</div>
+      <div class="tc-desc">Painel simples onde Diow e Leandro atualizam textos, fotos, eventos da Serra Gaúcha e artigos do blog de forma independente. O site busca e exibe esse conteúdo automaticamente.</div>
       <div class="tc-cost free">Gratuito no plano básico</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">Backend · Banco de Dados</div>
+      <div class="tc-cat">Banco de Dados & Backend</div>
       <div class="tc-name">Supabase</div>
-      <div class="tc-desc">O coração da plataforma. PostgreSQL + autenticação + storage + realtime em um só serviço. Guarda todas as reservas, usuários, motoristas, histórico de GPS e documentos.</div>
-      <div class="tc-cost">R$ 0 grátis → R$ 100/mês Pro</div>
+      <div class="tc-role">Armazena e processa todos os dados da plataforma</div>
+      <div class="tc-desc">Banco de dados + logins + armazenamento de arquivos + transmissão em tempo real em um único serviço. Guarda reservas, motoristas, histórico de GPS e documentos com segurança.</div>
+      <div class="tc-cost">Gratuito até a Fase 3 → R$ 100/mês</div>
     </div>
+
     <div class="tc">
       <div class="tc-cat">Pagamentos</div>
       <div class="tc-name">Mercado Pago</div>
-      <div class="tc-desc">Processa Pix (0% de taxa) e cartão (3,49%). Quando o pagamento é confirmado, envia webhook automático para o Supabase. Zero mensalidade — Go Route só paga sobre o que vende.</div>
+      <div class="tc-role">Processa Pix e cartão diretamente na plataforma</div>
+      <div class="tc-desc">Pix tem 0% de taxa e confirmação imediata. Cartão cobra 3,49% por transação. Sem mensalidade — a Go Route paga apenas sobre o que recebe. O dinheiro entra diretamente na conta PJ.</div>
       <div class="tc-cost">0% Pix · 3,49% cartão · sem mensalidade</div>
     </div>
+
     <div class="tc">
       <div class="tc-cat">WhatsApp Automatizado</div>
       <div class="tc-name">Z-API</div>
-      <div class="tc-desc">Conecta a plataforma ao WhatsApp. Envia confirmações, lembretes, link de rastreamento GPS e pedido de avaliação — tudo automaticamente, sem Diow ou Leandro precisarem digitar nada.</div>
-      <div class="tc-cost">R$ 99–149/mês</div>
+      <div class="tc-role">Envia mensagens automáticas pelo WhatsApp da Go Route</div>
+      <div class="tc-desc">Conecta a plataforma ao número de WhatsApp da Go Route. Confirmações, lembretes, link de rastreamento e pedido de avaliação são enviados automaticamente — sem nenhuma ação manual.</div>
+      <div class="tc-cost">R$ 99–149/mês · a partir da Fase 2</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">E-mail Transacional</div>
+      <div class="tc-cat">E-mail Automático</div>
       <div class="tc-name">Resend.com</div>
-      <div class="tc-desc">Envia e-mails bonitos em HTML de forma programática. Confirmação de reserva com detalhes completos, lembrete de viagem e solicitação de avaliação pós-viagem. Alta entregabilidade.</div>
-      <div class="tc-cost free">Gratuito até 3.000/mês</div>
+      <div class="tc-role">Envia e-mails automáticos com alta taxa de entrega</div>
+      <div class="tc-desc">Confirmação de reserva com todos os detalhes, lembrete de viagem e solicitação de avaliação — tudo enviado automaticamente no momento certo, com layout profissional.</div>
+      <div class="tc-cost free">Gratuito até 3.000 e-mails/mês</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">API de Voos</div>
+      <div class="tc-cat">Informação de Voos</div>
       <div class="tc-name">AviationStack</div>
-      <div class="tc-desc">Quando o cliente informa o número do voo (ex: LA3042), essa API retorna horário real, terminal e status. Se o voo atrasar, a plataforma Go Route já sabe e ajusta a corrida automaticamente.</div>
-      <div class="tc-cost free">Gratuito até 500 req/mês</div>
+      <div class="tc-role">Consulta o horário real de chegada do voo</div>
+      <div class="tc-desc">Quando o cliente informa o número do voo, esta API retorna o horário atualizado, terminal e status. Se o voo atrasar, a plataforma já sabe — sem que o cliente precise avisar o motorista.</div>
+      <div class="tc-cost free">Gratuito até 500 consultas/mês</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">Previsão do Tempo</div>
+      <div class="tc-cat">Clima</div>
       <div class="tc-name">OpenWeatherMap</div>
-      <div class="tc-desc">Busca a previsão para o destino no dia da viagem. Exibida na confirmação de reserva e nas páginas de Gramado, Canela e Bento Gonçalves. "Gramado estará a 8°C — leve casaco."</div>
-      <div class="tc-cost free">Gratuito até 1.000 req/dia</div>
+      <div class="tc-role">Mostra a previsão do tempo para o destino</div>
+      <div class="tc-desc">Exibida na confirmação de reserva e nas páginas de Gramado, Canela e Bento Gonçalves. Detalhe que encanta o cliente: "Gramado estará a 8°C na sua data — leve casaco."</div>
+      <div class="tc-cost free">Gratuito até 1.000 consultas/dia</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">GPS · Mapas</div>
+      <div class="tc-cat">GPS & Mapas</div>
       <div class="tc-name">Google Maps API</div>
-      <div class="tc-desc">Renderiza o mapa de rastreamento ao vivo. O Supabase Realtime entrega a posição do motorista, o Maps renderiza o ícone se movendo em tempo real e calcula o ETA dinâmico.</div>
-      <div class="tc-cost free">Gratuito no free tier inicial</div>
+      <div class="tc-role">Exibe o mapa de rastreamento ao vivo</div>
+      <div class="tc-desc">Renderiza o mapa interativo com o ícone do veículo se movendo em tempo real. Calcula e atualiza o tempo estimado de chegada continuamente à medida que o motorista avança na rota.</div>
+      <div class="tc-cost free">Gratuito no volume inicial</div>
     </div>
+
     <div class="tc">
       <div class="tc-cat">Chatbot</div>
-      <div class="tc-name">Tidio · Fase 4</div>
-      <div class="tc-desc">Chatbot no canto do site. Fase 4: fluxo de perguntas simples que qualifica e redireciona para WhatsApp. Fase 6: substituído por chatbot com IA (Claude/GPT-4o) para responder autonomamente.</div>
+      <div class="tc-name">Tidio</div>
+      <div class="tc-role">Atende visitantes do site e direciona ao WhatsApp</div>
+      <div class="tc-desc">Chatbot no canto do site que responde dúvidas frequentes e encaminha para o WhatsApp da Go Route. Na Fase 6, pode ser substituído por inteligência artificial para atendimento autônomo.</div>
       <div class="tc-cost free">Gratuito no plano básico</div>
     </div>
+
     <div class="tc">
       <div class="tc-cat">Analytics</div>
       <div class="tc-name">Google Analytics 4</div>
-      <div class="tc-desc">Rastreia tudo no site: origem dos visitantes, páginas acessadas, tempo de permanência, taxa de conversão em reservas. Dados históricos são valiosos — instalar no dia 1 é obrigatório.</div>
+      <div class="tc-role">Mostra de onde vêm os clientes e o que fazem no site</div>
+      <div class="tc-desc">Registra origem dos visitantes, páginas visitadas, tempo no site e taxa de conversão em reservas. Instalado no primeiro dia — dados históricos se tornam cada vez mais valiosos com o tempo.</div>
       <div class="tc-cost free">Gratuito</div>
     </div>
+
     <div class="tc">
-      <div class="tc-cat">Remarketing</div>
+      <div class="tc-cat">Base para Anúncios</div>
       <div class="tc-name">Meta Pixel</div>
-      <div class="tc-desc">Código invisível que identifica visitantes do site. Permite mostrar anúncios no Instagram e Facebook para quem visitou mas não reservou. Instalar agora = coletar dados desde o início.</div>
+      <div class="tc-role">Identifica visitantes para campanhas futuras no Instagram</div>
+      <div class="tc-desc">Código invisível que registra quem visitou o site. Quando a Go Route quiser anunciar no Instagram ou Facebook, poderá mostrar anúncios especificamente para quem já demonstrou interesse.</div>
       <div class="tc-cost free">Gratuito</div>
     </div>
+
     <div class="tc">
       <div class="tc-cat">SEO Local</div>
       <div class="tc-name">Google Business Profile</div>
-      <div class="tc-desc">O card da Go Route no Google Maps. Avaliações aqui são citadas por IAs (ChatGPT, Gemini, Perplexity). Verificação leva 5–14 dias — criar e verificar é prioridade zero, antes de qualquer código.</div>
+      <div class="tc-role">A presença da Go Route no Google Maps e no Search</div>
+      <div class="tc-desc">O card que aparece quando alguém pesquisa transfer em Gramado. Avaliações aqui são citadas por IAs como ChatGPT e Gemini. A verificação leva 5–14 dias — é a primeira ação a executar, antes de qualquer desenvolvimento.</div>
       <div class="tc-cost free">Gratuito</div>
     </div>
-  </div>
-</div>
-
-<!-- ══════════════════════════════════════
-     06 · MERMAID
-══════════════════════════════════════ -->
-<div id="mermaid" class="section">
-  <div class="section-head">
-    <div class="section-index">Diagrama 06 · 06</div>
-    <h2>Código<br><span>Mermaid</span></h2>
-    <p>Copie qualquer diagrama abaixo e cole em mermaid.live, Notion, Obsidian ou GitHub para visualizar interativamente.</p>
-  </div>
-  <div class="mermaid-wrap">
-
-    <div class="mermaid-block">
-      <div class="mermaid-head">
-        <div class="mermaid-title">A — Camadas da Plataforma</div>
-        <button class="copy-btn" onclick="copyCode(this, 'mc-a')">Copiar</button>
-      </div>
-      <div class="mermaid-code"><pre id="mc-a">graph TD
-  subgraph USR["USUÁRIO — Navegador / Celular"]
-    C[Cliente] --- M[Motorista] --- A[Diow & Leandro]
-  end
-  subgraph FRONT["FRONTEND — Next.js · Vercel · Cloudflare"]
-    F1[Site institucional + SEO]
-    F2[Fluxo de reservas]
-    F3[Mapa GPS ao vivo]
-    F4[Portal do motorista]
-    F5[Painel admin]
-  end
-  subgraph BACK["BACKEND — Supabase"]
-    DB[(PostgreSQL)]
-    RT[Realtime — GPS]
-    AUTH[Auth — Login]
-    STORE[Storage — Docs]
-  end
-  subgraph EXT["SERVIÇOS EXTERNOS"]
-    PAY[Mercado Pago] --- WA[Z-API WhatsApp]
-    MAIL[Resend Email] --- FLT[AviationStack]
-    WTH[OpenWeatherMap] --- GPS[Google Maps]
-  end
-  USR -->|acessa| FRONT
-  FRONT -->|lê e escreve| BACK
-  BACK -->|webhook| PAY
-  BACK -->|dispara| WA
-  BACK -->|envia| MAIL
-  FRONT -->|consulta| FLT
-  FRONT -->|clima| WTH
-  FRONT -->|mapa| GPS
-  RT -->|posição ao vivo| FRONT</pre></div>
-    </div>
-
-    <div class="mermaid-block">
-      <div class="mermaid-head">
-        <div class="mermaid-title">B — Fluxo de Reserva</div>
-        <button class="copy-btn" onclick="copyCode(this, 'mc-b')">Copiar</button>
-      </div>
-      <div class="mermaid-code"><pre id="mc-b">sequenceDiagram
-  participant C as Cliente
-  participant S as Site Next.js
-  participant AV as AviationStack
-  participant MP as Mercado Pago
-  participant DB as Supabase
-  participant WA as Z-API WhatsApp
-  participant M as Motorista
-
-  C->>S: Preenche formulário de reserva
-  S->>AV: Consulta horário do voo
-  AV-->>S: Retorna horário real
-  S-->>C: Exibe resumo + previsão do tempo
-  C->>MP: Efetua pagamento (Pix ou cartão)
-  MP->>DB: Webhook: pagamento confirmado
-  DB->>WA: Dispara confirmação para cliente
-  WA-->>C: WhatsApp com detalhes da viagem
-  DB->>WA: Notifica motorista disponível
-  WA-->>M: Nova corrida disponível
-  M->>DB: Aceita a corrida no portal
-  Note over DB: 24h antes: lembrete automático
-  DB->>WA: Lembrete para cliente
-  WA-->>C: Sua viagem é amanhã!</pre></div>
-    </div>
-
-    <div class="mermaid-block">
-      <div class="mermaid-head">
-        <div class="mermaid-title">C — Fluxo da Viagem com GPS</div>
-        <button class="copy-btn" onclick="copyCode(this, 'mc-c')">Copiar</button>
-      </div>
-      <div class="mermaid-code"><pre id="mc-c">sequenceDiagram
-  participant M as Motorista (PWA)
-  participant DB as Supabase Realtime
-  participant C as Cliente (mapa)
-  participant WA as Z-API
-
-  M->>DB: Aperta Iniciar viagem
-  DB->>WA: Dispara link de rastreamento
-  WA-->>C: Acompanhe seu motorista aqui
-  C->>DB: Abre o link — conecta ao Realtime
-  loop A cada 15–30 segundos
-    M->>DB: Envia posição GPS atual
-    DB-->>C: Atualiza posição no mapa WebSocket
-  end
-  M->>DB: Aperta Concluir viagem
-  DB->>DB: Calcula repasse automático
-  Note over DB: 2h depois: pedido de avaliação
-  DB->>WA: Avalie sua experiência no Google
-  WA-->>C: Link direto para avaliação</pre></div>
-    </div>
-
-    <div class="mermaid-block">
-      <div class="mermaid-head">
-        <div class="mermaid-title">D — Stack por Fase de Implantação</div>
-        <button class="copy-btn" onclick="copyCode(this, 'mc-d')">Copiar</button>
-      </div>
-      <div class="mermaid-code"><pre id="mc-d">graph LR
-  subgraph F1["Fase 1 — Presença Digital"]
-    N[Next.js] --> V[Vercel]
-    N --> CF[Cloudflare]
-    N --> SN[Sanity CMS]
-    N --> GA[Google Analytics 4]
-    N --> WF[WhatsApp link wa.me]
-  end
-  subgraph F2["Fase 2 — Reservas Online"]
-    SB[Supabase] --> PG[(PostgreSQL)]
-    MPA[Mercado Pago] -->|webhook| SB
-    ZA[Z-API WhatsApp] --> SB
-    RS[Resend Email] --> SB
-    AVS[AviationStack] --> N
-  end
-  subgraph F3["Fase 3 — Motoristas & Admin"]
-    SB --> RLS[Permissões por perfil]
-    SB --> STR[Storage docs]
-    SB --> REP[Lógica de repasse]
-  end
-  subgraph F4["Fase 4 — Experiência"]
-    SB --> RTM[Realtime GPS]
-    RTM --> GMaps[Google Maps API]
-    OW[OpenWeatherMap] --> N
-    TD[Tidio Chatbot] --> N
-  end
-  F1 --> F2 --> F3 --> F4</pre></div>
-    </div>
 
   </div>
 </div>
 
-<!-- ══ FOOTER ══ -->
 <footer>
   <div class="footer-left">
-    <div style="font-size:18px;font-weight:300;letter-spacing:0.05em;color:var(--white)">Go Route</div>
+    <div style="font-size:18px;font-weight:300;letter-spacing:0.05em;color:var(--text)">Go Route</div>
     <p>Transfer Premium · Serra Gaúcha</p>
-    <p style="margin-top:4px">Diow & Leandro · 2025</p>
+    <p style="margin-top:4px">Diow & Leandro · 2026</p>
   </div>
   <div class="footer-right">
-    <div>Consultoria digital</div>
+    <div>Estratégia digital</div>
     <div style="margin-top:4px"><a href="https://www.arnauddelecolle.com" target="_blank">arnauddelecolle.com</a></div>
   </div>
 </footer>
 
 <script>
-  // Custom cursor
-  const cur = document.getElementById('cursor');
-  const ring = document.getElementById('cursor-ring');
-  document.addEventListener('mousemove', e => {
-    cur.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
-    ring.style.transform = `translate(${e.clientX}px, ${e.clientY}px) translate(-50%,-50%)`;
-  });
-  document.querySelectorAll('a, button, .tab, .actor-card, .tc, .layer-row, .flow-item').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      ring.style.width = '48px'; ring.style.height = '48px';
-      ring.style.borderColor = 'rgba(245,245,245,0.6)';
-    });
-    el.addEventListener('mouseleave', () => {
-      ring.style.width = '32px'; ring.style.height = '32px';
-      ring.style.borderColor = 'rgba(245,245,245,0.3)';
-    });
-  });
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+document.addEventListener('mousemove',e=>{
+  cur.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+  ring.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+});
+document.querySelectorAll('a,button,.tab,.actor-card,.tc,.layer-row,.flow-item,.nav-arrow').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';ring.style.borderColor='rgba(26,26,24,0.4)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(26,26,24,0.2)';});
+});
 
-  // Tab switching
-  function show(id, el) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    if(el) el.classList.add('active');
-    window.scrollTo({top: document.querySelector('nav').offsetTop - 10, behavior:'smooth'});
-  }
+let current=0;
+const tabs=document.querySelectorAll('.tab');
+const sections=document.querySelectorAll('.section');
+const TOTAL=tabs.length;
 
-  // Copy code
-  function copyCode(btn, id) {
-    const text = document.getElementById(id).textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = 'Copiado';
-      btn.classList.add('copied');
-      setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('copied'); }, 2000);
-    });
-  }
+function show(idx){
+  current=idx;
+  sections.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  tabs.forEach((t,i)=>t.classList.toggle('active',i===idx));
+  const navTop=document.querySelector('nav').getBoundingClientRect().top+window.scrollY;
+  window.scrollTo({top:navTop-10,behavior:'smooth'});
+}
+function navStep(dir){show(Math.max(0,Math.min(TOTAL-1,current+dir)));}
 </script>
 </body>
 </html>

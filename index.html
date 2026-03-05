@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
+<html lang="pt-BR"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Plataforma Digital · Go Route</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+<title>Proposta Digital · Go Route</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&amp;display=swap" rel="stylesheet">
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 :root {
@@ -17,33 +16,31 @@ body{font-family:'Roboto',sans-serif;font-weight:300;background:var(--bg);color:
 #cursor{width:8px;height:8px;background:var(--text);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.12s ease;}
 #cursor-ring{width:32px;height:32px;border:1px solid rgba(26,26,24,0.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.4s ease,width 0.3s,height 0.3s,border-color 0.3s;}
 
-/* COVER */
 .cover{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:60px 60px 80px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:linear-gradient(135deg,#F2F2F0 0%,#EAEAE7 50%,#F2F2F0 100%);}
 .cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:80px 80px;}
 .cover-number{position:absolute;top:60px;right:60px;font-size:11px;font-weight:400;letter-spacing:0.2em;color:var(--light);}
 .cover h1{font-weight:100;font-size:clamp(48px,8vw,110px);line-height:0.95;letter-spacing:-0.03em;position:relative;z-index:1;color:var(--text);margin-top:auto;padding-top:48px;}
 .cover h1 em{font-style:normal;font-weight:300;color:var(--light);}
 .cover-tag{font-size:11px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--light);margin-top:24px;position:relative;z-index:1;}
-.cover-meta{display:flex;gap:60px;position:relative;z-index:1;flex-wrap:wrap;}
+.cover-meta{margin-top:48px;display:flex;gap:60px;position:relative;z-index:1;flex-wrap:wrap;}
 .cover-meta-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:6px;}
 .cover-meta-value{font-size:14px;font-weight:300;color:var(--mid);}
 
-/* NAV */
 nav{position:sticky;top:0;z-index:100;background:rgba(242,242,240,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 60px;display:flex;align-items:center;}
+nav::-webkit-scrollbar{display:none;}
 .nav-arrow{padding:20px 20px;font-size:22px;color:var(--mid);cursor:none;user-select:none;transition:color .2s,transform .15s;flex-shrink:0;font-weight:100;line-height:1;}
 .nav-arrow:hover{color:var(--text);transform:scale(1.2);}
+.nav-arrow:hover{color:var(--text);}
 .nav-tabs{display:flex;flex:1;overflow-x:auto;}
 .nav-tabs::-webkit-scrollbar{display:none;}
 .tab{padding:20px 24px;font-size:11px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);cursor:none;border-bottom:1px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;user-select:none;}
 .tab:hover{color:var(--mid);}
 .tab.active{color:var(--text);border-bottom-color:var(--text);}
 
-/* INTRO */
 .intro{padding:80px 60px;border-bottom:1px solid var(--border);max-width:860px;}
 .intro p{font-size:18px;font-weight:300;line-height:1.85;color:var(--mid);}
 .intro p strong{font-weight:500;color:var(--text);}
 
-/* SECTIONS */
 .section{display:none;}
 .section.active{display:block;}
 .section-head{padding:80px 60px 60px;border-bottom:1px solid var(--border);}
@@ -52,61 +49,69 @@ nav{position:sticky;top:0;z-index:100;background:rgba(242,242,240,0.96);backdrop
 .section-head h2 span{color:var(--light);}
 .section-head p{margin-top:20px;font-size:15px;font-weight:300;color:var(--light);max-width:600px;line-height:1.8;}
 
-/* ACTORS */
-.actors-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);}
-.actor-card{padding:48px 40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .25s;}
-.actor-card:hover{background:var(--bg-dark);}
-.actor-icon{font-size:24px;margin-bottom:20px;opacity:0.7;}
-.actor-name{font-size:13px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text);margin-bottom:16px;}
-.actor-actions{list-style:none;}
-.actor-actions li{font-size:13px;font-weight:300;color:var(--light);padding:6px 0;border-bottom:1px solid rgba(0,0,0,0.06);display:flex;gap:10px;align-items:flex-start;line-height:1.5;}
-.actor-actions li::before{content:'—';color:rgba(0,0,0,0.2);flex-shrink:0;}
+/* VISÃO GERAL */
+.phases-overview{padding:0 60px 80px;}
+.phase-row{border:1px solid var(--border);margin-top:-1px;}
+.phase-row-head{display:grid;grid-template-columns:80px 1fr 140px;align-items:center;padding:0;cursor:none;transition:background .2s;}
+.phase-row-head:hover{background:var(--bg-dark);}
+.phase-row-num{padding:28px 20px;font-size:11px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);border-right:1px solid var(--border);text-align:center;align-self:stretch;display:flex;align-items:center;justify-content:center;}
+.phase-row-main{padding:28px 32px;}
+.phase-row-title{font-size:17px;font-weight:300;color:var(--text);margin-bottom:4px;}
+.phase-row-sub{font-size:12px;font-weight:300;color:var(--light);}
+.phase-row-weeks{padding:28px 24px;border-left:1px solid var(--border);text-align:center;align-self:stretch;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.phase-row-weeks-val{font-size:14px;font-weight:300;color:var(--text);}
+.phase-row-weeks-label{font-size:10px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);margin-top:3px;}
 
-/* LAYERS */
-.layers-wrap{padding:0 60px 80px;}
-.layer-row{border:1px solid var(--border);margin-top:-1px;display:flex;align-items:stretch;transition:background .2s;}
-.layer-row:hover{background:var(--bg-dark);}
-.layer-index{width:60px;flex-shrink:0;border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:300;color:var(--light);letter-spacing:0.1em;}
-.layer-body{padding:32px 40px;flex:1;}
-.layer-title{font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
-.layer-desc{font-size:13px;font-weight:300;color:var(--light);margin-bottom:20px;line-height:1.7;}
-.layer-tools-label{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:10px;opacity:0.6;}
-.layer-tools{display:flex;flex-wrap:wrap;gap:8px;}
-.ltag{font-size:11px;font-weight:400;letter-spacing:0.06em;padding:4px 12px;border:1px solid var(--border);color:var(--mid);transition:border-color .2s;}
-.layer-row:hover .ltag{border-color:rgba(0,0,0,0.2);}
+/* week bar */
+.week-bar-wrap{padding:0 32px 24px;}
+.week-bar{height:3px;background:var(--border);position:relative;margin-bottom:8px;}
+.week-fill{height:100%;background:var(--text);position:absolute;top:0;left:0;}
+.week-labels{display:flex;justify-content:space-between;}
+.week-label{font-size:10px;font-weight:400;letter-spacing:0.1em;color:var(--light);}
 
-/* CONNECTOR */
-.connector-row{border:1px solid var(--border);margin-top:-1px;display:flex;align-items:center;padding:10px 40px 10px 100px;gap:16px;background:var(--bg-mid);}
-.connector-line{flex:1;height:1px;background:var(--border);}
-.connector-label{font-size:10px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);white-space:nowrap;}
-.connector-desc{font-size:12px;font-weight:300;color:var(--light);white-space:nowrap;}
+/* deliverables accordion */
+.phase-deliverables{border-top:1px solid var(--border);padding:32px;display:none;background:var(--bg);}
+.phase-deliverables.open{display:grid;grid-template-columns:1fr 1fr;gap:40px;}
+.del-col h4{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.del-list{list-style:none;}
+.del-list li{font-size:13px;font-weight:300;color:var(--mid);padding:7px 0;border-bottom:1px solid var(--faint);display:flex;gap:10px;line-height:1.5;}
+.del-list li::before{content:'—';color:rgba(0,0,0,0.18);flex-shrink:0;}
+.toggle-btn{font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);padding:8px 16px;border:1px solid var(--border);background:none;cursor:none;transition:all .2s;font-family:'Roboto',sans-serif;margin-top:16px;}
+.toggle-btn:hover{border-color:var(--text);color:var(--text);}
+.phase-row.open .toggle-btn{color:var(--text);border-color:var(--text);}
 
-/* FLOW */
-.flow-wrap{padding:0 60px 80px;max-width:900px;}
-.flow-item{display:grid;grid-template-columns:80px 1fr;min-height:120px;}
-.flow-spine{display:flex;flex-direction:column;align-items:center;padding-top:2px;}
-.flow-dot{width:36px;height:36px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:400;flex-shrink:0;transition:border-color .2s,background .2s;background:var(--bg);}
-.flow-item:hover .flow-dot{border-color:var(--text);background:var(--bg-dark);}
-.flow-spine-line{flex:1;width:1px;background:var(--border);margin:4px 0;}
-.flow-content{padding:0 0 48px 32px;}
-.flow-title{font-size:13px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text);margin-bottom:8px;}
-.flow-desc{font-size:13.5px;font-weight:300;color:var(--light);line-height:1.75;margin-bottom:14px;}
-.flow-tools-label{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:8px;opacity:0.6;}
-.flow-tools{display:flex;flex-wrap:wrap;gap:6px;}
-.ftag{font-size:11px;font-weight:400;letter-spacing:0.06em;padding:3px 10px;border:1px solid var(--border);color:var(--mid);}
+/* INVESTIMENTO & CUSTOS */
+.invest-wrap{padding:0 60px 80px;}
+.invest-block{margin-bottom:60px;}
+.block-title{font-size:10px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--light);margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border);}
 
-/* TECH STACK */
-.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);}
-.tc{padding:40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
-.tc:hover{background:var(--bg-dark);}
-.tc-cat{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:10px;}
-.tc-name{font-size:20px;font-weight:300;color:var(--text);margin-bottom:10px;}
-.tc-role{font-size:13px;font-weight:500;color:var(--mid);margin-bottom:8px;line-height:1.5;}
-.tc-desc{font-size:13px;font-weight:300;color:var(--light);line-height:1.75;}
-.tc-cost{margin-top:18px;font-size:11px;font-weight:400;letter-spacing:0.08em;color:var(--mid);border-top:1px solid var(--border);padding-top:12px;}
-.tc-cost.free{color:var(--light);}
+.invest-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);}
+.invest-card{padding:36px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.invest-card:hover{background:var(--bg-dark);}
+.ic-phase{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:10px;}
+.ic-name{font-size:16px;font-weight:300;color:var(--text);margin-bottom:6px;}
+.ic-weeks{font-size:12px;font-weight:300;color:var(--light);margin-bottom:20px;}
+.ic-value{font-size:32px;font-weight:100;color:var(--text);letter-spacing:-0.02em;line-height:1;}
+.ic-value small{font-size:14px;font-weight:300;}
+.ic-payment{font-size:11px;font-weight:300;color:var(--light);margin-top:10px;padding-top:10px;border-top:1px solid var(--border);}
 
-/* FOOTER */
+.invest-total{border:1px solid var(--text);padding:40px;display:flex;justify-content:space-between;align-items:center;margin-top:-1px;}
+.it-label{font-size:13px;font-weight:400;color:var(--mid);letter-spacing:0.05em;}
+.it-value{font-size:40px;font-weight:100;color:var(--text);letter-spacing:-0.02em;}
+.it-sub{font-size:12px;font-weight:300;color:var(--light);margin-top:4px;}
+
+/* custos table */
+.costs-table{width:100%;border-collapse:collapse;border:1px solid var(--border);}
+.costs-table th{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);padding:16px 24px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg-dark);}
+.costs-table td{padding:16px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6;}
+.costs-table tr:last-child td{border-bottom:none;}
+.costs-table tr:hover td{background:var(--bg-dark);}
+.costs-table td:first-child{font-weight:400;color:var(--text);}
+.phase-dot{display:inline-block;font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--border);color:var(--light);white-space:nowrap;}
+.costs-total-row td{font-weight:500;color:var(--text);background:var(--bg-dark);border-top:2px solid var(--border);}
+.note-box{margin-top:24px;padding:20px 24px;border:1px solid var(--border);font-size:12px;font-weight:300;color:var(--light);line-height:1.7;}
+.note-box strong{font-weight:500;color:var(--mid);}
+
 footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:flex-end;justify-content:space-between;}
 .footer-left p{font-size:11px;font-weight:300;letter-spacing:0.1em;color:var(--light);margin-top:6px;}
 .footer-right{font-size:11px;font-weight:300;letter-spacing:0.1em;color:var(--light);text-align:right;}
@@ -114,531 +119,491 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
 .footer-right a:hover{color:var(--text);}
 
 @media(max-width:768px){
-  .cover,nav,.intro,.section-head,.layers-wrap,.flow-wrap,footer{padding-left:24px;padding-right:24px;}
-  .cover h1{font-size:48px;}.cover-meta{gap:32px;}
-  .tech-grid,.actors-grid{grid-template-columns:1fr;}
+  .cover,nav,.intro,.section-head,.phases-overview,.invest-wrap,footer{padding-left:24px;padding-right:24px;}
+  .cover h1{font-weight:100;font-size:clamp(48px,8vw,110px);line-height:0.95;letter-spacing:-0.03em;position:relative;z-index:1;color:var(--text);margin-top:auto;padding-top:48px;} .cover-meta{flex-wrap:wrap;gap:32px;}
+  .phase-deliverables.open{grid-template-columns:1fr;}
+  .invest-grid{grid-template-columns:1fr;}
+  .invest-total{flex-direction:column;gap:16px;}
+  .phase-row-head{grid-template-columns:60px 1fr;}
+  .phase-row-weeks{display:none;}
   .cover-number{display:none;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .section.active>*{animation:fadeUp 0.35s ease forwards;}
 </style>
-</head>
+<style>
+  .imageye-selected {
+    outline: 2px solid black !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5) !important;
+  }
+</style><meta id="dcngeagmmhegagicpcmpinaoklddcgon"></head>
 <body>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+<div id="cursor" style="transform: translate(8px, 395px) translate(-50%, -50%);"></div>
+<div id="cursor-ring" style="transform: translate(8px, 395px) translate(-50%, -50%); width: 32px; height: 32px; border-color: rgba(26, 26, 24, 0.2);"></div>
 
-<!-- COVER -->
 <div class="cover">
   <div class="cover-grid"></div>
-  <div class="cover-number">Documento técnico · 2026</div>
-  <div class="cover-meta">
+  <div class="cover-number">Proposta Comercial · 2026</div>
+  
+  <h1>Go<em>Route</em><br>Proposta<br><em>Digital</em></h1>
+  
+<div class="cover-tag">Implantação digital progressiva em 6 fases</div><div class="intro">
+  <p>Esta proposta define a <strong>implantação digital progressiva</strong> da plataforma Go Route — do site institucional ao sistema completo de reservas, portal de motoristas e rastreamento em tempo real. A estratégia é <strong>MVP First</strong>: lançar rápido com o essencial, validar com clientes reais e expandir conforme o negócio cresce.</p>
+</div><div class="cover-meta">
     <div><div class="cover-meta-label">Empresa</div><div class="cover-meta-value">Go Route</div></div>
-    <div><div class="cover-meta-label">Diretores</div><div class="cover-meta-value">Diow & Leandro</div></div>
+    <div><div class="cover-meta-label">Diretores</div><div class="cover-meta-value">Diow &amp; Leandro</div></div>
     <div><div class="cover-meta-label">Consultoria</div><div class="cover-meta-value">Arnaud Delecolle</div></div>
-    <div><div class="cover-meta-label">Serviço</div><div class="cover-meta-value">Transfer Premium · Serra Gaúcha</div></div>
-  </div>
-  <h1>Go<em>Route</em><br>Plataforma<br><em>Digital</em></h1>
-  <div class="cover-tag">Arquitetura técnica completa da plataforma</div>
-</div>
+    <div><div class="cover-meta-label">Duração total</div><div class="cover-meta-value">16 semanas · ~4 meses</div></div>
+  </div></div>
 
-<!-- NAV -->
 <nav>
-  <div class="nav-arrow" onclick="navStep(-1)">&#8249;</div>
+  <div class="nav-arrow" onclick="navStep(-1)">‹</div>
   <div class="nav-tabs">
-    <div class="tab active" onclick="show(0)">01 · Atores</div>
-    <div class="tab" onclick="show(1)">02 · Camadas</div>
-    <div class="tab" onclick="show(2)">03 · Reserva</div>
-    <div class="tab" onclick="show(3)">04 · Viagem</div>
-    <div class="tab" onclick="show(4)">05 · Tech Stack</div>
+    <div class="tab" onclick="show(0)">01 · Visão Geral &amp; Cronograma</div>
+    <div class="tab active" onclick="show(1)">02 · Investimento &amp; Custos</div>
   </div>
-  <div class="nav-arrow" onclick="navStep(1)">&#8250;</div>
+  <div class="nav-arrow" onclick="navStep(1)">›</div>
 </nav>
 
-<!-- INTRO -->
-<div class="intro">
-  <p>Este documento apresenta a <strong>arquitetura técnica completa</strong> da plataforma digital Go Route — do site institucional ao portal de motoristas, sistema de reservas e rastreamento em tempo real. A implantação é <strong>progressiva em 6 fases</strong>, começando pelo essencial e expandindo conforme o negócio cresce.</p>
-</div>
 
-<!-- ══ 01 · ATORES ══ -->
-<div id="s0" class="section active">
+
+<!-- ══ SEÇÃO 01 — VISÃO GERAL & CRONOGRAMA ══ -->
+<div id="s0" class="section">
   <div class="section-head">
-    <div class="section-index">Diagrama 01 · 05</div>
-    <h2>Quem interage<br><span>com a plataforma</span></h2>
-    <p>As seis partes que interagem com o sistema — o que cada uma faz e o que espera da plataforma.</p>
+    <div class="section-index">Seção 01 · 02</div>
+    <h2>Visão geral<br><span>&amp; cronograma</span></h2>
+    <p>As 6 fases da plataforma Go Route com semanas consecutivas de execução. Clique em cada fase para ver os entregáveis detalhados.</p>
   </div>
-  <div class="actors-grid">
-    <div class="actor-card">
-      <div class="actor-icon">🧳</div>
-      <div class="actor-name">Cliente Final</div>
-      <ul class="actor-actions">
-        <li>Pesquisa o serviço no Google</li>
-        <li>Acessa o site pelo celular</li>
-        <li>Solicita cotação ou faz reserva online</li>
-        <li>Paga via Pix ou cartão</li>
-        <li>Acompanha o motorista no mapa em tempo real</li>
-        <li>Consulta clima e eventos da Serra Gaúcha</li>
-        <li>Acessa o chatbot ou entra em contato</li>
-        <li>Avalia a viagem no Google</li>
-      </ul>
-    </div>
-    <div class="actor-card">
-      <div class="actor-icon">🚗</div>
-      <div class="actor-name">Motorista Parceiro</div>
-      <ul class="actor-actions">
-        <li>Recebe notificação de nova corrida</li>
-        <li>Aceita ou recusa pelo portal</li>
-        <li>Ativa o GPS ao iniciar a viagem via PWA (Progressive Web App — aplicativo instalável direto pelo navegador, sem App Store)</li>
-        <li>Atualiza o status da viagem em tempo real</li>
-        <li>Consulta ganhos e repasses</li>
-        <li>Mantém documentos atualizados no portal</li>
-      </ul>
-    </div>
-    <div class="actor-card">
-      <div class="actor-icon">🏢</div>
-      <div class="actor-name">Diow & Leandro · Operação</div>
-      <ul class="actor-actions">
-        <li>Monitoram reservas e operações em tempo real</li>
-        <li>Alocam motoristas manualmente quando necessário</li>
-        <li>Gerenciam cadastro de motoristas parceiros</li>
-        <li>Acessam relatórios financeiros e repasses</li>
-        <li>Publicam eventos e conteúdo pelo CMS</li>
-        <li>Respondem avaliações no Google</li>
-      </ul>
-    </div>
-    <div class="actor-card">
-      <div class="actor-icon">🏨</div>
-      <div class="actor-name">Hotel Parceiro</div>
-      <ul class="actor-actions">
-        <li>Indica clientes via link rastreável</li>
-        <li>Recebe comissão automática por conversão</li>
-        <li>Acessa relatório de indicações e resultados</li>
-      </ul>
-    </div>
-    <div class="actor-card">
-      <div class="actor-icon">⚙️</div>
-      <div class="actor-name">Sistema Automático</div>
-      <ul class="actor-actions">
-        <li>Confirma reservas por WhatsApp e e-mail</li>
-        <li>Envia lembretes 24h antes da viagem</li>
-        <li>Monitora horários de voos em tempo real</li>
-        <li>Distribui corridas para motoristas disponíveis</li>
-        <li>Dispara pedido de avaliação após a viagem</li>
-        <li>Calcula e registra repasses automaticamente</li>
-      </ul>
-    </div>
-    <div class="actor-card">
-      <div class="actor-icon">🌐</div>
-      <div class="actor-name">Google · Meta · Instagram</div>
-      <ul class="actor-actions">
-        <li>Indexa o site no Google Search</li>
-        <li>Exibe o Google Business Profile no Maps</li>
-        <li>Coleta dados do Pixel para campanhas futuras</li>
-        <li>Mede comportamento dos visitantes via Analytics</li>
-      </ul>
-    </div>
-  </div>
-</div>
+  <div class="phases-overview">
 
-<!-- ══ 02 · CAMADAS ══ -->
-<div id="s1" class="section">
-  <div class="section-head">
-    <div class="section-index">Diagrama 02 · 05</div>
-    <h2>As camadas<br><span>da plataforma</span></h2>
-    <p>A plataforma funciona em cinco camadas empilhadas — cada uma com uma responsabilidade distinta. Os dados e pedidos fluem de cima para baixo; as respostas sobem de volta.</p>
-  </div>
-  <div class="layers-wrap">
-
-    <div class="layer-row">
-      <div class="layer-index">01</div>
-      <div class="layer-body">
-        <div class="layer-title">Usuário — Navegador & Celular</div>
-        <div class="layer-desc">Clientes, motoristas e Diow & Leandro acessam tudo pelo navegador do celular ou computador — sem instalar nenhum aplicativo. O PWA permite adicionar o portal à tela inicial como se fosse um app nativo.</div>
-        <div class="layer-tools-label">Canais de acesso</div>
-        <div class="layer-tools">
-          <span class="ltag">Chrome · Safari</span>
-          <span class="ltag">PWA instalável</span>
-          <span class="ltag">WhatsApp</span>
-          <span class="ltag">E-mail</span>
-          <span class="ltag">Instagram — link na bio</span>
+    <!-- FASE 1 -->
+    <div class="phase-row" id="pr1">
+      <div class="phase-row-head" onclick="togglePhase('pr1')">
+        <div class="phase-row-num">01</div>
+        <div class="phase-row-main">
+          <div class="phase-row-title">Presença Digital</div>
+          <div class="phase-row-sub">Site institucional + WhatsApp como canal de reservas</div>
+          <div class="week-bar-wrap" style="padding:16px 0 0;">
+            <div class="week-bar"><div class="week-fill" style="width:35%"></div></div>
+            
+          </div>
+          <button class="toggle-btn">Ver entregáveis</button>
+        </div>
+        <div class="phase-row-weeks">
+          
+          <div class="phase-row-weeks-label">6 semanas</div><div class="phase-row-weeks-val">S1 – S6</div>
+        </div>
+      </div>
+      <div class="phase-deliverables" id="pr1-del">
+        <div class="del-col">
+          <h4>Entregáveis</h4>
+          <ul class="del-list">
+            <li>Home com proposta de valor, fotos dos veículos e botão WhatsApp em destaque</li>
+            <li>Página de serviços com categorias, capacidade e o que está incluído</li>
+            <li>Página de rota e destinos — POA → Gramado / Canela / Bento Gonçalves</li>
+            <li>Galeria de fotos profissionais dos veículos</li>
+            <li>Formulário de cotação que monta mensagem pré-formatada no WhatsApp</li>
+            <li>Botão flutuante de WhatsApp em todas as páginas</li>
+            <li>SEO on-page: title, meta description, H1/H2, sitemap</li>
+            <li>Google Analytics 4 + Meta Pixel + Search Console</li>
+            <li>Feed automático do Instagram no rodapé</li>
+            <li>Configuração de e-mail profissional @goroutetransfer.com.br</li>
+            <li>Treinamento de Diow &amp; Leandro para editar conteúdo no CMS</li>
+          </ul>
+        </div>
+        <div class="del-col">
+          <h4>Marco de conclusão</h4>
+          <ul class="del-list">
+            <li>Site ao ar e funcionando no celular</li>
+            <li>Google Business Profile verificado</li>
+            <li>Primeiras reservas chegando via WhatsApp</li>
+          </ul>
+          <h4 style="margin-top:24px">Critério para avançar para Fase 2</h4>
+          <ul class="del-list">
+            
+            <li>CNPJ ativo e conta bancária PJ disponível</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <div class="connector-row">
-      <div class="connector-line"></div>
-      <div class="connector-label">O usuário envia um pedido</div>
-      <div class="connector-line"></div>
-    </div>
-
-    <div class="layer-row">
-      <div class="layer-index">02</div>
-      <div class="layer-body">
-        <div class="layer-title">Frontend — Interface Visual</div>
-        <div class="layer-desc">Tudo que o usuário vê e clica. Desenvolvido em Next.js — código real, não uma plataforma como Wix ou Squarespace. Publicado na Vercel com atualização automática a cada nova versão. A Cloudflare protege contra ataques e acelera o carregamento em qualquer lugar do Brasil.</div>
-        <div class="layer-tools-label">Ferramentas</div>
-        <div class="layer-tools">
-          <span class="ltag">Next.js — estrutura do site</span>
-          <span class="ltag">React — componentes visuais</span>
-          <span class="ltag">Vercel — publicação automática</span>
-          <span class="ltag">Cloudflare — proteção e velocidade</span>
-          <span class="ltag">Sanity CMS — edição de conteúdo</span>
-          <span class="ltag">Google Maps — mapa de rastreamento</span>
-          <span class="ltag">Tidio — chatbot</span>
+    <!-- FASE 2 -->
+    <div class="phase-row" id="pr2">
+      <div class="phase-row-head" onclick="togglePhase('pr2')">
+        <div class="phase-row-num">02</div>
+        <div class="phase-row-main">
+          <div class="phase-row-title">Reservas Online</div>
+          <div class="phase-row-sub">Agendamento + pagamento + confirmações automáticas</div>
+          <div class="week-bar-wrap" style="padding:16px 0 0;">
+            <div class="week-bar"><div class="week-fill" style="width:62.5%;"></div></div>
+            
+          </div>
+          <button class="toggle-btn">Ver entregáveis</button>
+        </div>
+        <div class="phase-row-weeks">
+          <div class="phase-row-weeks-label">4 semanas</div><div class="phase-row-weeks-val">S7 – S10</div>
+          
+        </div>
+      </div>
+      <div class="phase-deliverables" id="pr2-del">
+        <div class="del-col">
+          <h4>Entregáveis</h4>
+          <ul class="del-list">
+            <li>Calendário interativo de disponibilidade por rota e veículo</li>
+            <li>Integração com número de voo — horário real automático via API</li>
+            <li>Seletor de veículo com fotos, capacidade e preço calculado em tempo real</li>
+            <li>Checkout completo com resumo da reserva</li>
+            <li>Pagamento via Pix (0% taxa) e cartão (3,49%)</li>
+            <li>Confirmação automática por WhatsApp + e-mail HTML</li>
+            <li>Lembrete automático 24h antes da viagem</li>
+            <li>Notificação automática ao motorista parceiro</li>
+            <li>Painel admin básico: lista de reservas, status, dados do cliente</li>
+          </ul>
+        </div>
+        <div class="del-col">
+          <h4>Marco de conclusão</h4>
+          <ul class="del-list">
+            <li>Primeiras reservas pagas online sem intervenção manual</li>
+            <li>Confirmações automáticas por WhatsApp e e-mail funcionando</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <div class="connector-row">
-      <div class="connector-line"></div>
-      <div class="connector-label">O frontend consulta e salva dados no backend</div>
-      <div class="connector-line"></div>
-    </div>
-
-    <div class="layer-row">
-      <div class="layer-index">03</div>
-      <div class="layer-body">
-        <div class="layer-title">Backend — Cérebro da Operação</div>
-        <div class="layer-desc">Onde todos os dados vivem e as regras de negócio acontecem. O Supabase concentra o banco de dados, os logins, o armazenamento de documentos e a transmissão do GPS em tempo real — tudo em um único serviço confiável e seguro.</div>
-        <div class="layer-tools-label">Ferramentas</div>
-        <div class="layer-tools">
-          <span class="ltag">Supabase — banco de dados central</span>
-          <span class="ltag">Autenticação — login seguro por perfil</span>
-          <span class="ltag">Realtime — transmissão GPS ao vivo</span>
-          <span class="ltag">Storage — documentos dos motoristas</span>
-          <span class="ltag">Edge Functions — lógica automatizada</span>
+    <!-- FASE 3 -->
+    <div class="phase-row" id="pr3">
+      <div class="phase-row-head" onclick="togglePhase('pr3')">
+        <div class="phase-row-num">03</div>
+        <div class="phase-row-main">
+          <div class="phase-row-title">Motoristas, Admin &amp; Experiência</div>
+          <div class="phase-row-sub">Portal do motorista · painel admin · GPS ao vivo · rastreamento · chatbot</div>
+          <div class="week-bar-wrap" style="padding:16px 0 0;">
+            <div class="week-bar"><div class="week-fill" style="width:81.25%;"></div></div>
+            
+          </div>
+          <button class="toggle-btn">Ver entregáveis</button>
+        </div>
+        <div class="phase-row-weeks">
+          <div class="phase-row-weeks-label">3 semanas</div><div class="phase-row-weeks-val">S11 – S13</div>
+          
+        </div>
+      </div>
+      <div class="phase-deliverables" id="pr3-del">
+        <div class="del-col">
+          <h4>Portal do Motorista</h4>
+          <ul class="del-list">
+            <li>Login seguro — cada motorista tem sua própria conta</li>
+            <li>Dashboard com corridas do dia, semana e histórico</li>
+            <li>Aceite ou recusa de corrida com prazo configurável</li>
+            <li>Botões "Iniciar" e "Concluir" viagem em tempo real</li>
+            <li>Histórico de ganhos: bruto, desconto, líquido</li>
+            <li>Calendário de disponibilidade semanal</li>
+            <li>Upload de documentos com controle de vencimento</li>
+          </ul>
+        </div>
+        <div class="del-col">
+          <h4>Painel Admin — Diow &amp; Leandro</h4>
+          <ul class="del-list">
+            <li>Dashboard em tempo real: reservas, motoristas em rota, faturamento</li>
+            <li>Gestão de reservas: criar, editar, cancelar, realocar</li>
+            <li>Gestão de motoristas: cadastro, homologação, ranking</li>
+            <li>Cálculo automático de repasses por categoria</li>
+            <li>Relatório financeiro exportável em Excel</li>
+            <li>Histórico de avaliações por motorista</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <div class="connector-row">
-      <div class="connector-line"></div>
-      <div class="connector-label">O backend aciona serviços externos conforme necessário</div>
-      <div class="connector-line"></div>
-    </div>
-
-    <div class="layer-row">
-      <div class="layer-index">04</div>
-      <div class="layer-body">
-        <div class="layer-title">Serviços Externos — Pagamentos · Comunicações · Dados</div>
-        <div class="layer-desc">Serviços especializados acionados pelo backend conforme necessário. Cada serviço efetua sua função muito bem — pagamentos, mensagens automáticas, consulta de voos, clima e mapas são responsabilidades de fornecedores dedicados a cada uma dessas áreas.</div>
-        <div class="layer-tools-label">Ferramentas</div>
-        <div class="layer-tools">
-          <span class="ltag">Mercado Pago — Pix e cartão</span>
-          <span class="ltag">Z-API — WhatsApp automático</span>
-          <span class="ltag">Resend — e-mails automáticos</span>
-          <span class="ltag">AviationStack — horários de voos</span>
-          <span class="ltag">OpenWeatherMap — previsão do tempo</span>
-          <span class="ltag">Google Maps API — GPS e rotas</span>
+    <!-- FASE 4 -->
+    <div class="phase-row" id="pr4">
+      <div class="phase-row-head" onclick="togglePhase('pr4')">
+        <div class="phase-row-num">04</div>
+        <div class="phase-row-main">
+          <div class="phase-row-title" style="color:var(--light);font-size:15px">Fase 4 incorporada à Fase 3</div>
+          <div class="phase-row-sub">GPS, rastreamento, clima, eventos e chatbot desenvolvidos em paralelo</div>
+          <div class="week-bar-wrap" style="padding:16px 0 0;">
+            <div class="week-bar"><div class="week-fill" style="width:100%;"></div></div>
+            
+          </div>
+          <button class="toggle-btn">Ver entregáveis</button>
+        </div>
+        <div class="phase-row-weeks">
+          
+          <div class="phase-row-weeks-label">3 SEMANAS</div><div class="phase-row-weeks-val">S14 — S16</div>
+        </div>
+      </div>
+      <div class="phase-deliverables" id="pr4-del">
+        <div class="del-col">
+          <h4>Entregáveis</h4>
+          <ul class="del-list">
+            <li>Mapa GPS ao vivo atualizado a cada 15–30 segundos</li>
+            <li>ETA dinâmico atualizado em tempo real</li>
+            <li>Link público de rastreamento enviado por WhatsApp ao iniciar viagem</li>
+            <li>Notificações de status: A caminho → Embarcando → Em rota → Chegando</li>
+            <li>PWA (Progressive Web App) instalável no celular do motorista</li>
+            <li>Previsão do tempo para o destino integrada à confirmação de reserva</li>
+            <li>Agenda de eventos da Serra Gaúcha com filtros por cidade e tipo</li>
+            <li>Chatbot no site com fluxo de qualificação e redirecionamento ao WhatsApp</li>
+          </ul>
+        </div>
+        <div class="del-col">
+          <h4>Marco de conclusão</h4>
+          <ul class="del-list">
+            <li>Plataforma completa ao ar — todas as funcionalidades operacionais</li>
+            <li>Nenhum operador de transfer na rota POA–Gramado oferece este conjunto</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <div class="connector-row">
-      <div class="connector-line"></div>
-      <div class="connector-label">Ferramentas de marketing rastreiam e atraem visitantes</div>
-      <div class="connector-line"></div>
-    </div>
-
-    <div class="layer-row">
-      <div class="layer-index">05</div>
-      <div class="layer-body">
-        <div class="layer-title">Marketing & Visibilidade</div>
-        <div class="layer-desc">Ferramentas invisíveis para o usuário, essenciais para o crescimento da Go Route. Rastreiam o comportamento dos visitantes, atraem tráfego orgânico pelo Google e preparam a base para campanhas pagas no Instagram e Facebook.</div>
-        <div class="layer-tools-label">Ferramentas</div>
-        <div class="layer-tools">
-          <span class="ltag">Google Analytics 4 — comportamento dos visitantes</span>
-          <span class="ltag">Search Console — desempenho no Google</span>
-          <span class="ltag">Google Business Profile — presença no Maps</span>
-          <span class="ltag">Meta Pixel — base para anúncios futuros</span>
-          <span class="ltag">Instagram Feed — conteúdo integrado ao site</span>
+    <!-- FASE 5 -->
+    <div class="phase-row" id="pr5">
+      <div class="phase-row-head" onclick="togglePhase('pr5')">
+        <div class="phase-row-num">05</div>
+        <div class="phase-row-main">
+          <div class="phase-row-title">Marketing &amp; SEO</div>
+          <div class="phase-row-sub">Crescimento orgânico contínuo — retainer mensal a partir da Semana 17</div>
+          
+          <button class="toggle-btn">Ver entregáveis</button>
+        </div>
+        <div class="phase-row-weeks">
+          <div class="phase-row-weeks-val">S17+</div>
+          <div class="phase-row-weeks-label">Contínuo</div>
+        </div>
+      </div>
+      <div class="phase-deliverables" id="pr5-del">
+        <div class="del-col">
+          <h4>Plano Essencial — R$ 1.000/mês</h4>
+          <ul class="del-list">
+            <li>2 artigos por mês otimizados para SEO no blog da Go Route</li>
+            <li>Gestão e otimização com Google Search Console</li>
+            <li>Gestão e resposta de avaliações no Google Business Profile</li>
+            <li>Relatório mensal de performance</li>
+          </ul>
+        </div>
+        <div class="del-col">
+          <h4>Plano Completo — R$ 1.800/mês</h4>
+          <ul class="del-list">
+            <li>4 artigos por mês + calendário editorial trimestral</li>
+            <li>Automações de e-mail pós-viagem e reativação de clientes</li>
+            <li>Notificações sazonais: Natal Luz, Festival de Cinema, Festa da Uva</li>
+            <li>Posts semanais no Google Business com eventos da Serra</li>
+            <li>Suporte técnico mensal incluso</li>
+            <li>Relatório completo com GA4 + Search Console</li>
+          </ul>
         </div>
       </div>
     </div>
 
-  </div>
-</div>
-
-<!-- ══ 03 · RESERVA ══ -->
-<div id="s2" class="section">
-  <div class="section-head">
-    <div class="section-index">Diagrama 03 · 05</div>
-    <h2>Do clique<br><span>à confirmação</span></h2>
-    <p>O que acontece nos bastidores desde o momento em que o cliente encontra a Go Route no Google até a confirmação chegar no WhatsApp — tudo automático, sem intervenção manual.</p>
-  </div>
-  <div class="flow-wrap">
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">01</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Cliente encontra a Go Route</div>
-        <div class="flow-desc">Pesquisa "transfer gramado aeroporto" no Google → site aparece nos resultados orgânicos e no Google Business Profile → acessa pelo celular.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Google Search</span><span class="ftag">SEO — Next.js</span><span class="ftag">Google Business Profile</span></div>
+    <!-- FASE 6 -->
+    <div class="phase-row" id="pr6">
+      <div class="phase-row-head" onclick="togglePhase('pr6')">
+        <div class="phase-row-num">06</div>
+        <div class="phase-row-main">
+          <div class="phase-row-title">Escala &amp; Inteligência</div>
+          <div class="phase-row-sub">BI · CRM · chatbot com IA · NFS-e automático — a partir do mês 12</div>
+          
+          <button class="toggle-btn">Ver entregáveis</button>
+        </div>
+        <div class="phase-row-weeks">
+          <div class="phase-row-weeks-val">Mês 12+</div>
+          <div class="phase-row-weeks-label">A definir</div>
+        </div>
       </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">02</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Preenche o formulário de reserva</div>
-        <div class="flow-desc">Seleciona rota, data e veículo. Informa o número do voo → o sistema consulta automaticamente o horário real da companhia aérea. Se o voo atrasar depois, a plataforma já sabe e o motorista é notificado.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Site Next.js</span><span class="ftag">AviationStack — horário real do voo</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">03</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Pagamento via Pix ou Cartão</div>
-        <div class="flow-desc">Checkout com resumo completo da reserva. Pix: confirmação em segundos, sem taxa. Cartão: processado com segurança pelo Mercado Pago (3,49% por transação). O valor entra diretamente na conta PJ da Go Route.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Mercado Pago</span><span class="ftag">Pix — 0% de taxa</span><span class="ftag">Cartão — 3,49%</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">04</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Sistema registra a reserva automaticamente</div>
-        <div class="flow-desc">O Mercado Pago notifica o sistema instantaneamente ao confirmar o pagamento. O Supabase registra a reserva e dispara todas as próximas ações em cascata — sem que Diow ou Leandro precisem fazer nada.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Mercado Pago — notificação de pagamento</span><span class="ftag">Supabase — banco de dados</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">05</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Confirmação automática para o cliente</div>
-        <div class="flow-desc">Simultaneamente: WhatsApp com todos os detalhes da viagem + e-mail com resumo, endereço de embarque e previsão do tempo para o dia em Gramado. O cliente recebe tudo em segundos.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Z-API — WhatsApp automático</span><span class="ftag">Resend — e-mail automático</span><span class="ftag">OpenWeatherMap — clima</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">06</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Motorista recebe e aceita a corrida</div>
-        <div class="flow-desc">O sistema notifica o motorista disponível por WhatsApp e pelo portal. Ele tem 30 minutos para aceitar. Se recusar, o próximo motorista da lista é notificado automaticamente.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Portal do motorista</span><span class="ftag">Z-API — WhatsApp</span><span class="ftag">Supabase — gestão de disponibilidade</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">07</div></div>
-      <div class="flow-content">
-        <div class="flow-title">Lembrete automático 24h antes</div>
-        <div class="flow-desc">No dia anterior à viagem, o sistema envia automaticamente um WhatsApp ao cliente com todos os detalhes e o contato do motorista. Nenhuma ação necessária de Diow ou Leandro.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Supabase — agendamento automático</span><span class="ftag">Z-API — WhatsApp</span></div>
+      <div class="phase-deliverables" id="pr6-del">
+        <div class="del-col">
+          <h4>Entregáveis</h4>
+          <ul class="del-list">
+            <li>Dashboard de BI com métricas avançadas por período</li>
+            <li>CRM para gestão de clientes corporativos</li>
+            <li>Programa de fidelidade com pontos e descontos</li>
+            <li>Chatbot com inteligência artificial para atendimento autônomo</li>
+            <li>Emissão automática de notas fiscais (NFS-e)</li>
+            <li>Painel de parceiros hoteleiros com comissões rastreáveis</li>
+          </ul>
+        </div>
+        <div class="del-col">
+          <h4>Critério para iniciar</h4>
+          <ul class="del-list">
+            <li>Mais de 100 reservas por mês de forma consistente</li>
+            <li>15 ou mais motoristas parceiros ativos</li>
+            <li>Volume mensal de vendas superior a R$ 50.000</li>
+          </ul>
+        </div>
       </div>
     </div>
 
   </div>
 </div>
 
-<!-- ══ 04 · VIAGEM ══ -->
-<div id="s3" class="section">
+<!-- ══ SEÇÃO 02 — INVESTIMENTO & CUSTOS ══ -->
+<div id="s1" class="section active">
   <div class="section-head">
-    <div class="section-index">Diagrama 04 · 05</div>
-    <h2>O dia<br><span>da viagem</span></h2>
-    <p>Do motorista partir para buscar o cliente até a avaliação ser solicitada 2 horas após a chegada em Gramado.</p>
+    <div class="section-index">Seção 02 · 02</div>
+    <h2>Investimento<br><span>&amp; custos associados</span></h2>
+    <p>Os investimentos são os honorários de desenvolvimento cobrados por fase. Os custos associados são os serviços de infraestrutura contratados diretamente pela Go Route.</p>
   </div>
-  <div class="flow-wrap">
+  <div class="invest-wrap">
 
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">01</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Motorista inicia a viagem pelo portal</div>
-        <div class="flow-desc">Acessa o PWA (Progressive Web App — instalável pelo navegador, sem App Store) pelo celular. Confere os detalhes: nome do cliente, terminal de chegada, placa de identificação. Aperta "Iniciar viagem".</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">PWA — portal do motorista</span><span class="ftag">Supabase — autenticação e dados</span></div>
+    <!-- INVESTIMENTOS -->
+    <div class="invest-block">
+      <div class="block-title">Investimentos — honorários de desenvolvimento</div>
+      <div class="invest-grid">
+        <div class="invest-card">
+          <div class="ic-phase">Fase 01</div>
+          <div class="ic-name">Presença Digital</div>
+          <div class="ic-weeks">Semanas 1–6</div>
+          <div class="ic-value">R$ 5.000</div>
+          <div class="ic-payment">50% na assinatura · 50% na entrega</div>
+        </div>
+        <div class="invest-card">
+          <div class="ic-phase">Fase 02</div>
+          <div class="ic-name">Reservas Online</div>
+          <div class="ic-weeks">Semanas 7–10</div>
+          <div class="ic-value">R$ 2.500</div>
+          <div class="ic-payment">50% início · 50% na entrega</div>
+        </div>
+        <div class="invest-card">
+          <div class="ic-phase">Fase 03</div>
+          <div class="ic-name">Motoristas &amp; Admin</div>
+          <div class="ic-weeks">Semanas 11–13</div>
+          <div class="ic-value">R$ 2.500</div>
+          <div class="ic-payment">50% início · 50% na entrega</div>
+        </div>
+        <div class="invest-card">
+          <div class="ic-phase">Fase 04</div>
+          <div class="ic-name">Experiência do Cliente</div>
+          <div class="ic-weeks">Semanas 14–16</div>
+          <div class="ic-value">R$ 2.500</div>
+          <div class="ic-payment">50% início · 50% na entrega</div>
+        </div>
+        
+        
       </div>
+      <div class="invest-total">
+        <div>
+          <div class="it-label">Total Fases 1–4</div>
+          <div class="it-sub">Plataforma completa · ~16 semanas de desenvolvimento</div>
+        </div>
+        <div class="it-value">R$ 12.500</div>
+      </div><div class="invest-grid">
+        
+        
+        
+        
+        
+        
+      <div class="invest-card">
+          <div class="ic-phase">Fase 05</div>
+          <div class="ic-name">Marketing &amp; SEO</div>
+          <div class="ic-weeks">Semana 17 em diante</div>
+          <div class="ic-value">R$ 1.000<small> – 1.800/mês</small></div>
+          <div class="ic-payment">Retainer mensal adiantado · mínimo 6 meses</div>
+        </div><div class="invest-card">
+          <div class="ic-phase">Fase 06</div>
+          <div class="ic-name">Escala &amp; Inteligência</div>
+          <div class="ic-weeks">A partir do mês 12</div>
+          <div class="ic-value">A definir</div>
+          <div class="ic-payment">Escopo e valor definidos no início da fase</div>
+        </div></div>
     </div>
 
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">02</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">GPS começa a transmitir em tempo real</div>
-        <div class="flow-desc">O celular do motorista passa a enviar a posição GPS a cada 15–30 segundos para o sistema. Funciona como um canal de transmissão ao vivo — qualquer navegador conectado ao link recebe a posição instantaneamente, sem atraso.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">GPS do celular — posição em tempo real</span><span class="ftag">Supabase Realtime — transmissão ao vivo</span></div>
+    <!-- CUSTOS ASSOCIADOS -->
+    <div class="invest-block">
+      <div class="block-title">Custos associados — infraestrutura contratada pela Go Route</div>
+      <table class="costs-table">
+        <thead>
+          <tr>
+            <th>Serviço</th>
+            <th>Fornecedor</th>
+            <th>Custo</th>
+            <th>Começa a pagar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Domínio .com.br</td>
+            <td>Registro.br</td>
+            <td>R$ 40–60 / ano</td>
+            <td><span class="phase-dot">Fase 1 · Semana 1</span></td>
+          </tr>
+          <tr>
+            <td>E-mail profissional @goroutetransfer.com.br</td>
+            <td>Google Workspace</td>
+            <td>R$ 34 / usuário / mês</td>
+            <td><span class="phase-dot">Fase 1 · Semana 1</span></td>
+          </tr>
+          <tr>
+            <td>Hospedagem do site</td>
+            <td>Vercel</td>
+            <td>Gratuito</td>
+            <td><span class="phase-dot">Fase 1</span></td>
+          </tr>
+          <tr>
+            <td>Proteção e aceleração do site</td>
+            <td>Cloudflare</td>
+            <td>Gratuito</td>
+            <td><span class="phase-dot">Fase 1</span></td>
+          </tr>
+          <tr>
+            <td>Feed Instagram no site (opcional)</td>
+            <td>Elfsight</td>
+            <td>R$ 19–29 / mês</td>
+            <td><span class="phase-dot">Fase 1 · Opcional</span></td>
+          </tr>
+          <tr>
+            <td>WhatsApp automatizado — confirmações e lembretes</td>
+            <td>Z-API</td>
+            <td>R$ 99–149 / mês</td>
+            <td><span class="phase-dot">Fase 2 · Semana 5</span></td>
+          </tr>
+          <tr>
+            <td>Gateway de pagamento — Pix</td>
+            <td>Mercado Pago</td>
+            <td>0% por transação</td>
+            <td><span class="phase-dot">Fase 2 · Semana 5</span></td>
+          </tr>
+          <tr>
+            <td>Gateway de pagamento — Cartão</td>
+            <td>Mercado Pago</td>
+            <td>3,49% por transação</td>
+            <td><span class="phase-dot">Fase 2 · Semana 5</span></td>
+          </tr>
+          <tr>
+            <td>Banco de dados e sistema de autenticação</td>
+            <td>Supabase</td>
+            <td>Gratuito → R$ 100/mês</td>
+            <td><span class="phase-dot">Gratuito até Fase 3</span></td>
+          </tr>
+          <tr>
+            <td>Mapas e rastreamento GPS ao vivo</td>
+            <td>Google Maps API</td>
+            <td>Gratuito no volume inicial</td>
+            <td><span class="phase-dot">Fase 4 · Semana 18</span></td>
+          </tr>
+          <tr>
+            <td>Previsão do tempo</td>
+            <td>OpenWeatherMap</td>
+            <td>Gratuito</td>
+            <td><span class="phase-dot">Fase 4 · Semana 18</span></td>
+          </tr>
+          <tr>
+            <td>Chatbot no site</td>
+            <td>Tidio ou Crisp</td>
+            <td>Gratuito</td>
+            <td><span class="phase-dot">Fase 4 · Semana 18</span></td>
+          </tr>
+          <tr class="costs-total-row">
+            <td colspan="2">Total mensal após Fase 4 completa</td>
+            <td>R$ 320–480 / mês</td>
+            <td>A partir da Semana 22</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="note-box">
+        <strong>Importante:</strong> Os custos associados são contratos diretos da Go Route com cada fornecedor — não passam pela consultoria. O Supabase começa gratuito e migra para o plano pago (~R$ 100/mês) apenas na Fase 3, quando o portal de motoristas é ativado. As taxas do Mercado Pago são variáveis sobre as vendas — quanto mais a Go Route vende, mais cresce, mas o custo fixo de infraestrutura permanece estável.
       </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">03</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Cliente recebe link de rastreamento</div>
-        <div class="flow-desc">O sistema envia automaticamente por WhatsApp um link público — por exemplo, goroutetransfer.com.br/track/ABC123. Qualquer pessoa com o link consegue ver o mapa ao vivo: cliente, família, quem estiver esperando. Sem criar conta, sem instalar nada.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Z-API — WhatsApp automático</span><span class="ftag">Link público sem login</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">04</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Mapa ao vivo no celular do cliente</div>
-        <div class="flow-desc">O ícone do carro se move no mapa em tempo real. O tempo estimado de chegada é atualizado continuamente. A página não precisa ser recarregada — a posição chega sozinha pelo canal de transmissão ao vivo.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Google Maps — mapa interativo</span><span class="ftag">Supabase Realtime — posição ao vivo</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">05</div><div class="flow-spine-line"></div></div>
-      <div class="flow-content">
-        <div class="flow-title">Motorista conclui a viagem</div>
-        <div class="flow-desc">Aperta "Concluir viagem" no portal. O sistema registra o horário de chegada e calcula automaticamente o repasse conforme a categoria do veículo — sem planilha, sem cálculo manual.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Portal do motorista</span><span class="ftag">Supabase — cálculo e registro de repasse</span></div>
-      </div>
-    </div>
-
-    <div class="flow-item">
-      <div class="flow-spine"><div class="flow-dot">06</div></div>
-      <div class="flow-content">
-        <div class="flow-title">Pedido de avaliação automático</div>
-        <div class="flow-desc">2 horas após a conclusão, o sistema envia um WhatsApp ao cliente pedindo avaliação no Google Maps. Avaliações no Google são o principal fator de visibilidade local e são citadas diretamente por IAs como ChatGPT e Gemini quando alguém pesquisa transfer em Gramado.</div>
-        <div class="flow-tools-label">Ferramentas envolvidas</div>
-        <div class="flow-tools"><span class="ftag">Z-API — WhatsApp automático</span><span class="ftag">Google Business Profile</span></div>
-      </div>
-    </div>
-
-  </div>
-</div>
-
-<!-- ══ 05 · TECH STACK ══ -->
-<div id="s4" class="section">
-  <div class="section-head">
-    <div class="section-index">Diagrama 05 · 05</div>
-    <h2>Tech stack<br><span>completo</span></h2>
-    <p>Cada ferramenta da plataforma — o papel que desempenha para a Go Route, como funciona e quanto custa por mês.</p>
-  </div>
-  <div class="tech-grid">
-
-    <div class="tc">
-      <div class="tc-cat">Frontend</div>
-      <div class="tc-name">Next.js + React</div>
-      <div class="tc-role">Constrói e serve todas as páginas do site</div>
-      <div class="tc-desc">Framework de código aberto que gera as páginas, cuida de velocidade e SEO automaticamente. Não é Wix — é código que a Go Route controla 100%, sem depender de plataforma intermediária.</div>
-      <div class="tc-cost free">Gratuito — código aberto</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Hospedagem</div>
-      <div class="tc-name">Vercel</div>
-      <div class="tc-role">Publica o site na internet automaticamente</div>
-      <div class="tc-desc">Cada atualização de código vai ao ar automaticamente em segundos. CDN global garante carregamento rápido de qualquer lugar do Brasil. Feito pela mesma equipe do Next.js.</div>
-      <div class="tc-cost free">Gratuito no início</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Proteção & Velocidade</div>
-      <div class="tc-name">Cloudflare</div>
-      <div class="tc-role">Protege o site e acelera o carregamento</div>
-      <div class="tc-desc">Fica na frente de tudo. Bloqueia ataques automaticamente, acelera o site globalmente e gerencia o endereço goroutetransfer.com.br apontando para o lugar certo.</div>
-      <div class="tc-cost free">Gratuito</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Edição de Conteúdo</div>
-      <div class="tc-name">Sanity CMS</div>
-      <div class="tc-role">Permite editar o site sem tocar em código</div>
-      <div class="tc-desc">Painel simples onde Diow e Leandro atualizam textos, fotos, eventos da Serra Gaúcha e artigos do blog de forma independente. O site busca e exibe esse conteúdo automaticamente.</div>
-      <div class="tc-cost free">Gratuito no plano básico</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Banco de Dados & Backend</div>
-      <div class="tc-name">Supabase</div>
-      <div class="tc-role">Armazena e processa todos os dados da plataforma</div>
-      <div class="tc-desc">Banco de dados + logins + armazenamento de arquivos + transmissão em tempo real em um único serviço. Guarda reservas, motoristas, histórico de GPS e documentos com segurança.</div>
-      <div class="tc-cost">Gratuito até a Fase 3 → R$ 100/mês</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Pagamentos</div>
-      <div class="tc-name">Mercado Pago</div>
-      <div class="tc-role">Processa Pix e cartão diretamente na plataforma</div>
-      <div class="tc-desc">Pix tem 0% de taxa e confirmação imediata. Cartão cobra 3,49% por transação. Sem mensalidade — a Go Route paga apenas sobre o que recebe. O dinheiro entra diretamente na conta PJ.</div>
-      <div class="tc-cost">0% Pix · 3,49% cartão · sem mensalidade</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">WhatsApp Automatizado</div>
-      <div class="tc-name">Z-API</div>
-      <div class="tc-role">Envia mensagens automáticas pelo WhatsApp da Go Route</div>
-      <div class="tc-desc">Conecta a plataforma ao número de WhatsApp da Go Route. Confirmações, lembretes, link de rastreamento e pedido de avaliação são enviados automaticamente — sem nenhuma ação manual.</div>
-      <div class="tc-cost">R$ 99–149/mês · a partir da Fase 2</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">E-mail Automático</div>
-      <div class="tc-name">Resend.com</div>
-      <div class="tc-role">Envia e-mails automáticos com alta taxa de entrega</div>
-      <div class="tc-desc">Confirmação de reserva com todos os detalhes, lembrete de viagem e solicitação de avaliação — tudo enviado automaticamente no momento certo, com layout profissional.</div>
-      <div class="tc-cost free">Gratuito até 3.000 e-mails/mês</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Informação de Voos</div>
-      <div class="tc-name">AviationStack</div>
-      <div class="tc-role">Consulta o horário real de chegada do voo</div>
-      <div class="tc-desc">Quando o cliente informa o número do voo, esta API retorna o horário atualizado, terminal e status. Se o voo atrasar, a plataforma já sabe — sem que o cliente precise avisar o motorista.</div>
-      <div class="tc-cost free">Gratuito até 500 consultas/mês</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Clima</div>
-      <div class="tc-name">OpenWeatherMap</div>
-      <div class="tc-role">Mostra a previsão do tempo para o destino</div>
-      <div class="tc-desc">Exibida na confirmação de reserva e nas páginas de Gramado, Canela e Bento Gonçalves. Detalhe que encanta o cliente: "Gramado estará a 8°C na sua data — leve casaco."</div>
-      <div class="tc-cost free">Gratuito até 1.000 consultas/dia</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">GPS & Mapas</div>
-      <div class="tc-name">Google Maps API</div>
-      <div class="tc-role">Exibe o mapa de rastreamento ao vivo</div>
-      <div class="tc-desc">Renderiza o mapa interativo com o ícone do veículo se movendo em tempo real. Calcula e atualiza o tempo estimado de chegada continuamente à medida que o motorista avança na rota.</div>
-      <div class="tc-cost free">Gratuito no volume inicial</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Chatbot</div>
-      <div class="tc-name">Tidio</div>
-      <div class="tc-role">Atende visitantes do site e direciona ao WhatsApp</div>
-      <div class="tc-desc">Chatbot no canto do site que responde dúvidas frequentes e encaminha para o WhatsApp da Go Route. Na Fase 6, pode ser substituído por inteligência artificial para atendimento autônomo.</div>
-      <div class="tc-cost free">Gratuito no plano básico</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Analytics</div>
-      <div class="tc-name">Google Analytics 4</div>
-      <div class="tc-role">Mostra de onde vêm os clientes e o que fazem no site</div>
-      <div class="tc-desc">Registra origem dos visitantes, páginas visitadas, tempo no site e taxa de conversão em reservas. Instalado no primeiro dia — dados históricos se tornam cada vez mais valiosos com o tempo.</div>
-      <div class="tc-cost free">Gratuito</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">Base para Anúncios</div>
-      <div class="tc-name">Meta Pixel</div>
-      <div class="tc-role">Identifica visitantes para campanhas futuras no Instagram</div>
-      <div class="tc-desc">Código invisível que registra quem visitou o site. Quando a Go Route quiser anunciar no Instagram ou Facebook, poderá mostrar anúncios especificamente para quem já demonstrou interesse.</div>
-      <div class="tc-cost free">Gratuito</div>
-    </div>
-
-    <div class="tc">
-      <div class="tc-cat">SEO Local</div>
-      <div class="tc-name">Google Business Profile</div>
-      <div class="tc-role">A presença da Go Route no Google Maps e no Search</div>
-      <div class="tc-desc">O card que aparece quando alguém pesquisa transfer em Gramado. Avaliações aqui são citadas por IAs como ChatGPT e Gemini. A verificação leva 5–14 dias — é a primeira ação a executar, antes de qualquer desenvolvimento.</div>
-      <div class="tc-cost free">Gratuito</div>
     </div>
 
   </div>
@@ -648,7 +613,7 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
   <div class="footer-left">
     <div style="font-size:18px;font-weight:300;letter-spacing:0.05em;color:var(--text)">Go Route</div>
     <p>Transfer Premium · Serra Gaúcha</p>
-    <p style="margin-top:4px">Diow & Leandro · 2026</p>
+    <p style="margin-top:4px">Diow &amp; Leandro · 2026</p>
   </div>
   <div class="footer-right">
     <div>Estratégia digital</div>
@@ -662,7 +627,7 @@ document.addEventListener('mousemove',e=>{
   cur.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
   ring.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
 });
-document.querySelectorAll('a,button,.tab,.actor-card,.tc,.layer-row,.flow-item,.nav-arrow').forEach(el=>{
+document.querySelectorAll('a,button,.tab,.phase-row-head,.invest-card,.nav-arrow').forEach(el=>{
   el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';ring.style.borderColor='rgba(26,26,24,0.4)';});
   el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(26,26,24,0.2)';});
 });
@@ -680,6 +645,24 @@ function show(idx){
   window.scrollTo({top:navTop-10,behavior:'smooth'});
 }
 function navStep(dir){show(Math.max(0,Math.min(TOTAL-1,current+dir)));}
+
+function togglePhase(id){
+  const row=document.getElementById(id);
+  const del=document.getElementById(id+'-del');
+  const btn=row.querySelector('.toggle-btn');
+  const isOpen=row.classList.contains('open');
+  document.querySelectorAll('.phase-row').forEach(r=>{
+    r.classList.remove('open');
+    r.querySelector('.phase-deliverables').classList.remove('open');
+    r.querySelector('.toggle-btn').textContent='Ver entregáveis';
+  });
+  if(!isOpen){
+    row.classList.add('open');
+    del.classList.add('open');
+    btn.textContent='Fechar';
+  }
+}
 </script>
-</body>
-</html>
+
+
+</body></html>

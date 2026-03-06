@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Análise de Mercado · Go Route</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --bg:#F2F2F0; --bg-dark:#E8E8E5; --bg-mid:#E2E2DF;
+  --border:#D8D8D4; --text:#1A1A18; --mid:#4A4A46;
+  --light:#6A6A66; --faint:rgba(0,0,0,0.05);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Roboto',sans-serif;font-weight:300;background:var(--bg);color:var(--text);font-size:15px;line-height:1.7;cursor:none;}
+#cursor{width:8px;height:8px;background:var(--text);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform 0.12s ease;}
+#cursor-ring{width:32px;height:32px;border:1px solid rgba(26,26,24,0.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.4s ease,width 0.3s,height 0.3s,border-color 0.3s;}
+
+/* COVER */
+.cover{min-height:50vh;display:flex;flex-direction:column;justify-content:flex-start;padding:60px 60px 80px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:linear-gradient(135deg,#F2F2F0 0%,#EAEAE7 50%,#F2F2F0 100%);}
+.cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:80px 80px;}
+.cover-number{position:absolute;top:60px;right:60px;font-size:11px;font-weight:400;letter-spacing:0.2em;color:var(--light);}
+.cover h1{font-weight:100;font-size:clamp(40px,7vw,96px);line-height:0.95;letter-spacing:-0.03em;position:relative;z-index:1;color:var(--text);margin-top:auto;padding-top:48px;}
+.cover h1 em{font-style:normal;font-weight:300;color:var(--light);}
+.cover-tag{font-size:11px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--light);margin-top:24px;position:relative;z-index:1;}
+.cover-meta{margin-top:48px;display:flex;gap:60px;position:relative;z-index:1;flex-wrap:wrap;}
+.cover-meta-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:6px;}
+.cover-meta-value{font-size:14px;font-weight:300;color:var(--mid);}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:rgba(242,242,240,0.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 60px;display:flex;align-items:center;}
+.nav-arrow{padding:20px 20px;font-size:22px;color:var(--mid);cursor:none;user-select:none;transition:color .2s,transform .15s;flex-shrink:0;font-weight:100;line-height:1;}
+.nav-arrow:hover{color:var(--text);transform:scale(1.2);}
+.nav-tabs{display:flex;flex:1;overflow-x:auto;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.tab{padding:20px 24px;font-size:11px;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);cursor:none;border-bottom:1px solid transparent;white-space:nowrap;transition:color .2s,border-color .2s;user-select:none;}
+.tab:hover{color:var(--mid);}
+.tab.active{color:var(--text);border-bottom-color:var(--text);}
+
+/* INTRO */
+.intro{padding-top:25px;max-width:860px;}
+.intro p{font-size:18px;font-weight:300;line-height:1.85;color:var(--mid);}
+.intro p strong{font-weight:500;color:var(--text);}
+
+/* SECTIONS */
+.section{display:none;}
+.section.active{display:block;}
+.section-head{padding:80px 60px 60px;border-bottom:1px solid var(--border);}
+.section-index{font-size:10px;font-weight:500;letter-spacing:0.25em;text-transform:uppercase;color:var(--light);margin-bottom:16px;}
+.section-head h2{font-weight:100;font-size:clamp(32px,5vw,64px);line-height:1.05;letter-spacing:-0.02em;color:var(--text);}
+.section-head h2 span{color:var(--light);}
+.section-head p{margin-top:20px;font-size:15px;font-weight:300;color:var(--light);max-width:640px;line-height:1.8;}
+
+/* CONTENT WRAP */
+.content-wrap{padding:0 60px 80px;}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);margin-bottom:60px;}
+.stat-card{padding:40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.stat-card:hover{background:var(--bg-dark);}
+.stat-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:12px;}
+.stat-value{font-size:28px;font-weight:100;color:var(--text);letter-spacing:-0.02em;line-height:1.1;margin-bottom:8px;}
+.stat-desc{font-size:12px;font-weight:300;color:var(--light);line-height:1.6;}
+
+/* PROSE BLOCK */
+.prose{max-width:760px;margin-bottom:48px;}
+.prose h3{font-size:13px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--text);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.prose p{font-size:14px;font-weight:300;color:var(--mid);line-height:1.85;margin-bottom:16px;}
+.prose p:last-child{margin-bottom:0;}
+
+/* TABLE */
+.data-table{width:100%;border-collapse:collapse;border:1px solid var(--border);margin-bottom:48px;}
+.data-table th{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);padding:16px 24px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg-dark);}
+.data-table td{padding:16px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);vertical-align:top;line-height:1.6;}
+.data-table tr:last-child td{border-bottom:none;}
+.data-table tr:hover td{background:var(--bg-dark);}
+.data-table td:first-child{font-weight:400;color:var(--text);}
+.priority{font-size:10px;font-weight:500;letter-spacing:0.1em;padding:3px 10px;border:1px solid var(--border);color:var(--light);}
+.priority.high{border-color:var(--text);color:var(--text);}
+.priority.med{border-color:var(--mid);color:var(--mid);}
+
+/* SEGMENT CARDS */
+.segment-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);margin-bottom:48px;}
+.seg-card{padding:40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.seg-card:hover{background:var(--bg-dark);}
+.seg-num{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:12px;}
+.seg-name{font-size:18px;font-weight:300;color:var(--text);margin-bottom:16px;}
+.seg-list{list-style:none;}
+.seg-list li{font-size:13px;font-weight:300;color:var(--light);padding:6px 0;border-bottom:1px solid var(--faint);display:flex;gap:10px;line-height:1.5;}
+.seg-list li::before{content:'—';color:rgba(0,0,0,0.2);flex-shrink:0;}
+
+/* SEASON BLOCKS */
+.season-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:0;border-left:1px solid var(--border);border-top:1px solid var(--border);margin-bottom:48px;}
+.season-card{padding:32px 36px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.season-card:hover{background:var(--bg-dark);}
+.season-period{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:8px;}
+.season-event{font-size:16px;font-weight:300;color:var(--text);margin-bottom:8px;}
+.season-note{font-size:12px;font-weight:300;color:var(--light);line-height:1.6;}
+
+/* COMPETITOR CARDS */
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);margin-bottom:48px;}
+.comp-card{padding:36px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.comp-card:hover{background:var(--bg-dark);}
+.comp-type{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:10px;}
+.comp-name{font-size:17px;font-weight:300;color:var(--text);margin-bottom:16px;}
+.comp-row{display:flex;gap:12px;margin-bottom:8px;font-size:13px;font-weight:300;line-height:1.5;}
+.comp-row-label{font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--light);flex-shrink:0;width:60px;padding-top:2px;}
+.comp-row-val{color:var(--mid);}
+
+/* SWOT */
+.swot-grid{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--border);margin-bottom:48px;}
+.swot-quad{padding:40px;}
+.swot-quad:nth-child(1){border-right:1px solid var(--border);border-bottom:1px solid var(--border);}
+.swot-quad:nth-child(2){border-bottom:1px solid var(--border);}
+.swot-quad:nth-child(3){border-right:1px solid var(--border);}
+.swot-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:16px;}
+.swot-list{list-style:none;}
+.swot-list li{font-size:13px;font-weight:300;color:var(--mid);padding:6px 0;border-bottom:1px solid var(--faint);display:flex;gap:10px;line-height:1.5;}
+.swot-list li::before{content:'—';color:rgba(0,0,0,0.2);flex-shrink:0;}
+
+/* SERVICE CARDS */
+.service-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);margin-bottom:48px;}
+.svc-card{padding:36px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.svc-card:hover{background:var(--bg-dark);}
+.svc-cat{font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);margin-bottom:10px;}
+.svc-name{font-size:18px;font-weight:300;color:var(--text);margin-bottom:8px;}
+.svc-cap{font-size:13px;font-weight:300;color:var(--light);margin-bottom:14px;}
+.svc-vehicles{font-size:12px;font-weight:300;color:var(--mid);line-height:1.6;padding-top:14px;border-top:1px solid var(--border);}
+
+/* DIFFERENTIALS */
+.diff-list{border:1px solid var(--border);margin-bottom:48px;}
+.diff-item{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border);transition:background .2s;}
+.diff-item:last-child{border-bottom:none;}
+.diff-item:hover{background:var(--bg-dark);}
+.diff-num{padding:28px 0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:400;letter-spacing:0.1em;color:var(--light);border-right:1px solid var(--border);}
+.diff-body{padding:28px 36px;}
+.diff-title{font-size:15px;font-weight:400;color:var(--text);margin-bottom:8px;}
+.diff-desc{font-size:13px;font-weight:300;color:var(--light);line-height:1.7;}
+
+/* SEO BLOCKS */
+.seo-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);margin-bottom:48px;}
+.seo-col{padding:40px;}
+.seo-col:first-child{border-right:1px solid var(--border);}
+.seo-col h4{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border);}
+.seo-item{margin-bottom:20px;}
+.seo-item-title{font-size:14px;font-weight:400;color:var(--text);margin-bottom:6px;}
+.seo-item-desc{font-size:13px;font-weight:300;color:var(--light);line-height:1.7;}
+
+/* ROADMAP */
+.roadmap-list{border:1px solid var(--border);margin-bottom:48px;}
+.roadmap-item{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--border);transition:background .2s;}
+.roadmap-item:last-child{border-bottom:none;}
+.roadmap-item:hover{background:var(--bg-dark);}
+.roadmap-period{padding:28px 32px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;}
+.roadmap-phase{font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);margin-bottom:6px;}
+.roadmap-time{font-size:14px;font-weight:300;color:var(--text);}
+.roadmap-body{padding:28px 36px;}
+.roadmap-title{font-size:15px;font-weight:400;color:var(--text);margin-bottom:8px;}
+.roadmap-desc{font-size:13px;font-weight:300;color:var(--light);line-height:1.7;}
+
+/* NOTE BOX */
+.note-box{padding:20px 24px;border:1px solid var(--border);font-size:12px;font-weight:300;color:var(--light);line-height:1.7;margin-bottom:48px;}
+.note-box strong{font-weight:500;color:var(--mid);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:flex-end;justify-content:space-between;}
+.footer-left p{font-size:11px;font-weight:300;letter-spacing:0.1em;color:var(--light);margin-top:6px;}
+.footer-right{font-size:11px;font-weight:300;letter-spacing:0.1em;color:var(--light);text-align:right;}
+.footer-right a{color:var(--mid);text-decoration:none;border-bottom:1px solid var(--border);transition:color .2s;}
+.footer-right a:hover{color:var(--text);}
+
+@media(max-width:768px){
+  .cover,nav,.intro,.section-head,.content-wrap,footer{padding-left:24px;padding-right:24px;}
+  .cover h1{font-size:42px;}.cover-meta{gap:32px;}
+  .swot-grid,.seo-grid{grid-template-columns:1fr;}
+  .swot-quad:nth-child(1),.swot-quad:nth-child(2){border-right:none;}
+  .swot-quad:nth-child(1),.swot-quad:nth-child(2),.swot-quad:nth-child(3){border-bottom:1px solid var(--border);}
+  .roadmap-item{grid-template-columns:1fr;}
+  .roadmap-period{border-right:none;border-bottom:1px solid var(--border);}
+  .cover-number{display:none;}
+  .service-grid,.comp-grid,.seg-grid,.season-grid,.stat-grid{grid-template-columns:1fr;}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+.section.active>*{animation:fadeUp 0.35s ease forwards;}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-grid"></div>
+  <div class="cover-number">Análise de Mercado · 2026</div>
+  <h1>Go<em>Route</em><br>Análise de<br><em>Mercado</em></h1>
+  <div class="cover-tag">Plano estratégico · Transfer premium · Serra Gaúcha</div>
+<div class="intro">
+  <p>Este documento apresenta a <strong>análise de mercado e estratégia competitiva</strong> para o lançamento da Go Route — serviço premium de transfer entre o Aeroporto Internacional Salgado Filho (POA) e a região da Serra Gaúcha. O objetivo é fundamentar as decisões de posicionamento, serviço e marketing com dados concretos do mercado.</p>
+</div>
+<div class="cover-meta">
+    <div><div class="cover-meta-label">Empresa</div><div class="cover-meta-value">Go Route</div></div>
+    <div><div class="cover-meta-label">Diretores</div><div class="cover-meta-value">Diow & Leandro</div></div>
+    <div><div class="cover-meta-label">Consultoria</div><div class="cover-meta-value">Arnaud Delecolle</div></div>
+    <div><div class="cover-meta-label">Rota</div><div class="cover-meta-value">POA → Serra Gaúcha</div></div>
+  </div>
+</div>
+
+<nav>
+  <div class="nav-arrow" onclick="navStep(-1)">&#8249;</div>
+  <div class="nav-tabs">
+    <div class="tab active" onclick="show(0)">01 · Mercado</div>
+    <div class="tab" onclick="show(1)">02 · Concorrência</div>
+    <div class="tab" onclick="show(2)">03 · Serviços</div>
+  </div>
+  <div class="nav-arrow" onclick="navStep(1)">&#8250;</div>
+</nav>
+
+<!-- ══ 01 · MERCADO ══ -->
+<div id="s0" class="section active">
+  <div class="section-head">
+    <div class="section-index">Seção 01 · 03</div>
+    <h2>Dimensionamento<br><span>do mercado</span></h2>
+    <p>A Serra Gaúcha é um dos destinos turísticos mais relevantes do Brasil. Gramado e Canela concentram a maior parte dos visitantes — e o Aeroporto de Porto Alegre é a principal porta de entrada.</p>
+  </div>
+  <div class="content-wrap">
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-label">Visitantes anuais em Gramado</div>
+        <div class="stat-value">6,5–7M</div>
+        <div class="stat-desc">Por ano. Um dos destinos mais visitados do Brasil — com crescimento consistente.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Turistas que chegam via POA</div>
+        <div class="stat-value">~30–35%</div>
+        <div class="stat-desc">Estimativa de mercado. O aeroporto de Caxias do Sul opera com capacidade limitada, reforçando o protagonismo do POA.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Distância POA → Gramado</div>
+        <div class="stat-value">120–130 km</div>
+        <div class="stat-desc">Via BR-116 / RS-235. Tempo médio de 1h45 a 2h15 dependendo do trânsito e da época do ano.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Oportunidade atual</div>
+        <div class="stat-value">Janela aberta</div>
+        <div class="stat-desc">A reconstrução do aeroporto de POA após as enchentes de 2024 cria visibilidade para novos serviços de transporte se posicionarem.</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Por que esta rota?</h3>
+      <p>A rota POA → Gramado combina dois fatores raramente encontrados juntos: altíssimo volume de demanda (milhões de turistas por ano) e ausência de um operador premium consolidado. O mercado é atendido hoje por uma mistura de vans coletivas, aplicativos generalistas e micro-operadores sem padronização — deixando um espaço claro para um serviço com tecnologia, marca e qualidade consistente.</p>
+      <p>O aeroporto de Caxias do Sul (SBCX), mais próximo à Serra, opera com número reduzido de voos e capacidade limitada. Isso torna o POA estruturalmente dependente — e essa dependência é permanente.</p>
+    </div>
+
+    <div class="prose">
+      <h3>Três perfis de cliente</h3>
+    </div>
+    <div class="segment-grid">
+      <div class="seg-card">
+        <div class="seg-num">Segmento 01</div>
+        <div class="seg-name">Turistas de Alto Padrão</div>
+        <ul class="seg-list">
+          <li>Casais e famílias em hotéis 4 e 5 estrelas em Gramado e Canela</li>
+          <li>Turistas internacionais chegando pelo POA (Argentina, Uruguai, Chile, EUA, Europa)</li>
+          <li>Priorizam conforto, pontualidade e experiência — preço não é o fator decisivo</li>
+          <li>Alta propensão a avaliar e recomendar quando bem atendidos</li>
+        </ul>
+      </div>
+      <div class="seg-card">
+        <div class="seg-num">Segmento 02</div>
+        <div class="seg-name">Executivos & Corporativo</div>
+        <ul class="seg-list">
+          <li>Profissionais em viagem para empresas da Serra Gaúcha (polo metal-mecânico, vinícolas, agronegócio)</li>
+          <li>Participantes de eventos, feiras e convenções</li>
+          <li>Exigem pontualidade rigorosa, privacidade e conectividade durante o trajeto</li>
+          <li>Possibilidade de contratos B2B com faturamento corporativo</li>
+        </ul>
+      </div>
+      <div class="seg-card">
+        <div class="seg-num">Segmento 03</div>
+        <div class="seg-name">Grupos & Eventos</div>
+        <ul class="seg-list">
+          <li>Grupos para casamentos, festivais (Gramado Film Festival, Natal Luz, Festa da Uva)</li>
+          <li>Empresas buscando transporte coletivo executivo para colaboradores</li>
+          <li>Grupos escolares e universitários em visitas culturais</li>
+          <li>Ticket total alto — múltiplos passageiros por reserva</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Sazonalidade — quando a demanda é maior</h3>
+    </div>
+    <div class="season-grid">
+      <div class="season-card">
+        <div class="season-period">Julho</div>
+        <div class="season-event">Férias de Inverno · Campos de Neve</div>
+        <div class="season-note">Alta demanda com preço premium justificado. Hotéis com ocupação máxima semanas antes.</div>
+      </div>
+      <div class="season-card">
+        <div class="season-period">Novembro – Janeiro</div>
+        <div class="season-event">Natal Luz de Gramado</div>
+        <div class="season-note">Maior evento da cidade. Book out com antecedência. Oportunidade para pacotes especiais.</div>
+      </div>
+      <div class="season-card">
+        <div class="season-period">Fevereiro – Março</div>
+        <div class="season-event">Carnaval · Páscoa</div>
+        <div class="season-note">Segunda temporada forte — famílias buscando alternativa ao litoral.</div>
+      </div>
+      <div class="season-card">
+        <div class="season-period">Agosto</div>
+        <div class="season-event">Festival de Cinema de Gramado</div>
+        <div class="season-note">Público diferenciado: artistas, executivos, imprensa. Alta visibilidade para a marca.</div>
+      </div>
+      <div class="season-card">
+        <div class="season-period">Março – Abril</div>
+        <div class="season-event">Festa da Uva · Bento Gonçalves</div>
+        <div class="season-note">Expansão natural para a rota POA → Bento Gonçalves e Vale dos Vinhedos.</div>
+      </div>
+      <div class="season-card">
+        <div class="season-period">Outubro</div>
+        <div class="season-event">Oktoberfest · Igrejinha e região</div>
+        <div class="season-note">Grupos organizados — boa oportunidade para vans executivas e pacotes coletivos.</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ 02 · CONCORRÊNCIA ══ -->
+<div id="s1" class="section">
+  <div class="section-head">
+    <div class="section-index">Seção 02 · 03</div>
+    <h2>Análise<br><span>competitiva</span></h2>
+    <p>O mercado atual é fragmentado e sem líder premium consolidado. Esta é a principal oportunidade da Go Route — ocupar o espaço que nenhum concorrente ocupa com consistência.</p>
+  </div>
+  <div class="content-wrap">
+
+    <div class="comp-grid">
+      <div class="comp-card">
+        <div class="comp-type">App Nacional</div>
+        <div class="comp-name">Uber / 99 (UberBlack · 99Top)</div>
+        <div class="comp-row"><span class="comp-row-label">Força</span><span class="comp-row-val">Marca conhecida, app consolidado, base de usuários massiva</span></div>
+        <div class="comp-row"><span class="comp-row-label">Fraqueza</span><span class="comp-row-val">Foco urbano — não especializado em longa distância. Sem experiência de transfer premium</span></div>
+        <div class="comp-row"><span class="comp-row-label">Ameaça</span><span class="comp-row-val">Podem lançar serviço dedicado de longa distância. Monitorar.</span></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-type">Micro-empresas Locais</div>
+        <div class="comp-name">Transfer Gramado (operadores locais)</div>
+        <div class="comp-row"><span class="comp-row-label">Força</span><span class="comp-row-val">Preço competitivo, conhecimento local, presença estabelecida</span></div>
+        <div class="comp-row"><span class="comp-row-label">Fraqueza</span><span class="comp-row-val">Atendimento inconsistente, sem tecnologia, sem rastreamento, sem padrão de marca</span></div>
+        <div class="comp-row"><span class="comp-row-label">Ameaça</span><span class="comp-row-val">Baixa — não conseguem replicar tecnologia e padrão sem investimento significativo</span></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-type">Fretamento</div>
+        <div class="comp-name">Localfrio · Intermodal RS</div>
+        <div class="comp-row"><span class="comp-row-label">Força</span><span class="comp-row-val">Capacidade para grupos grandes, estrutura estabelecida</span></div>
+        <div class="comp-row"><span class="comp-row-label">Fraqueza</span><span class="comp-row-val">Sem foco premium, experiência básica, não atende cliente individual</span></div>
+        <div class="comp-row"><span class="comp-row-label">Ameaça</span><span class="comp-row-val">Baixa — segmento diferente</span></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-type">Intermediários</div>
+        <div class="comp-name">Agências de Viagem</div>
+        <div class="comp-row"><span class="comp-row-label">Força</span><span class="comp-row-val">Base de clientes já consolidada, confiança estabelecida</span></div>
+        <div class="comp-row"><span class="comp-row-label">Fraqueza</span><span class="comp-row-val">Terceirizam o transporte — sem controle de qualidade, margens menores</span></div>
+        <div class="comp-row"><span class="comp-row-label">Oportunidade</span><span class="comp-row-val">Podem se tornar parceiras da Go Route em vez de concorrentes</span></div>
+      </div>
+      <div class="comp-card">
+        <div class="comp-type">Coletivo</div>
+        <div class="comp-name">Van Compartilhada (Shuttle)</div>
+        <div class="comp-row"><span class="comp-row-label">Força</span><span class="comp-row-val">Preço muito baixo, opção para viajante com orçamento limitado</span></div>
+        <div class="comp-row"><span class="comp-row-label">Fraqueza</span><span class="comp-row-val">Sem privacidade, horário fixo, múltiplas paradas, desconforto</span></div>
+        <div class="comp-row"><span class="comp-row-label">Ameaça</span><span class="comp-row-val">Nenhuma — serve um segmento completamente diferente</span></div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Análise SWOT — Go Route</h3>
+    </div>
+    <div class="swot-grid">
+      <div class="swot-quad">
+        <div class="swot-label">Forças</div>
+        <ul class="swot-list">
+          <li>Serviço premium end-to-end com padrão definido e replicável</li>
+          <li>Plataforma tecnológica própria e diferenciada</li>
+          <li>Modelo leve — sem frota própria, sem imobilização de capital</li>
+          <li>Foco exclusivo na rota e no cliente de alto valor</li>
+          <li>Rastreamento em tempo real para passageiro e familiar</li>
+          <li>Integração com agenda de eventos e clima da região</li>
+        </ul>
+      </div>
+      <div class="swot-quad">
+        <div class="swot-label">Fraquezas</div>
+        <ul class="swot-list">
+          <li>Dependência de motoristas autônomos — risco de inconsistência</li>
+          <li>Marca nova, sem histórico e sem avaliações iniciais</li>
+          <li>Necessidade de construir base de clientes do zero</li>
+          <li>Sazonalidade com períodos de menor demanda</li>
+        </ul>
+      </div>
+      <div class="swot-quad">
+        <div class="swot-label">Oportunidades</div>
+        <ul class="swot-list">
+          <li>Crescimento do turismo de alto padrão na Serra Gaúcha</li>
+          <li>Ausência de player premium consolidado na rota</li>
+          <li>Reconstrução do POA abre janela de visibilidade</li>
+          <li>Turismo internacional em expansão</li>
+          <li>Parcerias com hotéis 5★ e pousadas de charme</li>
+        </ul>
+      </div>
+      <div class="swot-quad">
+        <div class="swot-label">Ameaças</div>
+        <ul class="swot-list">
+          <li>Entrada da Uber com serviço dedicado de longa distância</li>
+          <li>Concorrência de preço de operadores informais</li>
+          <li>Dependência da infraestrutura rodoviária (RS-235, BR-116)</li>
+          <li>Sazonalidade com períodos de baixa demanda</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ 03 · SERVIÇOS ══ -->
+<div id="s2" class="section">
+  <div class="section-head">
+    <div class="section-index">Seção 03 · 03</div>
+    <h2>Portfólio<br><span>de serviços</span></h2>
+    <p>Cinco categorias de veículo para atender perfis diferentes de cliente — do executivo individual ao grupo corporativo. Mais os diferenciais que tornam a experiência Go Route incomum no mercado.</p>
+  </div>
+  <div class="content-wrap">
+
+    <div class="service-grid">
+      <div class="svc-card">
+        <div class="svc-cat">Categoria 01</div>
+        <div class="svc-name">Executive Sedan</div>
+        <div class="svc-cap">1 – 3 passageiros · Executivos e casais</div>
+        <div class="svc-vehicles">Toyota Camry · Corolla · Honda Accord</div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-cat">Categoria 02</div>
+        <div class="svc-name">Premium SUV</div>
+        <div class="svc-cap">1 – 4 passageiros · Famílias e grupos pequenos</div>
+        <div class="svc-vehicles">Compass · Tiguan · Corolla Cross</div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-cat">Categoria 03</div>
+        <div class="svc-name">VIP Luxo</div>
+        <div class="svc-cap">1 – 4 passageiros · Alto padrão e eventos</div>
+        <div class="svc-vehicles">Volvo XC60 · BMW X3 · Mercedes GLA</div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-cat">Categoria 04</div>
+        <div class="svc-name">Van Executiva</div>
+        <div class="svc-cap">5 – 10 passageiros · Grupos corporativos</div>
+        <div class="svc-vehicles">Mercedes Sprinter · Vito</div>
+      </div>
+      <div class="svc-card">
+        <div class="svc-cat">Categoria 05</div>
+        <div class="svc-name">Minivan Família</div>
+        <div class="svc-cap">4 – 7 passageiros · Famílias com bagagem</div>
+        <div class="svc-vehicles">Spin · Livina · Sharan</div>
+      </div>
+    </div>
+
+    <div class="prose">
+      <h3>Diferenciais da experiência Go Route</h3>
+      <p>O que separa a Go Route dos operadores existentes não é apenas o veículo — é o conjunto de experiências em cada ponto de contato da viagem.</p>
+    </div>
+
+    <div class="diff-list">
+      <div class="diff-item">
+        <div class="diff-num">01</div>
+        <div class="diff-body">
+          <div class="diff-title">Meet & Greet no Aeroporto</div>
+          <div class="diff-desc">Motorista aguarda o passageiro no desembarque com placa personalizada. Assistência com bagagem e orientação no terminal. Para grupos VIP: cartaz digital personalizado em tablet.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">02</div>
+        <div class="diff-body">
+          <div class="diff-title">Welcome Kit no Veículo</div>
+          <div class="diff-desc">Água mineral, balas de menta, carregador universal (USB-A, USB-C, Lightning). Informações sobre a região, eventos da semana e dicas de restaurantes. Wi-Fi a bordo nas categorias premium.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">03</div>
+        <div class="diff-body">
+          <div class="diff-title">Paradas Personalizadas</div>
+          <div class="diff-desc">Opção de parada em pontos de interesse na rota — vinícolas, outlets, restaurantes. Pacotes de parada gastronômica em parceria com estabelecimentos. Sem cobrança extra para paradas padrão.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">04</div>
+        <div class="diff-body">
+          <div class="diff-title">Rastreamento Familiar em Tempo Real</div>
+          <div class="diff-desc">Link público compartilhável com familiares — sem necessidade de cadastro. Notificações automáticas de saída, meia viagem e chegada ao destino. Enviado automaticamente por WhatsApp ao iniciar a viagem.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">05</div>
+        <div class="diff-body">
+          <div class="diff-title">Agenda de Eventos e Informações Regionais</div>
+          <div class="diff-desc">Calendário editorial atualizado de eventos em Gramado, Canela, Nova Petrópolis, Bento Gonçalves e demais cidades da Serra. Informações sobre clima estimado na data da viagem integradas à confirmação de reserva.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">06</div>
+        <div class="diff-body">
+          <div class="diff-title">Padrão do Motorista Parceiro</div>
+          <div class="diff-desc">Código de Conduta publicado com critérios claros de apresentação, pontualidade e comunicação. Inspeção periódica dos veículos. Motoristas com inglês básico para turistas internacionais. Uniformização mínima por categoria de serviço.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">07</div>
+        <div class="diff-body">
+          <div class="diff-title">Plataforma Tecnológica</div>
+          <div class="diff-desc">A plataforma web é o principal ativo competitivo — reservas online, pagamento integrado, rastreamento GPS ao vivo e portal do motorista. Funciona como PWA (Progressive Web App): o cliente acessa pelo navegador, sem precisar instalar nenhum aplicativo.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ 04 · SEO & MARKETING ══ -->
+<footer>
+  <div class="footer-left">
+    <div style="font-size:18px;font-weight:300;letter-spacing:0.05em;color:var(--text)">Go Route</div>
+    <p>Transfer Premium · Serra Gaúcha</p>
+    <p style="margin-top:4px">Diow & Leandro · 2026</p>
+  </div>
+  <div class="footer-right">
+    <div>Estratégia digital</div>
+    <div style="margin-top:4px"><a href="https://www.arnauddelecolle.com" target="_blank">arnauddelecolle.com</a></div>
+  </div>
+</footer>
+
+<script>
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+document.addEventListener('mousemove',e=>{
+  cur.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+  ring.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`;
+});
+document.querySelectorAll('a,button,.tab,.stat-card,.comp-card,.svc-card,.seg-card,.season-card,.diff-item,.roadmap-item,.nav-arrow').forEach(el=>{
+  el.addEventListener('mouseenter',()=>{ring.style.width='48px';ring.style.height='48px';ring.style.borderColor='rgba(26,26,24,0.4)';});
+  el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(26,26,24,0.2)';});
+});
+
+let current=0;
+const tabs=document.querySelectorAll('.tab');
+const sections=document.querySelectorAll('.section');
+const TOTAL=tabs.length;
+
+function show(idx){
+  current=idx;
+  sections.forEach((s,i)=>s.classList.toggle('active',i===idx));
+  tabs.forEach((t,i)=>t.classList.toggle('active',i===idx));
+  const navTop=document.querySelector('nav').getBoundingClientRect().top+window.scrollY;
+  window.scrollTo({top:navTop-10,behavior:'smooth'});
+}
+function navStep(dir){show(Math.max(0,Math.min(TOTAL-1,current+dir)));}
+</script>
+</body></html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -19,13 +18,13 @@ body{font-family:'Roboto',sans-serif;font-weight:300;background:var(--bg);color:
 #cursor-ring{width:32px;height:32px;border:1px solid rgba(26,26,24,0.2);border-radius:50%;position:fixed;top:0;left:0;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform 0.4s ease,width 0.3s,height 0.3s,border-color 0.3s;}
 
 /* COVER */
-.cover{min-height:100vh;display:flex;flex-direction:column;justify-content:flex-start;padding:60px 60px 80px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:linear-gradient(135deg,#F2F2F0 0%,#EAEAE7 50%,#F2F2F0 100%);}
+.cover{min-height:50vh;display:flex;flex-direction:column;justify-content:flex-start;padding:60px 60px 80px;border-bottom:1px solid var(--border);position:relative;overflow:hidden;background:linear-gradient(135deg,#F2F2F0 0%,#EAEAE7 50%,#F2F2F0 100%);}
 .cover-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,0,0,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,0.04) 1px,transparent 1px);background-size:80px 80px;}
 .cover-number{position:absolute;top:60px;right:60px;font-size:11px;font-weight:400;letter-spacing:0.2em;color:var(--light);}
 .cover h1{font-weight:100;font-size:clamp(48px,8vw,110px);line-height:0.95;letter-spacing:-0.03em;position:relative;z-index:1;color:var(--text);margin-top:auto;padding-top:48px;}
 .cover h1 em{font-style:normal;font-weight:300;color:var(--light);}
 .cover-tag{font-size:11px;font-weight:400;letter-spacing:0.25em;text-transform:uppercase;color:var(--light);margin-top:24px;position:relative;z-index:1;}
-.cover-meta{display:flex;gap:60px;position:relative;z-index:1;flex-wrap:wrap;}
+.cover-meta{margin-top:48px;display:flex;gap:60px;position:relative;z-index:1;flex-wrap:wrap;}
 .cover-meta-label{font-size:10px;font-weight:500;letter-spacing:0.2em;text-transform:uppercase;color:var(--light);margin-bottom:6px;}
 .cover-meta-value{font-size:14px;font-weight:300;color:var(--mid);}
 
@@ -40,7 +39,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(242,242,240,0.96);backdrop
 .tab.active{color:var(--text);border-bottom-color:var(--text);}
 
 /* INTRO */
-.intro{padding:80px 60px;border-bottom:1px solid var(--border);max-width:860px;}
+.intro{padding-top:25px;max-width:860px;}
 .intro p{font-size:18px;font-weight:300;line-height:1.85;color:var(--mid);}
 .intro p strong{font-weight:500;color:var(--text);}
 
@@ -83,7 +82,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(242,242,240,0.96);backdrop
 .connector-desc{font-size:12px;font-weight:300;color:var(--light);white-space:nowrap;}
 
 /* FLOW */
-.flow-wrap{padding:0 60px 80px;max-width:900px;}
+.flow-wrap{padding:24px 60px 80px;max-width:900px;}
 .flow-item{display:grid;grid-template-columns:80px 1fr;min-height:120px;}
 .flow-spine{display:flex;flex-direction:column;align-items:center;padding-top:2px;}
 .flow-dot{width:36px;height:36px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:400;flex-shrink:0;transition:border-color .2s,background .2s;background:var(--bg);}
@@ -122,6 +121,28 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .section.active>*{animation:fadeUp 0.35s ease forwards;}
+.prose{max-width:760px;margin-bottom:48px;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));border-left:1px solid var(--border);border-top:1px solid var(--border);margin-bottom:60px;}
+.stat-card{padding:40px;border-right:1px solid var(--border);border-bottom:1px solid var(--border);transition:background .2s;}
+.diff-list{border:1px solid var(--border);margin-bottom:48px;}
+.diff-item{display:grid;grid-template-columns:60px 1fr;border-bottom:1px solid var(--border);transition:background .2s;}
+.diff-num{padding:28px 0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:400;letter-spacing:0.1em;color:var(--light);border-right:1px solid var(--border);}
+.diff-body{padding:28px 36px;}
+.seo-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--border);margin-bottom:48px;}
+.seo-col{padding:40px;}
+.seo-item{margin-bottom:20px;}
+.roadmap-list{border:1px solid var(--border);margin-bottom:48px;}
+.roadmap-item{display:grid;grid-template-columns:180px 1fr;border-bottom:1px solid var(--border);transition:background .2s;}
+.roadmap-period{padding:28px 32px;border-right:1px solid var(--border);display:flex;flex-direction:column;justify-content:center;}
+.roadmap-phase{font-size:10px;font-weight:500;letter-spacing:0.15em;text-transform:uppercase;color:var(--light);margin-bottom:6px;}
+.roadmap-time{font-size:14px;font-weight:300;color:var(--text);}
+.roadmap-body{padding:28px 36px;}
+.roadmap-title{font-size:15px;font-weight:400;color:var(--text);margin-bottom:8px;}
+.roadmap-desc{font-size:13px;font-weight:300;color:var(--light);line-height:1.7;}
+.note-box{padding:20px 24px;border:1px solid var(--border);font-size:12px;font-weight:300;color:var(--light);line-height:1.7;margin-bottom:48px;}
+.data-table{width:100%;border-collapse:collapse;border:1px solid var(--border);margin-bottom:48px;}
+.priority{font-size:10px;font-weight:500;letter-spacing:0.1em;padding:3px 10px;border:1px solid var(--border);color:var(--light);}
+.content-wrap{padding:0 60px 80px;}
 </style>
 </head>
 <body>
@@ -132,17 +153,19 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
 <div class="cover">
   <div class="cover-grid"></div>
   <div class="cover-number">Documento técnico · 2026</div>
-  <div class="cover-meta">
+  <h1>Go<em>Route</em><br>Plataforma<em>Digital</em></h1>
+  <div class="cover-tag">Arquitetura técnica completa da plataforma</div>
+<div class="intro">
+  <p>Este documento apresenta a <strong>arquitetura técnica completa</strong> da plataforma digital Go Route — do site institucional ao portal de motoristas, sistema de reservas e rastreamento em tempo real. A implantação é <strong>progressiva em 6 fases</strong>, começando pelo essencial e expandindo conforme o negócio cresce.</p>
+</div>
+<div class="cover-meta">
     <div><div class="cover-meta-label">Empresa</div><div class="cover-meta-value">Go Route</div></div>
     <div><div class="cover-meta-label">Diretores</div><div class="cover-meta-value">Diow & Leandro</div></div>
     <div><div class="cover-meta-label">Consultoria</div><div class="cover-meta-value">Arnaud Delecolle</div></div>
     <div><div class="cover-meta-label">Serviço</div><div class="cover-meta-value">Transfer Premium · Serra Gaúcha</div></div>
   </div>
-  <h1>Go<em>Route</em><br>Plataforma<br><em>Digital</em></h1>
-  <div class="cover-tag">Arquitetura técnica completa da plataforma</div>
 </div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-arrow" onclick="navStep(-1)">&#8249;</div>
   <div class="nav-tabs">
@@ -151,14 +174,11 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
     <div class="tab" onclick="show(2)">03 · Reserva</div>
     <div class="tab" onclick="show(3)">04 · Viagem</div>
     <div class="tab" onclick="show(4)">05 · Tech Stack</div>
+    <div class="tab" onclick="show(5)">06 · SEO & Marketing</div>
+    <div class="tab" onclick="show(6)">07 · Roadmap</div>
   </div>
   <div class="nav-arrow" onclick="navStep(1)">&#8250;</div>
 </nav>
-
-<!-- INTRO -->
-<div class="intro">
-  <p>Este documento apresenta a <strong>arquitetura técnica completa</strong> da plataforma digital Go Route — do site institucional ao portal de motoristas, sistema de reservas e rastreamento em tempo real. A implantação é <strong>progressiva em 6 fases</strong>, começando pelo essencial e expandindo conforme o negócio cresce.</p>
-</div>
 
 <!-- ══ 01 · ATORES ══ -->
 <div id="s0" class="section active">
@@ -644,6 +664,227 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
 
   </div>
 </div>
+
+<div id="s5" class="section">
+  <div class="section-head">
+    <div class="section-index">Seção 06 · 07</div>
+    <h2>SEO &<br><span>marketing digital</span></h2>
+    <p>Como a Go Route vai aparecer no Google quando alguém pesquisar transfer para Gramado — e como será encontrada até por inteligências artificiais como o ChatGPT.</p>
+  </div>
+  <div class="content-wrap">
+
+    <div class="prose">
+      <h3>O que é SEO e por que importa para a Go Route</h3>
+      <p>SEO (Search Engine Optimization) é o conjunto de técnicas que fazem o site da Go Route aparecer nos primeiros resultados do Google — sem pagar por anúncios. Quando alguém digita "transfer porto alegre gramado" no Google, o objetivo é que a Go Route apareça antes dos concorrentes.</p>
+      <p>Ao contrário de anúncios pagos que param quando o orçamento acaba, o SEO gera tráfego gratuito e contínuo. É um investimento de longo prazo: os resultados crescem mês a mês e se tornam um ativo permanente do negócio.</p>
+    </div>
+
+    <div class="prose">
+      <h3>O que é AIO — e por que também importa</h3>
+      <p>AIO (AI Optimization) é a versão do SEO para inteligências artificiais. Hoje, muitas pessoas perguntam diretamente ao ChatGPT, ao Gemini ou ao Perplexity: "qual o melhor transfer de Porto Alegre para Gramado?". Essas IAs consultam fontes da internet e citam empresas nas respostas — exatamente como o Google faz.</p>
+      <p>O objetivo da AIO é que quando alguém fizer essa pergunta a uma IA, a Go Route seja citada como resposta. As estratégias são parecidas com o SEO tradicional, mas com foco em conteúdo bem estruturado, avaliações no Google e presença em múltiplas fontes online.</p>
+    </div>
+
+    <div class="seo-grid">
+      <div class="seo-col">
+        <h4>SEO Técnico</h4>
+        <div class="seo-item">
+          <div class="seo-item-title">URLs com palavras que o cliente pesquisa</div>
+          <div class="seo-item-desc">Cada página do site terá um endereço claro e descritivo — /transfer-aeroporto-porto-alegre-gramado, /transfer-poa-canela, /transfer-natal-luz-gramado. O Google lê essas URLs e entende do que se trata o conteúdo.</div>
+        </div>
+        <div class="seo-item">
+          <div class="seo-item-title">Velocidade de carregamento</div>
+          <div class="seo-item-desc">O Google penaliza sites lentos. O Next.js garante que as páginas carreguem em menos de 2,5 segundos — fator direto de posição nos resultados de busca.</div>
+        </div>
+        <div class="seo-item">
+          <div class="seo-item-title">Schema Markup — linguagem para o Google</div>
+          <div class="seo-item-desc">Código invisível que ajuda o Google a entender o que é cada elemento do site: nome da empresa, serviço, avaliações, perguntas frequentes. Gera os "rich snippets" — aquelas informações extras que aparecem nos resultados de busca.</div>
+        </div>
+        <div class="seo-item">
+          <div class="seo-item-title">Google Business Profile</div>
+          <div class="seo-item-desc">O card da Go Route que aparece no Google Maps quando alguém pesquisa transfer em Gramado. Deve ser verificado e preenchido completamente desde o primeiro dia — cada semana sem ele é tráfego perdido.</div>
+        </div>
+      </div>
+      <div class="seo-col">
+        <h4>AIO — Otimização para Inteligências Artificiais</h4>
+        <div class="seo-item">
+          <div class="seo-item-title">Conteúdo em formato de perguntas e respostas</div>
+          <div class="seo-item-desc">IAs tendem a citar conteúdos com estrutura clara. Artigos do blog escritos no formato "Pergunta → Resposta" têm mais chance de serem citados pelo ChatGPT ou Gemini quando alguém perguntar sobre transfer para Gramado.</div>
+        </div>
+        <div class="seo-item">
+          <div class="seo-item-title">Avaliações no Google como fator de citação</div>
+          <div class="seo-item-desc">Volume e qualidade de avaliações no Google Maps influenciam diretamente se uma IA vai citar a Go Route ou um concorrente. Cada avaliação conquistada vale tanto para o SEO quanto para a AIO.</div>
+        </div>
+        <div class="seo-item">
+          <div class="seo-item-title">Presença consistente em múltiplas fontes</div>
+          <div class="seo-item-desc">IAs aprendem de várias fontes ao mesmo tempo. Nome, endereço e telefone idênticos em todos os diretórios online (Google, TripAdvisor, Booking, Instagram) reforçam a autoridade da Go Route.</div>
+        </div>
+        <div class="seo-item">
+          <div class="seo-item-title">Artigos longos e detalhados</div>
+          <div class="seo-item-desc">Modelos de IA preferem fontes completas e autoritativas. Artigos de 1.500 a 3.000 palavras sobre temas como "como ir do aeroporto para Gramado" têm mais chance de serem citados do que textos curtos.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="prose" style="margin-top:48px">
+      <h3>Palavras-chave — o que são e por que definem a estratégia</h3>
+      <p>Uma palavra-chave é o que o cliente digita no Google no momento em que está pronto para comprar ou pesquisar. "Transfer gramado aeroporto" é uma palavra-chave de alta intenção de compra — quem pesquisa isso está procurando exatamente o que a Go Route oferece. Aparecer nessa busca vale muito mais do que qualquer anúncio genérico.</p>
+      <p>As palavras-chave abaixo são as mais relevantes para a Go Route. A prioridade indica em qual ordem o site e o blog devem ser otimizados. Intenção transacional significa que o cliente está pronto para reservar; informacional significa que ainda está pesquisando — e o blog é a forma de capturá-lo nesse momento.</p>
+    </div>
+
+    <div class="data-table" style="margin-bottom:48px">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr>
+            <th style="font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);padding:16px 24px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg-dark);">O que o cliente digita no Google</th>
+            <th style="font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);padding:16px 24px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg-dark);">Volume de buscas</th>
+            <th style="font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);padding:16px 24px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg-dark);">Intenção</th>
+            <th style="font-size:10px;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--light);padding:16px 24px;text-align:left;border-bottom:1px solid var(--border);background:var(--bg-dark);">Prioridade</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:14px 24px;font-size:13px;font-weight:400;color:var(--text);border-bottom:1px solid var(--border);">transfer gramado aeroporto</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Alto</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Pronto para reservar</td><td style="padding:14px 24px;border-bottom:1px solid var(--border);"><span class="priority high">Alta</span></td></tr>
+          <tr><td style="padding:14px 24px;font-size:13px;font-weight:400;color:var(--text);border-bottom:1px solid var(--border);">transfer porto alegre gramado</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Alto</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Pronto para reservar</td><td style="padding:14px 24px;border-bottom:1px solid var(--border);"><span class="priority high">Alta</span></td></tr>
+          <tr><td style="padding:14px 24px;font-size:13px;font-weight:400;color:var(--text);border-bottom:1px solid var(--border);">transfer executivo gramado</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Médio</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Pronto para reservar</td><td style="padding:14px 24px;border-bottom:1px solid var(--border);"><span class="priority high">Alta</span></td></tr>
+          <tr><td style="padding:14px 24px;font-size:13px;font-weight:400;color:var(--text);border-bottom:1px solid var(--border);">transfer poa canela</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Médio</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Pronto para reservar</td><td style="padding:14px 24px;border-bottom:1px solid var(--border);"><span class="priority high">Alta</span></td></tr>
+          <tr><td style="padding:14px 24px;font-size:13px;font-weight:400;color:var(--text);border-bottom:1px solid var(--border);">quanto custa transfer gramado</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Médio</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Pesquisando opções</td><td style="padding:14px 24px;border-bottom:1px solid var(--border);"><span class="priority med">Média</span></td></tr>
+          <tr><td style="padding:14px 24px;font-size:13px;font-weight:400;color:var(--text);border-bottom:1px solid var(--border);">como ir de poa para gramado</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Alto</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);border-bottom:1px solid var(--border);">Pesquisando opções</td><td style="padding:14px 24px;border-bottom:1px solid var(--border);"><span class="priority med">Blog</span></td></tr>
+          <tr><td style="padding:14px 24px;font-size:13px;font-weight:400;color:var(--text);">transfer grupos eventos gramado</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);">Baixo</td><td style="padding:14px 24px;font-size:13px;font-weight:300;color:var(--mid);">Pronto para reservar</td><td style="padding:14px 24px;"><span class="priority med">Média</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <h3>Blog editorial — os artigos que vão atrair clientes</h3>
+      <p>O blog é o principal motor de tráfego orgânico da Go Route. Cada artigo é escrito para responder uma pergunta que o cliente já está fazendo no Google — e capturá-lo antes que ele encontre um concorrente. A frequência mínima é 2 artigos por mês, priorizando períodos sazonais com antecedência de 60 dias.</p>
+    </div>
+
+    <div class="diff-list">
+      <div class="diff-item">
+        <div class="diff-num">01</div>
+        <div class="diff-body">
+          <div class="diff-title">Como ir do Aeroporto de Porto Alegre para Gramado</div>
+          <div class="diff-desc">Artigo evergreen — permanece relevante o ano todo. Alta volume de busca, captura quem ainda está pesquisando opções. Publicar na Fase 1.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">02</div>
+        <div class="diff-body">
+          <div class="diff-title">Natal Luz de Gramado: guia completo + dicas de transfer</div>
+          <div class="diff-desc">Conteúdo sazonal de alto valor. Publicar em setembro — 60 dias antes do evento para ranquear a tempo no Google.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">03</div>
+        <div class="diff-body">
+          <div class="diff-title">Festival de Cinema de Gramado: o que fazer e como chegar</div>
+          <div class="diff-desc">Público diferenciado — executivos, artistas, imprensa. Nicho de alto valor. Publicar em junho.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">04</div>
+        <div class="diff-body">
+          <div class="diff-title">Vinícolas da Serra Gaúcha: roteiro com transfer executivo</div>
+          <div class="diff-desc">Turismo enológico em expansão. Captura segmento de alto poder aquisitivo. Bom para parcerias com vinícolas que podem compartilhar o artigo.</div>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">05</div>
+        <div class="diff-body">
+          <div class="diff-title">Quanto custa um transfer de POA para Gramado? Comparativo completo</div>
+          <div class="diff-desc">Captura intenção de compra diretamente. Quem pesquisa isso está pronto para reservar. Publicar na Fase 2.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>Frequência mínima recomendada:</strong> 2 artigos por mês, com prioridade para períodos sazonais. O SEO começa a gerar tráfego orgânico significativo entre o 4º e o 6º mês após publicação consistente.
+    </div>
+
+  </div>
+</div>
+
+<div
+<!-- ══ 05 · ROADMAP ══ -->
+
+<div id="s6" class="section">
+  <div class="section-head">
+    <div class="section-index">Seção 07 · 07</div>
+    <h2>Roadmap<br><span>de implementação</span></h2>
+    <p>As 6 fases do lançamento e crescimento da Go Route — do primeiro dia de operação até a escala com inteligência artificial no segundo ano.</p>
+  </div>
+  <div class="content-wrap">
+
+    <div class="roadmap-list">
+      <div class="roadmap-item">
+        <div class="roadmap-period">
+          <div class="roadmap-phase">Fase 01</div>
+          <div class="roadmap-time">S1 – S6 · 6 semanas</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-title">Presença Digital</div>
+          <div class="roadmap-desc">Site institucional com proposta de valor, galeria de veículos e botão WhatsApp em destaque. Formulário de cotação que monta mensagem pré-formatada. SEO on-page desde o primeiro dia — title, meta, H1/H2, sitemap. Google Analytics 4, Meta Pixel e Search Console ativos. Google Business Profile verificado. E-mail profissional @goroutetransfer.com.br configurado.</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-period">
+          <div class="roadmap-phase">Fase 02</div>
+          <div class="roadmap-time">S7 – S10 · 4 semanas</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-title">Reservas Online</div>
+          <div class="roadmap-desc">Agendamento completo com calendário interativo, seletor de veículo e cálculo de preço em tempo real. Integração com número de voo — horário real automático via API. Checkout com pagamento via Pix (0%) e cartão (3,49%). Confirmação automática por WhatsApp e e-mail. Lembrete automático 24h antes da viagem. Painel admin básico com lista de reservas e status.</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-period">
+          <div class="roadmap-phase">Fase 03</div>
+          <div class="roadmap-time">S11 – S13 · 3 semanas</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-title">Motoristas, Admin & Experiência</div>
+          <div class="roadmap-desc">Portal do motorista com login individual, dashboard de corridas, aceite/recusa, botões de início e conclusão de viagem, histórico de ganhos e upload de documentos. Painel administrativo completo: reservas em tempo real, gestão de motoristas, cálculo automático de repasses e relatório financeiro exportável.</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-period">
+          <div class="roadmap-phase">Fase 04</div>
+          <div class="roadmap-time">S14 – S16 · 3 semanas</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-title">GPS, Rastreamento & Experiência do Cliente</div>
+          <div class="roadmap-desc">Mapa GPS ao vivo com posição atualizada a cada 15–30 segundos. Link público de rastreamento enviado automaticamente por WhatsApp ao iniciar a viagem — sem login, sem instalação. Previsão do tempo integrada à confirmação de reserva. Agenda de eventos da Serra Gaúcha com filtros. Chatbot de script no site (Tidio): responde dúvidas frequentes com respostas pré-definidas e encaminha para o WhatsApp — simples, gratuito e suficiente para o início.</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-period">
+          <div class="roadmap-phase">Fase 05</div>
+          <div class="roadmap-time">S17+ · Contínuo</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-title">Marketing & SEO</div>
+          <div class="roadmap-desc">Retainer mensal de crescimento orgânico — 2 a 4 artigos por mês no blog, gestão do Google Business Profile, relatório mensal de performance com GA4 e Search Console. Campanhas sazonais para Natal Luz, Festival de Cinema e Festa da Uva. Automações de e-mail pós-viagem e reativação de clientes inativos.</div>
+        </div>
+      </div>
+      <div class="roadmap-item">
+        <div class="roadmap-period">
+          <div class="roadmap-phase">Fase 06</div>
+          <div class="roadmap-time">Mês 12+ · A definir</div>
+        </div>
+        <div class="roadmap-body">
+          <div class="roadmap-title">Escala & Inteligência</div>
+          <div class="roadmap-desc">Dashboard de Business Intelligence (BI) — painel que transforma os dados da plataforma em gráficos e relatórios claros: quais rotas vendem mais, em quais meses, com quais motoristas. CRM para gestão de clientes corporativos e contratos B2B. Programa de fidelidade com pontos e descontos. Chatbot com inteligência artificial: ao contrário do chatbot de script da Fase 4, este entende perguntas abertas, consulta dados reais da plataforma e pode concluir uma reserva completa sem intervenção humana. Emissão automática de notas fiscais (NFS-e). Inicia quando: mais de 100 reservas/mês e 15 ou mais motoristas ativos.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>Próximos passos imediatos:</strong> Registrar a empresa e a marca · Definir identidade visual · Iniciar processo seletivo dos primeiros motoristas · Registrar e otimizar o Google Business Profile imediatamente · Iniciar negociações com 3 hotéis parceiros em Gramado antes do lançamento.
+    </div>
+
+  </div>
+</div>
+
 
 <footer>
   <div class="footer-left">

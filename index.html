@@ -114,10 +114,31 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
 .footer-right a:hover{color:var(--text);}
 
 @media(max-width:768px){
-  .cover,nav,.intro,.section-head,.layers-wrap,.flow-wrap,footer{padding-left:24px;padding-right:24px;}
-  .cover h1{font-size:48px;}.cover-meta{gap:32px;}
-  .tech-grid,.actors-grid{grid-template-columns:1fr;}
+  /* Padding geral */
+  .cover,nav,.intro,.section-head,.layers-wrap,.flow-wrap,.content-wrap,footer{padding-left:24px;padding-right:24px;}
+  /* Capa */
+  .cover h1{font-size:42px;letter-spacing:-0.02em;}
+  .cover-meta{gap:24px;flex-wrap:wrap;}
   .cover-number{display:none;}
+  /* Grids para coluna única */
+  .tech-grid,.actors-grid,.stat-grid,.service-grid,.comp-grid,.seg-grid,.season-grid,.segment-grid{grid-template-columns:1fr;}
+  /* SEO dois painéis → coluna única */
+  .seo-grid{grid-template-columns:1fr;}
+  .seo-col:first-child{border-right:none;border-bottom:1px solid var(--border);}
+  /* Roadmap: empilhar período + conteúdo */
+  .roadmap-item{grid-template-columns:1fr;}
+  .roadmap-period{border-right:none;border-bottom:1px solid var(--border);padding:20px 24px;}
+  .roadmap-body{padding:20px 24px;}
+  /* Connector rows: sem padding lateral excessivo */
+  .connector-row{padding-left:24px;}
+  /* Tags de ferramentas: permitir quebra */
+  .layer-tools,.flow-tools{flex-wrap:wrap;}
+  .ltag,.ftag{white-space:normal;word-break:break-word;}
+  /* Flow items */
+  .flow-item{grid-template-columns:56px 1fr;}
+  .flow-content{padding-left:16px;}
+  /* Tabelas: scroll horizontal */
+  .data-table{overflow-x:auto;display:block;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .section.active>*{animation:fadeUp 0.35s ease forwards;}
@@ -732,7 +753,7 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
       <p>As palavras-chave abaixo são as mais relevantes para a Go Route. A prioridade indica em qual ordem o site e o blog devem ser otimizados. Intenção transacional significa que o cliente está pronto para reservar; informacional significa que ainda está pesquisando — e o blog é a forma de capturá-lo nesse momento.</p>
     </div>
 
-    <div class="data-table" style="margin-bottom:48px">
+    <div class="data-table-wrap"><div class="data-table" style="margin-bottom:48px">
       <table style="width:100%;border-collapse:collapse;">
         <thead>
           <tr>

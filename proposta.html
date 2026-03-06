@@ -121,14 +121,24 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
 .footer-right a:hover{color:var(--text);}
 
 @media(max-width:768px){
+  /* Padding geral */
   .cover,nav,.intro,.section-head,.phases-overview,.invest-wrap,footer{padding-left:24px;padding-right:24px;}
-  .cover h1{font-weight:100;font-size:clamp(48px,8vw,110px);line-height:0.95;letter-spacing:-0.03em;position:relative;z-index:1;color:var(--text);margin-top:auto;padding-top:48px;} .cover-meta{flex-wrap:wrap;gap:32px;}
-  .phase-deliverables.open{grid-template-columns:1fr;}
-  .invest-grid{grid-template-columns:1fr;}
-  .invest-total{flex-direction:column;gap:16px;}
+  /* Capa */
+  .cover h1{font-size:42px;letter-spacing:-0.02em;}
+  .cover-meta{flex-wrap:wrap;gap:24px;}
+  .cover-number{display:none;}
+  /* Fases */
   .phase-row-head{grid-template-columns:60px 1fr;}
   .phase-row-weeks{display:none;}
-  .cover-number{display:none;}
+  .phase-deliverables.open{grid-template-columns:1fr;}
+  /* Investimento */
+  .invest-grid{grid-template-columns:1fr;}
+  .invest-total{flex-direction:column;gap:16px;align-items:flex-start;}
+  .it-value{font-size:32px;}
+  /* Tabela de custos: scroll horizontal */
+  .costs-table{display:block;overflow-x:auto;white-space:nowrap;}
+  /* Barra de semanas */
+  .week-bar-wrap{display:none;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .section.active>*{animation:fadeUp 0.35s ease forwards;}

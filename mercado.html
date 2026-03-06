@@ -171,15 +171,26 @@ footer{border-top:1px solid var(--border);padding:60px;display:flex;align-items:
 .footer-right a:hover{color:var(--text);}
 
 @media(max-width:768px){
+  /* Padding geral */
   .cover,nav,.intro,.section-head,.content-wrap,footer{padding-left:24px;padding-right:24px;}
-  .cover h1{font-size:42px;}.cover-meta{gap:32px;}
-  .swot-grid,.seo-grid{grid-template-columns:1fr;}
+  /* Capa */
+  .cover h1{font-size:42px;letter-spacing:-0.02em;}
+  .cover-meta{gap:24px;flex-wrap:wrap;}
+  .cover-number{display:none;}
+  /* Grids para coluna única */
+  .service-grid,.comp-grid,.seg-grid,.season-grid,.stat-grid,.segment-grid{grid-template-columns:1fr;}
+  /* SWOT 2x2 → coluna única */
+  .swot-grid{grid-template-columns:1fr;}
   .swot-quad:nth-child(1),.swot-quad:nth-child(2){border-right:none;}
   .swot-quad:nth-child(1),.swot-quad:nth-child(2),.swot-quad:nth-child(3){border-bottom:1px solid var(--border);}
-  .roadmap-item{grid-template-columns:1fr;}
-  .roadmap-period{border-right:none;border-bottom:1px solid var(--border);}
-  .cover-number{display:none;}
-  .service-grid,.comp-grid,.seg-grid,.season-grid,.stat-grid{grid-template-columns:1fr;}
+  /* Concorrentes: ocultar borda direita */
+  .comp-card{border-right:none;}
+  /* Diff list: empilhar número + conteúdo */
+  .diff-item{grid-template-columns:1fr;}
+  .diff-num{border-right:none;border-bottom:1px solid var(--border);padding:12px 24px;justify-content:flex-start;}
+  /* Tabela de keywords: scroll horizontal */
+  .data-table{display:block;overflow-x:auto;}
+  table{min-width:480px;}
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
 .section.active>*{animation:fadeUp 0.35s ease forwards;}
